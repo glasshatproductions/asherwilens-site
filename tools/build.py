@@ -397,8 +397,9 @@ case('turbochef.html', 'Turbochef', ['Spec','Integrated campaign','Concept · Cr
               + img('tc-tickets','Handwritten kitchen tickets clipped above a glowing oven: mac and cheese no peas from Emma, 7; what she&#39;s having from Dad; surprise me from Grandpa','Order up.')
               + img('tc-check','A guest check reading steak dinner, second helping, total: dishes, as a hand takes the peppermint','Total: dishes.')),
 
-      section('04','Experiential: the lawn sign','Every oven ships with a &quot;Now Serving&quot; lawn sign. Buyers put it in the yard, neighbors stop and ask, and the campaign spreads street by street.',
-              img('tc-sign','A Now Serving, reservations recommended lawn sign in front of a home at dusk as a woman walking her dog stops to look','Now serving. Reservations recommended.'))],
+      section('04','In the box: the sign comes with the oven','Every oven ships with a welcome card and a &quot;Now Serving&quot; lawn sign. Buyers put it in the yard, neighbors stop and ask, and the campaign spreads street by street.',
+              img('tc-unbox','A woman unboxes a TurboChef oven and lifts out an orange Now Serving, reservations recommended lawn sign from the lid; a card reads Congratulations on your new restaurant','Congratulations on your new restaurant.')
+              + img('tc-sign','A Now Serving, reservations recommended lawn sign in front of a home at dusk as a woman walking her dog stops to look','In the yard.'))],
      'synth-city.html', 'Synth City', 'TurboChef: Compliments to the chef. A spec campaign that turns homes into the best restaurants on the block.')
 
 print('built')
