@@ -9,7 +9,8 @@
   --display:'Marcellus',Georgia,serif;
   --body:'Hanken Grotesk',Helvetica,Arial,sans-serif;
   --wrap:1240px;
-  --media-max:670px;
+  --media-max:540px;
+  --media-w:960px;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -175,12 +176,14 @@ figcaption{font-size:15px;color:var(--muted);margin-top:12px}
 .steps li::before{content:"0" counter(s);display:block;font-family:var(--display);font-size:20px;color:var(--muted);margin-bottom:8px}
 .steps strong{color:var(--ink);font-weight:600;display:block;margin-bottom:4px}
 
-.cs-hero img{width:100%;max-height:min(72vh,var(--media-max));object-fit:cover}
+.cs-hero img{width:auto;max-width:min(100%,var(--media-w));max-height:min(72vh,var(--media-max));margin:0 auto;display:block}
 .cs-section figure img{max-height:min(72vh,var(--media-max));width:auto;max-width:100%;margin-left:auto;margin-right:auto}
-.cs-section .pair figure img,.cs-section .trio figure img{max-height:min(56vh,520px)}
+.cs-section .pair figure img,.cs-section .trio figure img{max-height:min(56vh,420px)}
 .feature img{max-height:var(--media-max)}
-.project .media img{max-height:520px;width:100%;object-fit:cover}
-.video-embed{max-height:var(--media-max)}
+.cs-section figure img{max-width:min(100%,var(--media-w))}
+.thumbs,.pair,.trio{max-width:var(--media-w);margin-left:auto;margin-right:auto}
+.project .media img{max-height:420px;width:100%;object-fit:cover}
+.video-embed{max-width:min(100%,var(--media-w));margin-left:auto;margin-right:auto}
 figure .zoom{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;overflow:hidden}
 figure .zoom img{transition:transform .5s ease}
 figure .zoom:hover img{transform:scale(1.015)}
