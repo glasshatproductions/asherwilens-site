@@ -77,6 +77,11 @@ def film(file, title, poster):
     return f'<figure class="film"><video controls playsinline preload="metadata"{p}><source src="{src}" type="video/mp4">Your browser does not support video.</video><figcaption>{title}</figcaption></figure>'
 
 def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name, desc):
+    if hero.startswith('video:'):
+        src, poster = hero[6:].split('|')
+        hero_html = f'<div class="wrap cs-hero"><div class="video-embed"><video controls playsinline preload="metadata" poster="images/{poster}.jpg" aria-label="{hero_alt}"><source src="{src}" type="video/mp4">Your browser does not support video.</video></div></div>'
+    else:
+        hero_html = f'<div class="wrap cs-hero"><img src="images/{hero}.jpg" alt="{hero_alt}"></div>'
     tag_html = ''.join(f'<span class="tag{" solid" if i==0 else ""}">{t}</span>' for i, t in enumerate(tags))
     body = f'''<header class="cs-head"><div class="wrap">
 <a class="text-link back" href="index.html#work">← All work</a>
@@ -85,7 +90,7 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
 <p class="lede">{lede}</p>
 <p class="body-copy">{intro}</p>
 </div></header>
-<div class="wrap cs-hero"><img src="images/{hero}.jpg" alt="{hero_alt}"></div>
+{hero_html}
 {''.join(sections)}
 <nav class="next wrap" aria-label="Next project"><a href="{nxt}"><span class="eyebrow">Next project</span><span class="display">{nxt_name.upper()} →</span></a></nav>'''
     page(fname, f'{name} | A. Wilens', desc, body, 'work')
@@ -378,14 +383,15 @@ tc_insight = """<div class="insight">
 case('turbochef.html', 'Turbochef', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],
      'Compliments to the chef.',
      'A spec campaign for TurboChef&#39;s home ovens: restaurant-grade, home-cooked. Restaurant-grade speed and searing turn ordinary houses into the best restaurants on the block, from rooftop neon to a lawn sign that ships in the box. Visuals AI-assisted.',
-     'tc-hendersons', 'A white colonial home at blue hour with a red neon restaurant sign on the roof: The Hendersons, steak, chops, Sunday roast, open',
+     'video:https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/turbochef-homecoorked1.mp4|tc-hendersons', 'The TurboChef :30 spot: Compliments to the chef',
      [section('01','The insight','', tc_insight),
 
       section('02','The oven','The reason the house became a restaurant: the same high-speed technology professional kitchens rely on, on a home countertop.',
               img('tc-oven','A stainless countertop speed oven glowing with a seared steak inside, a plated dinner and a brass service bell beside it, a family at dinner behind')),
 
       section('03','Out-of-home: new restaurants in the neighborhood','Billboards that make you look twice: real homes with restaurant neon on the roof. Every family that owns a TurboChef gets a name in lights.',
-              img('tc-dave','A brick ranch house with a giant orange neon sign: Dave Kowalski, est. last Tuesday','Dave Kowalski. Est. last Tuesday.')
+              img('tc-hendersons','A white colonial home at blue hour with a red neon restaurant sign on the roof: The Hendersons, steak, chops, Sunday roast, open','The Hendersons. Steak, chops, Sunday roast.')
+              + img('tc-dave','A brick ranch house with a giant orange neon sign: Dave Kowalski, est. last Tuesday','Dave Kowalski. Est. last Tuesday.')
               + img('tc-garcia','A Spanish-style home with a red neon sign: Casa Garcia, now seating','Casa Garcia. Now seating.')
               + img('tc-barry','A farmhouse with a teal neon sign on the porch: Barry&#39;s Kitchen, reservations recommended','Barry&#39;s Kitchen. Reservations recommended.')),
 
@@ -397,9 +403,8 @@ case('turbochef.html', 'Turbochef', ['Spec','Integrated campaign','Concept · Cr
       section('05','Experiential: the lawn sign','Every oven ships with a &quot;Now Serving&quot; lawn sign. Buyers put it in the yard, neighbors stop and ask, and the campaign spreads street by street.',
               img('tc-sign','A Now Serving, reservations recommended lawn sign in front of a home at dusk as a woman walking her dog stops to look','Now serving. Reservations recommended.')),
 
-      section('06','The film: compliments to the chef','The spot ends at one family dinner. Dad made the roast, and since the TurboChef arrived, he isn&#39;t just Dad anymore.',
-              '<div class="video-embed"><video controls playsinline preload="metadata" poster="images/tc-dinner-3.jpg"><source src="https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/turbochef-homecoorked1.mp4" type="video/mp4">Your browser does not support video.</video></div>'
-              + img('tc-dinner-3','Daughter at dinner says Dad, this is delicious; Dad beams in his apron','&quot;Dad, this is delicious.&quot;')
+      section('06','The punchline','The spot ends at one family dinner. Dad made the roast, and since the TurboChef arrived, he isn&#39;t just Dad anymore.',
+              img('tc-dinner-3','Daughter at dinner says Dad, this is delicious; Dad beams in his apron','&quot;Dad, this is delicious.&quot;')
               + img('tc-dinner-2','Dad in his apron looks wounded as Mom turns to the daughter','&quot;Sally… how could you?&quot;')
               + img('tc-dinner-1','The whole family laughing as Dad lights up','&quot;…I mean. Compliments to the chef.&quot;')
               + '<div class="endcard"><p class="endcard-small">Side effects may include taking your cooking very seriously.</p><p class="endcard-big">TurboChef</p><p class="endcard-small brand">Restaurant-grade. Home-cooked.</p></div>')],
