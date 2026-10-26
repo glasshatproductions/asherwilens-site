@@ -41,7 +41,8 @@ Still baked into images, fix in the source art before re-adding:
 
 ## Deploy: GitHub Pages
 The site deploys automatically from the `main` branch of this repo via GitHub Pages. Push a change and it is
-live in a minute or two. `CNAME` sets the custom domain to asherwilens.com; `.nojekyll` serves files as-is.
+live in a minute or two. Preview address: https://glasshatproductions.github.io/asherwilens-site/
+`.nojekyll` serves files as-is. When switching the domain, add a `CNAME` file containing `asherwilens.com`.
 
 Point the domain at Pages (at your DNS host):
 - `A` records for `asherwilens.com` → 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153
