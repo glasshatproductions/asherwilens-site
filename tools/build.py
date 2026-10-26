@@ -1,0 +1,408 @@
+import pathlib
+OUT = pathlib.Path(__file__).resolve().parent.parent
+EMAIL = 'ashwilens@gmail.com'
+
+def page(fname, title, desc, body, current=''):
+    def nav(href, label, key):
+        cur = ' aria-current="page"' if key == current else ''
+        return f'<a href="{href}"{cur}>{label}</a>'
+    html = f'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="{desc}">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="images/thumb-synth-city.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="wordmark" href="index.html">A. WILENS</a>
+<nav class="site-nav" aria-label="Main">
+{nav("index.html#work","Work","work")}
+{nav("lab.html","Lab","lab")}
+{nav("resume.pdf","Résumé","resume")}
+<a href="mailto:{EMAIL}">Contact</a>
+</nav>
+</div>
+</header>
+<main id="main">
+{body}
+</main>
+<section class="contact-band" aria-label="Contact">
+<div class="wrap">
+<h2>Looking for a creative director who builds the ideas, not just the ads?</h2>
+<a class="btn" href="mailto:{EMAIL}">Get in touch</a>
+</div>
+</section>
+<footer class="site-footer">
+<div class="wrap">
+<span>© 2026 Asher Wilens</span>
+<span><a href="index.html#work">Work</a> · <a href="lab.html">Lab</a> · <a href="resume.pdf">Résumé</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span>
+</div>
+</footer>
+<script src="js/gallery.js"></script>
+</body>
+</html>
+'''
+    (OUT / fname).write_text(html)
+
+TALL = {'det-dollar','det-mouse','det-earbuds','synth-transmission-live'}
+def img(src, alt, cap=''):
+    c = f'<figcaption>{cap}</figcaption>' if cap else ''
+    k = ' class="tall"' if src in TALL else ''
+    return f'<figure{k}><img src="images/{src}.jpg" alt="{alt}" loading="lazy">{c}</figure>'
+
+def section(num, label, intro, content):
+    n = f'<span class="num">{num}</span>' if num else ''
+    i = f'<p class="body-copy">{intro}</p>' if intro else ''
+    return f'''<section class="cs-section"><div class="wrap">
+<div class="cs-section-head">{n}<h2>{label}</h2>{i}</div>
+{content}
+</div></section>'''
+
+
+VIDEO_BASE = 'https://superborn-dev.s3.us-east-1.amazonaws.com/Rare-Sightings/'
+def film(file, title, poster):
+    p = f' poster="images/{poster}.jpg"' if poster else ''
+    src = VIDEO_BASE + file + ('' if poster else '#t=0.1')
+    return f'<figure class="film"><video controls playsinline preload="metadata"{p}><source src="{src}" type="video/mp4">Your browser does not support video.</video><figcaption>{title}</figcaption></figure>'
+
+def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name, desc):
+    tag_html = ''.join(f'<span class="tag{" solid" if i==0 else ""}">{t}</span>' for i, t in enumerate(tags))
+    body = f'''<header class="cs-head"><div class="wrap">
+<a class="text-link back" href="index.html#work">← All work</a>
+<div class="cs-meta">{tag_html}</div>
+<h1 class="display">{name.upper()}</h1>
+<p class="lede">{lede}</p>
+<p class="body-copy">{intro}</p>
+</div></header>
+<div class="wrap cs-hero"><img src="images/{hero}.jpg" alt="{hero_alt}"></div>
+{''.join(sections)}
+<nav class="next wrap" aria-label="Next project"><a href="{nxt}"><span class="eyebrow">Next project</span><span class="display">{nxt_name.upper()} →</span></a></nav>'''
+    page(fname, f'{name} | A. Wilens', desc, body, 'work')
+
+# ---------- HOME ----------
+work = [
+    ('synth-city.html','thumb-synth-city','Synth City','Premier Gem','Transmedia brand series: six films, a live site and a working AI tool.'),
+    ('brown-co.html','thumb-brown-co','Brown &amp; Co','Pitch','Every light of the season, ending with her name in lights.'),
+    ('fage.html','thumb-fage','Fage','Spec','Nothing to hide: the ingredient list becomes the ad.'),
+    ('desert-diamonds.html','thumb-desert-diamonds','Desert Diamonds','Premier Gem','A natural diamond is a rare sighting. A campaign that grew into a UGC microsite.'),
+    ('uber.html','thumb-uber','Uber','Spec','When it\'s time to go.'),
+    ('turbochef.html','thumb-turbochef','Turbochef','Spec','Compliments to the chef: the house becomes the restaurant.'),
+]
+cards = ''.join(f'''<a class="card" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n} campaign" loading="lazy"></div>
+<div class="card-title"><h3>{n}</h3><span class="tag">{t}</span></div><p>{d}</p></a>''' for h, im, n, t, d in work)
+home = f'''<section class="intro"><div class="wrap">
+<p class="eyebrow">Asher Wilens · Creative Director</p>
+<p class="lede">Creative Director. Luxury, retail and integrated campaigns, plus the occasional invention.</p>
+</div></section>
+<div class="wrap">
+<a class="feature" href="synth-city.html">
+<div class="frame"><img src="images/synth-hero.jpg" alt="Synth City: a crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor"></div>
+<div class="feature-meta"><div><p class="eyebrow">Featured · Premier Gem</p><h2>SYNTH CITY</h2></div>
+<p>The future made everything available, except rarity. A six-film dystopian series, a live broadcast site and a working AI detector that make the case for natural diamonds.</p></div>
+</a>
+</div>
+<section class="section" id="work"><div class="wrap">
+<div class="section-head"><h2 class="display">Work</h2><p class="eyebrow">Spec = self-initiated concept</p></div>
+<div class="grid">{cards}</div>
+</div></section>
+<section class="section lab-teaser"><div class="wrap">
+<div class="section-head"><div><p class="eyebrow">Lab</p><h2 class="display">Ideas that didn't fit in a brief.</h2></div><a class="btn" href="lab.html">Visit the Lab</a></div>
+<ul class="lab-list">
+<li><h3>Draiped</h3><p>An AI creative studio that turns one jewelry product shot into a full launch.</p></li>
+<li><h3>Project Orion</h3><p>Projected AR with no headset and no phone. The room becomes the medium.</p></li>
+<li><h3>Pinverse Arcade</h3><p>Type a world, play it as pinball. AI-generated tables in seconds.</p></li>
+</ul>
+</div></section>'''
+page('index.html', 'A. Wilens | Creative Director',
+     'Asher Wilens, Creative Director. Luxury, retail and integrated campaigns, plus the occasional invention.', home)
+
+# ---------- LAB ----------
+projects = [
+    ('images/lab-draiped.jpg','A plain uploaded ring photo beside the Draiped on-model result of the same ring','01 · AI creative studio','DRAIPED',
+     'AI creative studio for jewelers. Upload a product photo and get campaign-ready assets in minutes: on-model shots, Instagram carousels with copy, web banners for desktop and mobile, and listing images for 1stdibs and Shopify. One product shot becomes a full launch, built by someone who\'s spent years art-directing fine jewelry.',
+     '<span>Live</span><a class="text-link" href="https://draiped.com">draiped.com →</a>'),
+    ('https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/po_9.png','The Project Orion projector device in a living room','02 · Experiential technology','PROJECT ORION',
+     'Projected AR with no headset and no phone. Digital experiences cast directly into physical space, built for retail floors, live events and brand activations where the room itself becomes the medium.',
+     '<span>Patented</span><a class="text-link" href="https://patents.google.com/patent/US11127212B1/en">US 11,127,212 →</a>'),
+    ('images/lab-pinverse.jpg','The prompt haunted diner on Saturn becoming a playable pinball table on a phone','03 · AI game platform','PINVERSE ARCADE',
+     'Type a world, play it as pinball. Pinverse Arcade uses AI to turn any prompt or photo into a playable pinball table in seconds, then lets players share, remix and compete on each other\'s creations. It\'s a game, but it\'s also a creative engine: everyone gets to design the machine.',
+     '<span>Live</span><a class="text-link" href="https://pinversearcade.com">pinversearcade.com →</a>'),
+    ('https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/hh_promo2.png','A hand pressing the piano keys built into the brim of the Harmony Hat','04 · Wearable music','HARMONY HAT',
+     'A collectible hat that plays real synth sounds. Wearable music meets limited-drop culture, built for artist collabs, merch and fan experiences.',
+     '<span>On Kickstarter</span><a class="text-link" href="https://www.kickstarter.com/projects/harmonyhat/435543195">View the campaign →</a>'),
+    ('https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/slickster_promoneon.png','Slickster day-plan screens on a phone and tablet over a city at night','05 · Product design','SLICKSTER',
+     'An automated planning app that turns the chaos of scheduling into a single tap. Product design, UX and brand by A. Wilens.',
+     '<span>Live</span><a class="text-link" href="https://slickster.app">slickster.app →</a>'),
+]
+proj_html = ''.join(f'''<article class="project">
+<div class="media"><img src="{src}" alt="{alt}" loading="lazy"></div>
+<div class="text"><p class="eyebrow">{eb}</p><h2 class="display">{name}</h2><p class="body-copy">{d}</p><div class="status">{st}</div></div>
+</article>''' for src, alt, eb, name, d, st in projects)
+lab = f'''<div class="wrap">
+<section class="lab-hero">
+<div><p class="eyebrow">Inventions, products &amp; platforms</p><h1 class="display">LAB</h1><p class="lede">Ideas that didn't fit in a brief.</p></div>
+<p>Some ideas are too big for a campaign, so I build them. These are inventions, products and platforms I've developed on my own. They come from the same instinct that drives my agency work: find the human truth, then make something people want to touch.</p>
+</section>
+<div>{proj_html}</div>
+<div class="callout"><p>Interested in partnering, licensing or building something together?</p><a class="btn" href="mailto:{EMAIL}">Start a conversation</a></div>
+</div>'''
+page('lab.html', 'Lab | A. Wilens', 'Inventions, products and platforms by Asher Wilens.', lab, 'lab')
+
+# ---------- ABOUT ----------
+about = f'''<div class="wrap about">
+<div><div class="ph light">[Portrait photo]</div></div>
+<div>
+<p class="eyebrow">About</p>
+<h1 class="display" style="font-size:clamp(44px,6vw,72px)">ASHER WILENS</h1>
+<p class="lede" style="margin-top:24px">Creative Director. I know how brands buy work, because I've spent my career on the brand side making it.</p>
+<p class="body-copy" style="margin-top:24px">I came up as an in-house art director and grew into creative director at Premier Gem, where I've led campaigns and brand work alongside partners including De Beers, Forevermark and Sam's Club. Most recently I created Synth City, a transmedia series of six films, a live broadcast site and a working AI tool that make the case for natural diamonds.</p>
+<p class="body-copy">Outside the brief, I build things: AI products, wearable music and projected AR. The Lab is where those live. I'm looking to bring that mix of craft, client-side judgment and invention to an agency team.</p>
+<h2>Capabilities</h2>
+<ul>
+<li>Creative direction and campaign platforms</li>
+<li>Integrated, experiential and OOH</li>
+<li>Luxury and fine jewelry art direction</li>
+<li>AI-assisted production and prototyping</li>
+<li>Brand worlds, film and digital experiences</li>
+</ul>
+<h2 id="contact">Contact</h2>
+<p class="body-copy"><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="https://www.linkedin.com/">LinkedIn</a> · <a href="resume.pdf">Résumé (PDF)</a></p>
+</div>
+</div>'''
+pass  # About page hidden
+if False: page('about.html', 'About | A. Wilens', 'Asher Wilens, Creative Director.', about, 'about')
+
+# ---------- CASE STUDIES ----------
+films = [('Episode 1','The Coat Pocket'),('Episode 2','The Keepsake'),('Episode 3','[Title]'),('Episode 4','The Friendly Visit'),('Episode 5','The Signal'),('Episode 6','[Title]')]
+film_html = '<div class="callout"><p>Watch all six episodes of Synth City.</p><a class="btn" href="https://youtube.com/playlist?list=PLzGEOC0lqaKMDMQ1OlSfnQW9dEJkE7zTB" target="_blank" rel="noopener">Watch the series on YouTube</a></div>'
+def beat(title, line, text, content):
+    return (f'<div class="beat"><div class="beat-head"><h3>{title}</h3><p class="beat-line">{line}</p></div>'
+            f'<p class="body-copy">{text}</p>{content}</div>')
+
+insight_card = '''<div class="insight">
+<p class="eyebrow" style="color:#9a9a9a">The insight</p>
+<p class="q">Lab-grown diamonds made diamonds abundant. So we asked: what happens when they win completely?</p>
+<p class="big">Rarity only matters when you imagine losing it.</p>
+<p class="idea"><strong>The idea:</strong> Synth City, a world in 2187 where synthetic is the law and natural diamonds are believed extinct. Instead of telling people natural diamonds are rare, we let them live in a future where they&#39;re gone.</p>
+</div>'''
+
+final_card = ('<div class="endcard"><p class="endcard-small">Synthetic diamonds. Synthetic love. Synthetic everything.</p>'
+              '<p class="endcard-mid">Hold something the future can&#39;t make.</p>'
+              '<p class="endcard-big">Natural diamonds. Beyond fiction.</p>'
+              '<p class="endcard-small brand">Premier Gem</p></div>')
+
+case('synth-city.html', 'Synth City', ['Premier Gem','Brand world','Creative Direction · Concept · Art Direction'],
+     'The future made everything available. Except one thing: rarity.',
+     'Synth City is a dystopian brand world for Premier Gem, told across six films, a live broadcast network and working AI tools. Each touchpoint goes a layer deeper, built to feel like something you discover rather than an ad you&#39;re served.',
+     'synth-hero', 'A crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor',
+     [section('01','The insight','', insight_card),
+
+      section('02','The world','In 2187, synthetic won. Diamonds are infinite, identical and Bureau approved. Even a proposal is something you grab on the way to your gate.',
+              '<div class="stack">' + img('synth-aerial','Aerial view of Synth City at night: flying cars, neon towers and a Welcome to Synth City sign','Welcome to Synth City, Cycle 2187.') + img('synth-world','Bureau Approved billboards selling lab-grown happiness over a crowded plaza at night')
+              + img('synth-factory','A vast night factory complex of glowing carbon pressure chambers growing diamonds','Carbon Pressure Chamber 07. Diamonds, grown by the ton.')
+              + img('synth-vending','A proposal kit vending machine in a 2187 airport terminal','In 2187, a proposal ring comes out of a vending machine.')
+              + '<div class="narrow">' + img('synth-protocol','Bureau poster of a smiling couple in gloves showing matching rings: Love is a protocol. Bureau approved compatibility.','Even marriage comes pre-approved.') + '</div></div>'),
+
+      section('03','The system','A world this perfect needs enforcing. The Synthetic Bureau controls what people see, what counts as real and, finally, who they love. Each of its tools is a live piece of the campaign.',
+              img('synth-hq','The Synthetic Bureau headquarters, a brutalist monolith with a wireframe-head seal, citizens queuing beneath drones')
+              + beat('The Broadcasts','It controls the story.',
+                     'A Bureau news network and public announcements, one message repeated until it sticks: synthetic is better.',
+                     '<div class="stack">' + img('synth-broadcast','The SCB7 news network site: Bureau classifies global synthetic diamond oversupply as economic success') + img('scfn-newsroom','A financial news anchor in front of a market wall: natural diamond values surpass Manhattan real estate per gram','SCFN: natural diamonds overtake Manhattan real estate, per gram.') + img('scfn-street','The same market update on a giant screen over a rainy Fifth Avenue in 2187','The story everyone stops for.') + '<div class="pair">' + img('synth-relay','The broadcast received on a relay station screen beside a battered deep-space probe','How it reaches us: a deep-space relay picks up the feed from 2187.') + img('synth-relay-live','The live synthcity.tv broadcast inside the relay station frame','The live site.') + '</div>' + '<div class="pair">' + img('sbcn-cubes','A reporter holds out a palm of raw cube-shaped diamonds','Tonight on SBCN: cubic diamonds, the Bureau&#39;s newest luxury standard.') + img('sbcn-rings','Cube-diamond rings held up to the camera','Unpolished. Unfiltered. The future is cubic.') + '</div>' + '<div class="pair">' + img('sbcn-socialite','A socialite in sunglasses shows off cube-diamond jewelry on camera','The red carpet goes cubic.') + img('scb-internal','Bureau internal surveillance still of cube-diamond rings on display','Bureau internal feed: the Cubic Diamond Index.') + '</div></div>' + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv">Watch the broadcasts: synthcity.tv →</a></div>')
+              + beat('The Rarity Detector','It erases the real.',
+                     'A working AI tool. Upload any diamond and the Bureau classifies it. Natural stones are flagged as origin anomalies: non-compliant, removed from the record.',
+                     img('synth-detector','Four screens of the Rarity Detector app') + '<p class="body-copy" style="margin:28px 0 20px">And people really use it. Real scans from real visitors: in 2187, almost everything is obsolete.</p>' + '<div class="trio">' + img('det-dollar','Detector result: a dollar bill classified as obsolete physical tender','A dollar bill: obsolete physical tender.') + img('det-mouse','Detector result: a wireless mouse classified as an obsolete peripheral','A mouse: obsolete peripheral.') + img('det-earbuds','Detector result: wireless earbuds classified as a pre-2100 artifact','Earbuds: pre-2100 artifact.') + '</div>' + '<div class="outlinks"><a class="text-link" href="https://raritydetector.com">Try it: raritydetector.com →</a></div>')
+              + beat('The Synth-Mate Lab','It replaces love.',
+                     'The system&#39;s final step. Visitors ride up to the Synthesis Division, upload a face scan and watch the lab grow a partner engineered for perfect compatibility: flawless, loyal and programmed never to leave. If love can be manufactured, what is it worth?',
+                     '<div class="stack">' + img('sm-lobby','The Bureau lobby, a marble hall with the wireframe-head seal and a terminal reading Accessing Synthesis Division')
+                     + '<div class="pair">' + img('sm-forming','Two growth chambers filled with vapor, figures taking shape inside','Production: a subject takes shape.')
+                     + img('sm-assembly','Two half-assembled porcelain androids in the chambers, the terminal reading Assembly 87%, calibrating devotion','Assembly: calibrating devotion.') + '</div>'
+                     + img('sm-beach','An android couple at a candlelit beach table at sunset, staring at each other with mechanical hands','Every sunset. Never missed. The perfect relationship, minus anything real.')
+                     + '</div><div class="outlinks"><a class="text-link" href="https://syntheticbureau.com" target="_blank" rel="noopener">Enter the lab: syntheticbureau.com →</a></div>')
+              + beat('Meet the Clonesworths','The Synth-Mates commercial.',
+                     'Inside the world, the Bureau sells it like a 1950s dream. Real love is messy. Synth-Mates come home perfect: always smiling, always on time, always in the right light.',
+                     img('sm2-clonesworths','A porcelain-skinned 1950s couple wave in front of a pastel house under a sign: Meet the Clonesworths.')
+                     + img('sm2-reality','A tired real couple on a cluttered couch, one on a phone and one on a laptop','Before: real love, real mess.')
+                     + img('sm2-sallybob','Two retro synthetic people in glass chambers holding name cards: Sally and Bob','Order your match: Sally and Bob, ready for pickup.')
+                     + img('sm2-dinner','The synthetic couple at a candlelit dinner in a 1950s kitchen','Dinner, every night at six.')
+                     + img('sm2-shopping','The synthetic couple strolling with shopping bags and an ice cream cone','Never a bad day.')
+                     + img('sm2-amalfi','The synthetic couple walking arm in arm by the sea at sunset','Never a missed sunset.')
+                     + img('sm2-toast','The synthetic couple toasting with red wine on a rooftop at dusk','Never anything real.'))
+              + '<div class="callout"><p>The Detector and the Lab started as &quot;what ifs.&quot;</p><a class="btn" href="lab.html">See what else I&#39;ve built</a></div>'),
+
+      section('04','The signal','Then the broadcast breaks. Across the city&#39;s screens, a recovered transmission cuts through: the last geologist, deep beneath what was once the Diamond District, still searching for something real.',
+              '<div class="stack">' + img('synth-signal','The Bureau billboards glitching as a transmission from an underground tunnel breaks through, a crowd stopping to look up','The first crack in the system.')
+              + img('synth-transmission','The last transmission: a geologist with a headlamp beneath the buried 47th Street and 5th Avenue street sign','Last transmission, beneath 47th Street.') + img('synth-transmission-live','The live Last Known Transmission page with the geologist&#39;s headlamp video','The live transmission page.') + img('synth-warning','Report card: Geologists warn humanity may be losing the ability to recognize rare things. Report classified. Researcher reassigned.','The report the Bureau buried.') + '</div>'
+              + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv/kalahari">Follow the transmission: synthcity.tv/kalahari →</a></div>'),
+
+      section('05','The films','The heart of the campaign. Six short films, one dystopian future and one question running through all of it: what happens to love when nothing is rare anymore? Each episode was produced like a release, with an original score, cinematic visuals and QR-connected environments that pull viewers deeper into the world.',
+              film_html),
+
+      section('06','The proof','Everything leads here. One rough stone, the only warm light in a cold world, and the reason it still matters today.',
+              '<div class="stack">' + img('synth-proof','A dirt-covered hand opens in a dark tunnel to reveal a glowing rough natural diamond','Proof that something real remains.')
+              + img('synth-now','Present day: a woman&#39;s hand with a natural diamond engagement ring resting on a sunlit kitchen table beside a coffee cup','Back to now.')
+              + final_card
+              + img('synth-site','The campaign landing page where every film, broadcast and transmission leads','Where every touchpoint leads.') + '</div>')],
+     'brown-co.html', 'Brown &amp; Co', 'Synth City, a dystopian brand world for Premier Gem: six films, a live broadcast network and working AI tools.')
+
+
+bc_insight = '''<div class="insight">
+<p class="eyebrow" style="color:#9a9a9a">The insight</p>
+<p class="q">People buy jewelry under showroom lights. Then they live with it under string lights, candlelight, morning sun and a phone flash.</p>
+<p class="big">So we tested every stone in every light of the season.</p>
+<p class="idea"><strong>The idea:</strong> Every light of the season. One idea carried from the highway to the counter, ending with the brightest light in Atlanta: a billboard with her name on it.</p>
+</div>'''
+
+bc_steps = '''<ol class="steps">
+<li><strong>Choose the ring.</strong> Engagement rings purchased December 1&ndash;24 qualify.</li>
+<li><strong>Choose the night.</strong> The customer books a time slot and a first name, approved by Brown &amp; Co.</li>
+<li><strong>Light it up.</strong> The question runs on a digital board over Buckhead, and Brown &amp; Co. captures the moment for the couple to share.</li>
+</ol>'''
+
+bc_end = ('<div class="endcard"><p class="endcard-small">Every light of the season.</p>'
+          '<p class="endcard-big">The brightest one has her name on it.</p>'
+          '<p class="endcard-small brand">Brown &amp; Co. Jewelers &middot; Buckhead | Roswell</p></div>')
+
+case('brown-co.html', 'Brown &amp; Co', ['Pitch','Integrated campaign','Concept · Creative Direction · Art Direction'],
+     'Every light of the season.',
+     'A holiday campaign pitched to Brown &amp; Co. Jewelers in Buckhead and Roswell. Every piece is built on light: billboards that outshine the season, a print promise, an in-store proof, and a finale that puts the customer&#39;s own proposal in lights.',
+     'bc-plugin', 'Billboard at dusk: The only light on this tree we didn&#39;t have to plug in.',
+     [section('01','The insight','', bc_insight),
+
+      section('02','Out-of-home: it outshines the season','Every holiday light needs a plug, a battery or a box in the attic. The diamond doesn&#39;t.',
+              '<div class="stack">' + img('bc-strings','Billboard: String lights come down in January. This doesn&#39;t.')
+              + img('bc-forever','Billboard at night over the Atlanta skyline: This ornament stays lit forever.') + '</div>'),
+
+      section('03','Print: it makes the promise','The spread turns the idea into a claim: Brown &amp; Co. tests every stone in the light it will actually live in, not just the light of the showroom.',
+              img('bc-magazine','Magazine spread at night: One ring. Every light of the season. Six ring photos, each passing a lighting test, ending with the skyline test') ),
+
+      section('04','In-store: it proves it','The Lighting Bar brings the claim to the counter: five lighting booths, from string lights to the phone flash, so customers see a stone in every light before they buy. The sixth booth and a card on the counter sell the finale: Your Name in Lights.',
+              img('bc-lightingbar','The Lighting Bar: six booths testing a ring under string lights, candlelight, morning sun, party lights, a phone flash and a miniature skyline billboard, with a Your Name in Lights card on the counter') ),
+
+      section('05','The final light: your name in lights','First, the space goes dark. One board across Buckhead runs almost empty, holding a place for a name. Then customers fill it: buy an engagement ring in December, and Brown &amp; Co. lights that board with one question. The campaign starts on billboards and ends on one, only now the billboard belongs to the customer, and every proposal becomes a story the couple shares for us.',
+              '<div class="stack">' + img('bc-reserved','Night billboard, almost entirely empty black, reading This space reserved for her name, with a gold line where a name would go and a small ring by the logo','The teaser.')
+              + img('bc-proposal-night','On a Buckhead rooftop at dusk, a man kneels with a ring as a Brown &amp; Co. billboard over the highway reads Sarah, will you marry me?','The payoff: the same space, filled.')
+              + bc_steps + bc_end + '</div>')],
+     'fage.html', 'Fage', 'Brown & Co: Every light of the season. A holiday campaign pitch that ends with her name in lights.')
+
+
+fage_insight = '''<div class="insight">
+<p class="eyebrow" style="color:#9a9a9a">The insight</p>
+<p class="q">Most food labels read like a chemistry exam. People have learned to squint, scroll and assume the worst.</p>
+<p class="big">FAGE&#39;s ingredient list is two lines long. So we made it the ad.</p>
+<p class="idea"><strong>The idea:</strong> Nothing to hide. Take transparency literally: show the ingredients, show the people who make it, show the factory live, and invite everyone else to be just as honest.</p>
+</div>'''
+
+case('fage.html', 'Fage', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],
+     'Honestly crafted. Nothing to hide.',
+     'A spec campaign built on one simple truth: FAGE has almost nothing in it. Milk and live active cultures. The platform takes that honesty literally, from a nearly empty billboard to a live camera inside the factory. Visuals AI-assisted.',
+     'fage-blank', 'A huge, almost entirely blank billboard over a New York street, with only a small ingredients label: milk, live active cultures',
+     [section('01','The insight','', fage_insight),
+
+      section('02','Out-of-home: the label is the ad','Where other brands fill every inch, FAGE leaves the space empty. The fine print is the whole message.',
+              img('fage-transparency','Bus shelter with clear glass and the line Full transparency, footnoted: that&#39;s the fine print, milk and live active cultures','Full transparency.*')
+              + img('fage-legal','A newspaper legal notice: Notice of full disclosure. FAGE hereby discloses the complete contents of its yogurt.','Print: a legal notice with nothing to declare.')),
+
+      section('03','The people behind it','If the yogurt has nothing to hide, neither do the people who make it. Real roles, real standards, named on the poster.',
+              img('fage-helen','Poster: Produced in a facility with Helen. She&#39;s tasted every batch since 2012 and sent back 412.')
+              + img('fage-dave','Poster: Strained until Dave says stop. Dave has never said stop early.')
+              + img('fage-mike','Poster: Keep refrigerated. Keep Mike happy. He&#39;s rejected 96 batches for being a little thin.')),
+
+      section('04','Corp-Cam','Live cameras inside the factory, the lab and the break room at fagelivecam.com. Nine feeds, around the clock. Subway posters show what the cameras catch.',
+              img('fage-corpcam','The Corp-Cam site: nine live feeds from milk reception to the loading dock. Watch us make it.')
+              + img('fage-caught','Subway poster: a security-cam still of a worker sneaking yogurt in the cold room. Caught on Corp-Cam.','Caught on Corp-Cam.')),
+
+      section('05','Experiential: the confession booth','Then the brand turns the honesty back on the public. Step into the booth, confess a yogurt secret, walk out with free FAGE.',
+              img('fage-booth','A woman laughs as she leaves the Nothing to Hide confession booth on a New York sidewalk, free yogurt in hand')
+              + img('fage-card','A confession card: Ingredients: milk, live active cultures, and a blank line for your secret','The confession card.')),
+
+      section('06','Packaging and social','The confessions keep going at home. Every lid lists one more ingredient, and #NothingToHide collects the rest.',
+              img('fage-lids','Three FAGE cups with lids reading Contains: eaten in bed, twice. Double-dipping, no regrets. Straight from the tub at 2am.','Lids: one more ingredient.')
+              + img('fage-social','#NothingToHide on Instagram and Reels: eating it on the fire escape at 2am, not a diet, a lifestyle','#NothingToHide.')),
+
+      section('07','The neighbors','Everyone in the building has a yogurt secret. Building-side billboards out the habits of the people who live there, by apartment number.',
+              img('fage-buzzer','A hand holding a FAGE cup presses an apartment buzzer','Everyone in the building has a yogurt secret.')
+              + img('fage-ooh-1','Billboard: Jim in 5B eats yogurt with a fork, and he&#39;s proud of it.','Jim in 5B.')
+              + img('fage-ooh-2','Billboard: Lisa in 2A steals her roommate&#39;s yogurt. We see you, Lisa.','Lisa in 2A.')
+              + img('fage-ooh-3','Billboard: Matt in 6F whispers I love you to his yogurt before taking a bite.','Matt in 6F.'))],
+     'desert-diamonds.html', 'Desert Diamonds', 'Fage: Honestly crafted. Nothing to hide. A spec campaign that makes the ingredient list the ad.')
+
+
+case('desert-diamonds.html', 'Desert Diamonds', ['Premier Gem','Campaign · Films · Microsite','Concept · Art Direction · Design'],
+     'A natural diamond is a rare sighting.',
+     'Treat a natural diamond like the rarest creature in the desert. The campaign starts with paparazzi going to absurd lengths, hiding in cacti, shrubs and pool floats, for a single glimpse of the real thing. Then it hands the binoculars to everyone else: a microsite and social program where real people document their own rare sightings.',
+     'dd-hero', 'A photographer disguised as a lizard watches a woman wearing a diamond ring',
+     [section('01','The campaign','Print and social executions that cast natural diamonds as a rare species and the people hunting them as obsessive field photographers.',
+              '<div class="stack">' + img('dd-1','A photographer hides in a hedge while a woman with a diamond bracelet sits on a desert terrace') + '<div class="pair">' + img('dd-3','A photographer hides inside a saguaro cactus as a woman adjusts her sunglasses, showing a yellow diamond ring') + img('dd-4','A photographer floats in a flamingo pool float, lens aimed at a yellow diamond ring') + '</div>' + '<div class="pair">' + img('dd-5','A man at breakfast watches through binoculars beside a woman wearing a diamond pendant') + img('dd-2','Grainy night-vision shot of a woman in a gown, her diamond flaring in a hotel corridor') + '</div></div>'),
+      section('02','The films','Short films that play the stakeout for laughs: the long lens, the binoculars, the paparazzo who will go anywhere, even underwater, for one glimpse of the real thing.',
+              '<div class="films">' + film('TheBinoculars.mp4','The Binoculars','dd-5') + film('ThePool_DesertRing.mp4','The Pool','dd-4') + film('TheSubmarine_DesertPendant.mp4','The Submarine','') + '</div>'),
+      section('03','The microsite: Rare Sightings','The campaign lands on a field expedition. The researcher has left; the notes, maps and binoculars are waiting for you.',
+              img('dd-site-hero','Rare Sightings homepage: a field desk with binoculars and a note reading Departed on a field expedition to document rare sightings')),
+      section('04','The archive','Every ring becomes a numbered field entry, logged by location and date and classified by species: the round, the pear, the oval, the halo. Each one confirmed.',
+              img('dd-site-sightings','Recent Sightings archive cards')),
+      section('05','The field reporter program','Owners upload a photo or video of their own ring, name it and say where it was spotted. They get an official field report back, and the best sightings are featured in the archive and on Instagram. The audience becomes the content engine.',
+              img('dd-site-reporter','Become a Field Reporter upload section')),
+      section('06','The full experience','From expedition to field guide to available stones: one page that moves from story to shopping without breaking character.',
+              '<div style="max-width:620px;margin:0 auto">' + img('dd-site-full','Full Rare Sightings microsite design') + '</div>' + '<div class="outlinks"><a class="text-link" href="https://premiergem.com/rare-sightings" target="_blank" rel="noopener">Visit Rare Sightings: premiergem.com/rare-sightings →</a></div>')],
+     'uber.html', 'Uber', 'Desert Diamonds: A natural diamond is a rare sighting. Campaign, films and UGC microsite.')
+
+case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Art Direction · Design'],
+     'When it\'s time to go.',
+     'Nights don\'t end on schedule. This campaign meets people at the exact moment a night turns, and uses humor and self-recognition to make leaving the obvious move. Visuals AI-assisted.',
+     'thumb-uber', 'Escape the Bar pop-up with an Uber waiting',
+     [section('01','Experiential','Escape the Bar: a pop-up where leaving the bar becomes the game.', img('uber-escape','Friends escaping a themed room')),
+      section('02','On-premise / Bar activations','The Things You Say Before It\'s Time to Go. A collectible coaster system placed at the point of consumption, using humor and self-recognition to trigger the decision to leave before the night decides for you.',
+              '<div class="pair">' + img('uber-coasters-1','Coasters: Don\'t worry, beer fine!') + img('uber-coasters-2','A spread of coasters') + '</div>'),
+      section('03','Out-of-home','The City Talks Back. Minimal, high-contrast placements embedded in the urban night, designed to catch attention when awareness is lowest and Uber is needed most.', img('uber-lightbox','Lightbox: When the only light is this ad, your ride is overdue.')),
+      section('04','Ambient / Object media','When the environment becomes the message. Physical interventions that turn everyday objects into moments of redirection.',
+              '<div class="pair">' + img('uber-sidewalk','Sidewalk message under a pair of sneakers') + img('uber-bench','Bench: Benches are for sitting, not for crashing.') + '</div>')],
+     'turbochef.html', 'Turbochef', 'Uber: When it\'s time to go. Spec integrated campaign.')
+
+tc_insight = """<div class="insight">
+<p class="eyebrow" style="color:#9a9a9a">The insight</p>
+<p class="q">TurboChef builds the high-speed ovens that professional kitchens run on. Now there&#39;s one built for the home.</p>
+<p class="big">Same oven as the restaurant. So the house becomes the restaurant.</p>
+<p class="idea"><strong>The idea:</strong> Compliments to the chef. Every TurboChef home gets the full restaurant treatment: a neon sign, a health grade, kitchen tickets, a guest check, and a family that finally gives the cook the credit.</p>
+</div>"""
+
+case('turbochef.html', 'Turbochef', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],
+     'Compliments to the chef.',
+     'A spec campaign for TurboChef&#39;s home ovens: restaurant-grade, home-cooked. Restaurant-grade speed and searing turn ordinary houses into the best restaurants on the block, from rooftop neon to a lawn sign that ships in the box. Visuals AI-assisted.',
+     'tc-hendersons', 'A white colonial home at blue hour with a red neon restaurant sign on the roof: The Hendersons, steak, chops, Sunday roast, open',
+     [section('01','The insight','', tc_insight),
+
+      section('02','The oven','The reason the house became a restaurant: the same high-speed technology professional kitchens rely on, on a home countertop.',
+              img('tc-oven','A stainless countertop speed oven glowing with a seared steak inside, a plated dinner and a brass service bell beside it, a family at dinner behind')),
+
+      section('03','Out-of-home: new restaurants in the neighborhood','Billboards that make you look twice: real homes with restaurant neon on the roof. Every family that owns a TurboChef gets a name in lights.',
+              img('tc-dave','A brick ranch house with a giant orange neon sign: Dave Kowalski, est. last Tuesday','Dave Kowalski. Est. last Tuesday.')
+              + img('tc-garcia','A Spanish-style home with a red neon sign: Casa Garcia, now seating','Casa Garcia. Now seating.')
+              + img('tc-barry','A farmhouse with a teal neon sign on the porch: Barry&#39;s Kitchen, reservations recommended','Barry&#39;s Kitchen. Reservations recommended.')),
+
+      section('04','Social: dinner service at home','Close-up moments from inside the new restaurants, one post at a time.',
+              img('tc-grandma','Through a kitchen window, a Grade A card inspected by Grandma while she tastes from a wooden spoon','Inspected by: Grandma.')
+              + img('tc-tickets','Handwritten kitchen tickets clipped above a glowing oven: mac and cheese no peas from Emma, 7; what she&#39;s having from Dad; surprise me from Grandpa','Order up.')
+              + img('tc-check','A guest check reading steak dinner, second helping, total: dishes, as a hand takes the peppermint','Total: dishes.')),
+
+      section('05','Experiential: the lawn sign','Every oven ships with a &quot;Now Serving&quot; lawn sign. Buyers put it in the yard, neighbors stop and ask, and the campaign spreads street by street.',
+              img('tc-sign','A Now Serving, reservations recommended lawn sign in front of a home at dusk as a woman walking her dog stops to look','Now serving. Reservations recommended.')),
+
+      section('06','The film: compliments to the chef','The spot ends at one family dinner. Dad made the roast, and since the TurboChef arrived, he isn&#39;t just Dad anymore.',
+              '<div class="video-embed"><video controls playsinline preload="metadata" poster="images/tc-dinner-3.jpg"><source src="https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/turbochef-homecoorked1.mp4" type="video/mp4">Your browser does not support video.</video></div>'
+              + img('tc-dinner-3','Daughter at dinner says Dad, this is delicious; Dad beams in his apron','&quot;Dad, this is delicious.&quot;')
+              + img('tc-dinner-2','Dad in his apron looks wounded as Mom turns to the daughter','&quot;Sally… how could you?&quot;')
+              + img('tc-dinner-1','The whole family laughing as Dad lights up','&quot;…I mean. Compliments to the chef.&quot;')
+              + '<div class="endcard"><p class="endcard-small">Side effects may include taking your cooking very seriously.</p><p class="endcard-big">TurboChef</p><p class="endcard-small brand">Restaurant-grade. Home-cooked.</p></div>')],
+     'synth-city.html', 'Synth City', 'TurboChef: Compliments to the chef. A spec campaign that turns homes into the best restaurants on the block.')
+
+print('built')
