@@ -386,28 +386,19 @@ case('turbochef.html', 'Turbochef', ['Spec','Integrated campaign','Concept · Cr
      'video:https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/turbochef-homecoorked1.mp4|tc-poster', 'The TurboChef :30 spot: Compliments to the chef',
      [section('01','The insight','', tc_insight),
 
-      section('02','The oven','The reason the house became a restaurant: the same high-speed technology professional kitchens rely on, on a home countertop.',
-              img('tc-oven','A stainless countertop speed oven glowing with a seared steak inside, a plated dinner and a brass service bell beside it, a family at dinner behind')),
-
-      section('03','Out-of-home: new restaurants in the neighborhood','Billboards that make you look twice: real homes with restaurant neon on the roof. Every family that owns a TurboChef gets a name in lights.',
+      section('02','Out-of-home: new restaurants in the neighborhood','Billboards that make you look twice: real homes with restaurant neon on the roof. Every family that owns a TurboChef gets a name in lights.',
               img('tc-hendersons','A white colonial home at blue hour with a red neon restaurant sign on the roof: The Hendersons, steak, chops, Sunday roast, open','The Hendersons. Steak, chops, Sunday roast.')
               + img('tc-dave','A brick ranch house with a giant orange neon sign: Dave Kowalski, est. last Tuesday','Dave Kowalski. Est. last Tuesday.')
               + img('tc-garcia','A Spanish-style home with a red neon sign: Casa Garcia, now seating','Casa Garcia. Now seating.')
               + img('tc-barry','A farmhouse with a teal neon sign on the porch: Barry&#39;s Kitchen, reservations recommended','Barry&#39;s Kitchen. Reservations recommended.')),
 
-      section('04','Social: dinner service at home','Close-up moments from inside the new restaurants, one post at a time.',
+      section('03','Social: dinner service at home','Close-up moments from inside the new restaurants, one post at a time.',
               img('tc-grandma','Through a kitchen window, a Grade A card inspected by Grandma while she tastes from a wooden spoon','Inspected by: Grandma.')
               + img('tc-tickets','Handwritten kitchen tickets clipped above a glowing oven: mac and cheese no peas from Emma, 7; what she&#39;s having from Dad; surprise me from Grandpa','Order up.')
               + img('tc-check','A guest check reading steak dinner, second helping, total: dishes, as a hand takes the peppermint','Total: dishes.')),
 
-      section('05','Experiential: the lawn sign','Every oven ships with a &quot;Now Serving&quot; lawn sign. Buyers put it in the yard, neighbors stop and ask, and the campaign spreads street by street.',
-              img('tc-sign','A Now Serving, reservations recommended lawn sign in front of a home at dusk as a woman walking her dog stops to look','Now serving. Reservations recommended.')),
-
-      section('06','The punchline','The spot ends at one family dinner. Dad made the roast, and since the TurboChef arrived, he isn&#39;t just Dad anymore.',
-              img('tc-dinner-3','Daughter at dinner says Dad, this is delicious; Dad beams in his apron','&quot;Dad, this is delicious.&quot;')
-              + img('tc-dinner-2','Dad in his apron looks wounded as Mom turns to the daughter','&quot;Sally… how could you?&quot;')
-              + img('tc-dinner-1','The whole family laughing as Dad lights up','&quot;…I mean. Compliments to the chef.&quot;')
-              + '<div class="endcard"><p class="endcard-small">Side effects may include taking your cooking very seriously.</p><p class="endcard-big">TurboChef</p><p class="endcard-small brand">Restaurant-grade. Home-cooked.</p></div>')],
+      section('04','Experiential: the lawn sign','Every oven ships with a &quot;Now Serving&quot; lawn sign. Buyers put it in the yard, neighbors stop and ask, and the campaign spreads street by street.',
+              img('tc-sign','A Now Serving, reservations recommended lawn sign in front of a home at dusk as a woman walking her dog stops to look','Now serving. Reservations recommended.'))],
      'synth-city.html', 'Synth City', 'TurboChef: Compliments to the chef. A spec campaign that turns homes into the best restaurants on the block.')
 
 print('built')

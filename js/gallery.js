@@ -86,6 +86,8 @@
       block.parentNode.insertBefore(strip, block);
       figs.slice(1).forEach(function (f) { f.classList.add('thumb'); strip.appendChild(f); });
       if (figs.slice(1).every(function (f) { return f.classList.contains('tall'); })) strip.classList.add('tall');
+      var n = figs.length - 1, cols = n <= 5 ? n : (n % 3 === 0 ? 3 : 4);
+      strip.style.setProperty('--cols', cols);
       // tidy now-empty wrappers
       main.querySelectorAll('.pair, .trio, .narrow, .stack').forEach(function (w) {
         if (!w.children.length) w.remove();
