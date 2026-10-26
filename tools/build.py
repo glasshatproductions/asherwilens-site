@@ -383,7 +383,7 @@ tc_insight = """<div class="insight">
 case('turbochef.html', 'Turbochef', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],
      'Compliments to the chef.',
      'A spec campaign for TurboChef&#39;s home ovens: restaurant-grade, home-cooked. Restaurant-grade speed and searing turn ordinary houses into the best restaurants on the block, from rooftop neon to a lawn sign that ships in the box. Visuals AI-assisted.',
-     'video:https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/turbochef-homecoorked1.mp4|tc-hendersons', 'The TurboChef :30 spot: Compliments to the chef',
+     'video:https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/turbochef-homecoorked1.mp4|tc-poster', 'The TurboChef :30 spot: Compliments to the chef',
      [section('01','The insight','', tc_insight),
 
       section('02','The oven','The reason the house became a restaurant: the same high-speed technology professional kitchens rely on, on a home countertop.',
