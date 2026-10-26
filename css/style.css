@@ -224,3 +224,6 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
 .cs-section figure{max-width:var(--media-w);margin-left:auto;margin-right:auto}
+.insight,.endcard{max-width:var(--media-w);margin-left:auto;margin-right:auto;box-sizing:border-box}
+.insight{padding:clamp(40px,5vw,72px) clamp(24px,5vw,64px)}
+.insight .q,.insight .big,.insight .idea{max-width:none}
