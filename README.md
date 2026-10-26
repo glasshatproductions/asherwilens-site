@@ -1,0 +1,50 @@
+# asherwilens.com — static site
+
+Plain HTML + CSS. No build step. Open `index.html` in a browser to preview locally.
+
+## Pages
+- `index.html` — homepage (positioning line, Synth City feature, work grid, Lab teaser)
+- `synth-city.html`, `brown-co.html`, `fage.html`, `desert-diamonds.html`, `uber.html`, `turbochef.html` — case studies
+- `lab.html` — inventions and products
+- `css/style.css` — all styling (fonts: Marcellus + Hanken Grotesk from Google Fonts)
+
+## Before you go live — still to do
+| What | Where |
+|---|---|
+| Role tags (e.g. "Concept · Art Direction") — adjust to what you actually did | each case study, top tags |
+| Synth City results — 2–3 real metrics as a final section | `synth-city.html` |
+| Re-export Fage, Uber and Turbochef images at ~2000px, same filenames | `images/` |
+
+Hidden for now: the About page (no longer generated or linked) and the homepage client-names strip.
+Email is ashwilens@gmail.com; the résumé is `resume.pdf` and is linked in the header and footer.
+
+To embed a Synth City film instead of linking it, replace a film link with:
+`<div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID" title="Synth City Episode 1" allowfullscreen></iframe></div>`
+
+## Videos
+The Desert Diamonds films stream straight from the public S3 bucket `superborn-dev/Rare-Sightings/`
+(TheBinoculars.mp4, ThePool_DesertRing.mp4, TheSubmarine_DesertPendant.mp4). Keep those files public and
+at those names, or the films section goes blank. For faster loading, serve them through the same CloudFront
+distribution later.
+The TurboChef film streams from `superborn-dev/Portfolio/turbochef-homecoorked1.mp4`; keep it public at that name.
+
+## Images
+Everything in `images/` was cropped from phone screenshots so the site works today. Replace each with your
+high-res original **using the same filename** (JPG, ~2000px wide is plenty) and the pages update automatically.
+
+Already cut from the old site, per the edit: Fage cartel / insider-trading posters, Uber "death cult" wall and
+"blowing chunks" poster, Turbochef banners and web mockup. Turbochef "confection" is fixed to "convection" in the copy.
+
+Still baked into images, fix in the source art before re-adding:
+- Turbochef Steak House and Bistro signs say "WHENVER" (left out for now)
+- Turbochef web mockup: "Mullers" vs "Miller Family" (left out for now)
+
+## Deploy: GitHub Pages
+The site deploys automatically from the `main` branch of this repo via GitHub Pages. Push a change and it is
+live in a minute or two. `CNAME` sets the custom domain to asherwilens.com; `.nojekyll` serves files as-is.
+
+Point the domain at Pages (at your DNS host):
+- `A` records for `asherwilens.com` → 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153
+- `CNAME` record for `www` → glasshatproductions.github.io
+Then, in the repo's Settings › Pages, tick "Enforce HTTPS" once the certificate is issued.
+Videos stay on S3 (`superborn-dev`); keep those files public.
