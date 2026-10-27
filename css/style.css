@@ -291,8 +291,12 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
   .cs-split{display:flex;flex-direction:column;align-items:flex-start;gap:0;text-align:left}
   .cs-split-text{display:contents}
   .cs-split .back{order:1}.cs-split .cs-meta{order:2}.cs-split h1{order:3}.cs-split .lede{order:4}
-  .cs-split .answer-prompt{order:5;margin-top:24px}
+  .cs-split .answer-prompt{order:5;margin-top:28px;align-self:center;text-align:center;line-height:2}
   .cs-split-phone{order:6;align-self:center;margin-top:24px}
   .cs-split .body-copy{order:7;margin-top:36px}
   .answer-prompt span::after{content:" ↓"}
 }
+
+.answer-prompt span{white-space:nowrap}
+.live-phone-note{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+.live-phone-reload{margin-left:0}
