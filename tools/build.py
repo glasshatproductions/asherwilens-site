@@ -110,7 +110,7 @@ work = [
     ('turbochef.html','thumb-turbochef','Turbochef','Spec','Compliments to the chef: the house becomes the restaurant.'),
 ]
 cards = ''.join(f'''<a class="card" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n} campaign" loading="lazy"></div>
-<div class="card-title"><h3>{n}</h3><span class="tag">{t}</span></div><p>{d}</p></a>''' for h, im, n, t, d in work)
+<div class="card-title"><h3>{n}</h3><span class="tag">{t}</span></div><p>{d}</p></a>''' for h, im, n, t, d in work if h != 'synth-city.html')
 home = f'''<section class="intro"><div class="wrap">
 <p class="eyebrow">Asher Wilens · Creative Director</p>
 <p class="lede">The best ads don&#39;t feel like ads.</p>

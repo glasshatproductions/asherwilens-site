@@ -247,3 +247,5 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 .insight .ins-tag{font-family:var(--display);font-size:clamp(26px,3.2vw,38px);line-height:1.15;color:var(--ink)}
 .contact-band .band-sub{color:#bdbdbd;margin-top:16px;font-size:17px;max-width:560px}
 .site-footer .mom{font-style:normal;text-transform:none;letter-spacing:.02em}
+@media (min-width:821px){.grid > .card:last-child:nth-child(odd){grid-column:1 / -1}
+.grid > .card:last-child:nth-child(odd) img{aspect-ratio:21/9}}
