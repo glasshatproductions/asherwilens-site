@@ -39,7 +39,7 @@ def page(fname, title, desc, body, current=''):
 </main>
 <section class="contact-band" aria-label="Contact">
 <div class="wrap">
-<div><h2>I make campaigns, invent things and play a mean guitar.</h2><p class="band-sub">Only two of those are in this portfolio. Let&#39;s talk about the third.</p></div>
+<div><h2>Some ideas need a headline. Others need a patent.</h2></div>
 <a class="btn" href="mailto:{EMAIL}">Get in touch</a>
 </div>
 </section>
