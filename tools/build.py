@@ -208,19 +208,22 @@ final_card = ('<div class="endcard"><p class="endcard-small">Synthetic diamonds.
               '<p class="endcard-big">Natural diamonds. Beyond fiction.</p>'
               '<p class="endcard-small brand">Premier Gem</p></div>')
 
-case('synth-city.html', 'Synth City', ['Premier Gem','Brand world','Creative Direction · Concept · Art Direction'],
+case('synth-city.html', 'Synth City', ['Premier Gem','In development · Soft launch 2026','Creative Direction · Concept · Art Direction'],
      'The future made everything available. Except one thing: rarity.',
-     'Synth City is a dystopian brand world for Premier Gem, told across six films, a live broadcast network and working AI tools. Each touchpoint goes a layer deeper, built to feel like something you discover rather than an ad you&#39;re served.',
+     'Synth City is a dystopian brand world for Premier Gem, told across six films, a live broadcast network and working AI tools. Each touchpoint goes a layer deeper, built to feel like something you discover rather than an ad you&#39;re served. Soft-launched in 2026 to test the world and its tools; the full rollout is in development.',
      'synth-hero', 'A crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor',
      [section('01','The insight','', insight_card),
 
-      section('02','The world','In 2187, synthetic won. Diamonds are infinite, identical and Bureau approved. Even a proposal is something you grab on the way to your gate.',
+      section('02','The journey','Every piece hands off to the next. A viewer can enter anywhere, but the path always ends with something real.',
+              '<ol class="journey"><li><span class="j-n">01</span><strong>The film</strong><span>Each episode plants a QR code inside the world.</span></li><li><span class="j-n">02</span><strong>synthcity.tv</strong><span>The Bureau&#39;s broadcast network, live.</span></li><li><span class="j-n">03</span><strong>Rarity Detector</strong><span>Scan any stone. The Bureau decides what&#39;s real.</span></li><li><span class="j-n">04</span><strong>Synth-Mate Lab</strong><span>Order a partner. Meet the system&#39;s endgame.</span></li><li><span class="j-n">05</span><strong>The transmission</strong><span>The last geologist breaks through.</span></li><li><span class="j-n">06</span><strong>Premier Gem</strong><span>Hold something the future can&#39;t make.</span></li></ol>'),
+
+      section('03','The world','In 2187, synthetic won. Diamonds are infinite, identical and Bureau approved. Even a proposal is something you grab on the way to your gate.',
               '<div class="stack">' + img('synth-aerial','Aerial view of Synth City at night: flying cars, neon towers and a Welcome to Synth City sign','Welcome to Synth City, Cycle 2187.') + img('synth-world','Bureau Approved billboards selling lab-grown happiness over a crowded plaza at night')
               + img('synth-factory','A vast night factory complex of glowing carbon pressure chambers growing diamonds','Carbon Pressure Chamber 07. Diamonds, grown by the ton.')
               + img('synth-vending','A proposal kit vending machine in a 2187 airport terminal','In 2187, a proposal ring comes out of a vending machine.')
               + '<div class="narrow">' + img('synth-protocol','Bureau poster of a smiling couple in gloves showing matching rings: Love is a protocol. Bureau approved compatibility.','Even marriage comes pre-approved.') + '</div></div>'),
 
-      section('03','The system','A world this perfect needs enforcing. The Synthetic Bureau controls what people see, what counts as real and, finally, who they love. Each of its tools is a live piece of the campaign.',
+      section('04','The system','A world this perfect needs enforcing. The Synthetic Bureau controls what people see, what counts as real and, finally, who they love. Each of its tools is a live piece of the campaign.',
               img('synth-hq','The Synthetic Bureau headquarters, a brutalist monolith with a wireframe-head seal, citizens queuing beneath drones')
               + beat('The Broadcasts','It controls the story.',
                      'A Bureau news network and public announcements, one message repeated until it sticks: synthetic is better.',
@@ -246,19 +249,22 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Brand world','Creative Dir
                      + img('sm2-toast','The synthetic couple toasting with red wine on a rooftop at dusk','Never anything real.'))
               + '<div class="callout"><p>The Detector and the Lab started as &quot;what ifs.&quot;</p><a class="btn" href="lab.html">See what else I&#39;ve built</a></div>'),
 
-      section('04','The signal','Then the broadcast breaks. Across the city&#39;s screens, a recovered transmission cuts through: the last geologist, deep beneath what was once the Diamond District, still searching for something real.',
+      section('05','The signal','Then the broadcast breaks. Across the city&#39;s screens, a recovered transmission cuts through: the last geologist, deep beneath what was once the Diamond District, still searching for something real.',
               '<div class="stack">' + img('synth-signal','The Bureau billboards glitching as a transmission from an underground tunnel breaks through, a crowd stopping to look up','The first crack in the system.')
               + img('synth-transmission','The last transmission: a geologist with a headlamp beneath the buried 47th Street and 5th Avenue street sign','Last transmission, beneath 47th Street.') + img('synth-transmission-live','The live Last Known Transmission page with the geologist&#39;s headlamp video','The live transmission page.') + img('synth-warning','Report card: Geologists warn humanity may be losing the ability to recognize rare things. Report classified. Researcher reassigned.','The report the Bureau buried.') + '</div>'
               + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv/kalahari">Follow the transmission: synthcity.tv/kalahari →</a></div>'),
 
-      section('05','The films','The heart of the campaign. Six short films, one dystopian future and one question running through all of it: what happens to love when nothing is rare anymore? Each episode was produced like a release, with an original score, cinematic visuals and QR-connected environments that pull viewers deeper into the world.',
+      section('06','The films','The heart of the campaign. Six short films, one dystopian future and one question running through all of it: what happens to love when nothing is rare anymore? Each episode was produced like a release, with an original score, cinematic visuals and QR-connected environments that pull viewers deeper into the world.',
               film_html),
 
-      section('06','The proof','Everything leads here. One rough stone, the only warm light in a cold world, and the reason it still matters today.',
+      section('07','The proof','Everything leads here. One rough stone, the only warm light in a cold world, and the reason it still matters today.',
               '<div class="stack">' + img('synth-proof','A dirt-covered hand opens in a dark tunnel to reveal a glowing rough natural diamond','Proof that something real remains.')
               + img('synth-now','Present day: a woman&#39;s hand with a natural diamond engagement ring resting on a sunlit kitchen table beside a coffee cup','Back to now.')
               + final_card
-              + img('synth-site','The campaign landing page where every film, broadcast and transmission leads','Where every touchpoint leads.') + '</div>')],
+              + '</div>'),
+
+      section('08','What&#39;s next','The soft launch tested the world and its tools. The full rollout is in development.',
+              '<ol class="journey roadmap"><li><span class="j-n">01</span><strong>Full release</strong><span>All six films released on a schedule, each one unlocking the next layer of the world.</span></li><li><span class="j-n">02</span><strong>The QR journey at scale</strong><span>Every episode, broadcast and poster becomes a door into the tools.</span></li><li><span class="j-n">03</span><strong>Trade partnership</strong><span>A trade-network partnership to bring the Rarity Detector to dealers worldwide.</span></li><li><span class="j-n">04</span><strong>Retail moments</strong><span>The Detector and the transmission brought into stores, where the real stone is waiting.</span></li></ol>')],
      'desert-diamonds.html', 'Desert Diamonds', 'Synth City, a dystopian brand world for Premier Gem: six films, a live broadcast network and working AI tools.')
 
 

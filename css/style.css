@@ -258,3 +258,11 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 @media (max-width:820px){.feed.tall9{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}}
 .insight,.endcard{width:100%}
 .thumbs figure.fit img{object-fit:contain;background:#000}
+.journey{list-style:none;margin:0 auto;padding:0;max-width:var(--media-w);display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;border-top:1px solid var(--ink)}
+.journey li{padding:18px 14px 6px 0;display:flex;flex-direction:column;gap:6px;position:relative}
+.journey li:not(:last-child)::after{content:"\2192";position:absolute;right:8px;top:16px;color:var(--muted)}
+.journey .j-n{font-family:var(--display);color:var(--muted);font-size:15px}
+.journey strong{font-weight:600;font-size:15px}
+.journey li > span:last-child{font-size:14px;color:var(--ink-2);line-height:1.45}
+.journey.roadmap{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:820px){.journey,.journey.roadmap{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}.journey li::after{display:none}}
