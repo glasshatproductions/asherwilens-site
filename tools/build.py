@@ -106,7 +106,7 @@ work = [
     ('desert-diamonds.html','thumb-desert-diamonds','Desert Diamonds','Premier Gem','A natural diamond is a rare sighting. A campaign that grew into a UGC microsite.'),
     ('brown-co.html','thumb-brown-co','Brown &amp; Co','Pitch','Every light of the season, ending with her name in lights.'),
     ('fage.html','thumb-fage','Fage','Spec','Nothing to hide: the ingredient list becomes the ad.'),
-    ('uber.html','thumb-uber','Uber','Spec','When it\'s time to go.'),
+    ('uber.html','thumb-uber','Uber','Spec','The things you say before it\'s time to go.'),
     ('turbochef.html','thumb-turbochef','Turbochef','Spec','Compliments to the chef: the house becomes the restaurant.'),
 ]
 cards = ''.join(f'''<a class="card" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n} campaign" loading="lazy"></div>
@@ -351,17 +351,27 @@ case('desert-diamonds.html', 'Desert Diamonds', ['Premier Gem','Campaign · Film
               '<div style="max-width:620px;margin:0 auto">' + img('dd-site-full','Full Rare Sightings microsite design') + '</div>' + '<div class="outlinks"><a class="text-link" href="https://premiergem.com/rare-sightings" target="_blank" rel="noopener">Visit Rare Sightings: premiergem.com/rare-sightings →</a></div>')],
      'brown-co.html', 'Brown &amp; Co', 'Desert Diamonds: A natural diamond is a rare sighting. Campaign, films and UGC microsite.')
 
-case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Art Direction · Design'],
-     'When it\'s time to go.',
-     'Nights don\'t end on schedule. This campaign meets people at the exact moment a night turns, and uses humor and self-recognition to make leaving the obvious move. Visuals AI-assisted.',
-     'thumb-uber', 'Escape the Bar pop-up with an Uber waiting',
-     [section('01','Experiential','Escape the Bar: a pop-up where leaving the bar becomes the game.', img('uber-escape','Friends escaping a themed room')),
-      section('02','On-premise / Bar activations','The Things You Say Before It\'s Time to Go. A collectible coaster system placed at the point of consumption, using humor and self-recognition to trigger the decision to leave before the night decides for you.',
-              '<div class="pair">' + img('uber-coasters-1','Coasters: Don\'t worry, beer fine!') + img('uber-coasters-2','A spread of coasters') + '</div>'),
-      section('03','Out-of-home','The City Talks Back. Minimal, high-contrast placements embedded in the urban night, designed to catch attention when awareness is lowest and Uber is needed most.', img('uber-lightbox','Lightbox: When the only light is this ad, your ride is overdue.')),
-      section('04','Ambient / Object media','When the environment becomes the message. Physical interventions that turn everyday objects into moments of redirection.',
-              '<div class="pair">' + img('uber-sidewalk','Sidewalk message under a pair of sneakers') + img('uber-bench','Bench: Benches are for sitting, not for crashing.') + '</div>')],
-     'turbochef.html', 'Turbochef', 'Uber: When it\'s time to go. Spec integrated campaign.')
+case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],
+     'When it&#39;s time to go.',
+     'A spec campaign for Uber that meets people at the exact moment a night turns. It uses the things everyone says at the end of a night, printed right where the decision happens: on the coaster, on the tab, on the way out the door. Visuals AI-assisted.',
+     'ub-hero', 'End of the night at a bar: a check presenter and a phone showing a ride on its way, as the bartender wipes down and two friends put on their coats',
+     [section('01','The insight','', insight_box('Everyone knows the night is over before they admit it. You can hear it.', 'The things you say before it&#39;s time to go.')),
+
+      section('02','On-premise: the coasters','A coaster series built from the lines everyone has heard at last call. Each one ends the same way.',
+              img('ub-coaster-ex','Coaster: Should I text my ex? Just to say hi. Time to go.','&quot;Should I text my ex? Just to say hi.&quot;')
+              + img('ub-coaster-boat','Coaster: Let&#39;s all quit our jobs and buy a boat. Time to go.','&quot;Let&#39;s all quit our jobs and buy a boat.&quot;')
+              + img('ub-coaster-tattoos','Coaster: We should all get matching tattoos. Time to go.','&quot;We should all get matching tattoos.&quot;')
+              + img('ub-coaster-food','Coaster: Let&#39;s order bar to the food. Time to go.','&quot;Let&#39;s order bar to the food.&quot;')),
+
+      section('03','The tab','The bill is the natural cue to leave, so that&#39;s where the idea lands hardest: an itemized receipt of everything you said, and a card in the check presenter.',
+              img('ub-receipt','An itemized bar receipt listing OK one more, I&#39;m not even tired, we should start a business, I love you guys, with Total: time to go','Itemized.')
+              + img('ub-presenter','A check presenter with a card reading Tip your bartender. Then tap your app.','Tip your bartender. Then tap your app.')),
+
+      section('04','Out-of-home: on the way out','The last word, placed between the bar door and the curb.',
+              '<div class="feed tall9">' + img('ub-sign','Sidewalk sign: Last call is a suggestion. Closing time isn&#39;t.','Sidewalk sign.')
+              + img('ub-shelter','Bus shelter: Your tab closed at 1:52. Your ride&#39;s here at 1:55.','Bus shelter.')
+              + img('ub-billboard','Digital billboard over a nightlife street: Close your tab. Open your app.','Digital billboard.') + '</div>')],
+     'turbochef.html', 'Turbochef', 'Uber: When it&#39;s time to go. A spec campaign built on the things you say before it&#39;s time to go.')
 
 tc_insight = insight_box('TurboChef builds the ovens restaurants run on. Now there&#39;s one for the home.', 'Compliments to the chef.')
 
