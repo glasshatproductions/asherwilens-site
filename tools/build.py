@@ -39,7 +39,7 @@ def page(fname, title, desc, body, current=''):
 </main>
 <section class="contact-band" aria-label="Contact">
 <div class="wrap">
-<h2>Looking for a creative director who builds the ideas, not just the ads?</h2>
+<div><h2>I make campaigns, invent things and play a mean guitar.</h2><p class="band-sub">Only two of those are in this portfolio. Let&#39;s talk about the third.</p></div>
 <a class="btn" href="mailto:{EMAIL}">Get in touch</a>
 </div>
 </section>
@@ -75,6 +75,11 @@ def film(file, title, poster):
     p = f' poster="images/{poster}.jpg"' if poster else ''
     src = VIDEO_BASE + file + ('' if poster else '#t=0.1')
     return f'<figure class="film"><video controls playsinline preload="metadata"{p}><source src="{src}" type="video/mp4">Your browser does not support video.</video><figcaption>{title}</figcaption></figure>'
+
+
+def insight_box(line, tagline):
+    return (f'<div class="insight"><p class="eyebrow">The insight</p><p class="ins-line">{line}</p>'
+            f'<p class="eyebrow">The idea</p><p class="ins-tag">{tagline}</p></div>')
 
 def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name, desc):
     if hero.startswith('video:'):
@@ -195,12 +200,7 @@ def beat(title, line, text, content):
     return (f'<div class="beat"><div class="beat-head"><h3>{title}</h3><p class="beat-line">{line}</p></div>'
             f'<p class="body-copy">{text}</p>{content}</div>')
 
-insight_card = '''<div class="insight">
-<p class="eyebrow" style="color:#9a9a9a">The insight</p>
-<p class="q">Lab-grown diamonds made diamonds abundant. So we asked: what happens when they win completely?</p>
-<p class="big">Rarity only matters when you imagine losing it.</p>
-<p class="idea"><strong>The idea:</strong> Synth City, a world in 2187 where synthetic is the law and natural diamonds are believed extinct. Instead of telling people natural diamonds are rare, we let them live in a future where they&#39;re gone.</p>
-</div>'''
+insight_card = insight_box('Lab-grown made diamonds abundant. Rarity only matters when you imagine losing it.', 'Natural diamonds. Beyond fiction.')
 
 final_card = ('<div class="endcard"><p class="endcard-small">Synthetic diamonds. Synthetic love. Synthetic everything.</p>'
               '<p class="endcard-mid">Hold something the future can&#39;t make.</p>'
@@ -261,12 +261,7 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Brand world','Creative Dir
      'brown-co.html', 'Brown &amp; Co', 'Synth City, a dystopian brand world for Premier Gem: six films, a live broadcast network and working AI tools.')
 
 
-bc_insight = '''<div class="insight">
-<p class="eyebrow" style="color:#9a9a9a">The insight</p>
-<p class="q">People buy jewelry under showroom lights. Then they live with it under string lights, candlelight, morning sun and a phone flash.</p>
-<p class="big">So we tested every stone in every light of the season.</p>
-<p class="idea"><strong>The idea:</strong> Every light of the season. One idea carried from the highway to the counter, ending with the brightest light in Atlanta: a billboard with her name on it.</p>
-</div>'''
+bc_insight = insight_box('Jewelry is chosen under showroom lights. It&#39;s worn under every other kind.', 'Every light of the season.')
 
 bc_steps = '''<ol class="steps">
 <li><strong>Choose the ring.</strong> Engagement rings purchased December 1&ndash;24 qualify.</li>
@@ -301,12 +296,7 @@ case('brown-co.html', 'Brown &amp; Co', ['Pitch','Integrated campaign','Concept 
      'fage.html', 'Fage', 'Brown & Co: Every light of the season. A holiday campaign pitch that ends with her name in lights.')
 
 
-fage_insight = '''<div class="insight">
-<p class="eyebrow" style="color:#9a9a9a">The insight</p>
-<p class="q">Most food labels read like a chemistry exam. People have learned to squint, scroll and assume the worst.</p>
-<p class="big">FAGE&#39;s ingredient list is two lines long. So we made it the ad.</p>
-<p class="idea"><strong>The idea:</strong> Nothing to hide. Take transparency literally: show the ingredients, show the people who make it, show the factory live, and invite everyone else to be just as honest.</p>
-</div>'''
+fage_insight = insight_box('FAGE&#39;s ingredient list is two lines long. So we made it the ad.', 'Nothing to hide.')
 
 case('fage.html', 'Fage', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],
      'Honestly crafted. Nothing to hide.',
@@ -373,12 +363,7 @@ case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Art Directio
               '<div class="pair">' + img('uber-sidewalk','Sidewalk message under a pair of sneakers') + img('uber-bench','Bench: Benches are for sitting, not for crashing.') + '</div>')],
      'turbochef.html', 'Turbochef', 'Uber: When it\'s time to go. Spec integrated campaign.')
 
-tc_insight = """<div class="insight">
-<p class="eyebrow" style="color:#9a9a9a">The insight</p>
-<p class="q">TurboChef builds the high-speed ovens that professional kitchens run on. Now there&#39;s one built for the home.</p>
-<p class="big">Same oven as the restaurant. So the house becomes the restaurant.</p>
-<p class="idea"><strong>The idea:</strong> Compliments to the chef. Every TurboChef home gets the full restaurant treatment: a neon sign, a health grade, kitchen tickets, a guest check, and a family that finally gives the cook the credit.</p>
-</div>"""
+tc_insight = insight_box('TurboChef builds the ovens restaurants run on. Now there&#39;s one for the home.', 'Compliments to the chef.')
 
 case('turbochef.html', 'Turbochef', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],
      'Compliments to the chef.',
