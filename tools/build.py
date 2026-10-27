@@ -57,6 +57,7 @@ def page(fname, title, desc, body, current=''):
 </footer>
 <script src="js/gallery.js?v={_v('js/gallery.js')}"></script>
 <script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>
+<script src="js/lastcall.js?v={_v('js/lastcall.js')}" defer></script>
 </body>
 </html>
 '''
@@ -104,6 +105,51 @@ SHORT_TAGS = {
     'uber.html': ['Spec', 'Integrated', 'Concept, CD, AD'],
     'turbochef.html': ['Spec', 'Integrated', 'Concept, CD, AD'],
 }
+
+# ---------- Uber helpers ----------
+# Each optional asset switches its piece on as soon as the file is added;
+# until then nothing empty or non-working is shown on the live page.
+_ROOT = _o.path.join(_o.path.dirname(__file__), '..')
+def has_file(rel): return _o.path.exists(_o.path.join(_ROOT, rel))
+def has_img(name): return has_file(f'images/{name}.jpg')
+
+UB_COASTERS = [
+    ('ub-coaster-ex', 'Coaster: Should I text my ex? Just to say hi. Time to go. Uber.', 'The ex.'),
+    ('ub-coaster-boat', 'Coaster: Let&#39;s all quit our jobs and buy a boat. Time to go. Uber.', 'The boat.'),
+    ('ub-coaster-dj', 'Coaster: I could definitely be a DJ. Time to go. Uber.', 'The DJ.') if has_img('ub-coaster-dj') else ('ub-coaster-tattoos', 'Coaster: We should all get matching tattoos. Time to go. Uber.', 'The tattoos.'),
+    ('ub-coaster-sommelier', 'Coaster: I&#39;m basically a sommelier. Time to go. Uber.', 'The sommelier.') if has_img('ub-coaster-sommelier') else ('ub-coaster-food', 'Coaster: Let&#39;s order bar to the food. Time to go. Uber.', 'The order.'),
+]
+
+# Billboard creative: add variants (ub-billboard-2.jpg, ub-billboard-3.jpg) to show more than one.
+UB_BILLBOARDS = [
+    ('ub-billboard', 'Digital billboard over a nightlife street: Close your tab. Open your app.', 'Digital billboard.'),
+    ('ub-billboard-2', 'Digital billboard, alternate late-night creative', 'Digital billboard, later that night.'),
+    ('ub-billboard-3', 'Digital billboard, alternate late-night creative', 'Digital billboard, closing time.'),
+]
+
+UB_SAMPLES = [
+    ('audio/ub-lastcall-business-partners.mp3', 'The Business Partners'),
+    ('audio/ub-lastcall-text-message.mp3', 'The Text Message'),
+    ('audio/ub-lastcall-great-idea.mp3', 'The Great Idea'),
+]
+# Future real-time AI operator: set to your server's session endpoint, which
+# issues short-lived tokens. Empty = no live control is shown. Never put API keys here.
+UB_LIVE_ENDPOINT = ''
+
+def lastcall_panel():
+    samples = [(src, label) for src, label in UB_SAMPLES if has_file(src)]
+    if not samples or not has_img('ub-payphone-closeup'):
+        return ''
+    btns = ''.join(f'<button type="button" class="lc-sample" data-src="{src}" aria-pressed="false"><span class="lc-ic" aria-hidden="true"></span>{label}</button>' for src, label in samples)
+    return (f'<div class="lastcall" data-live-endpoint="{UB_LIVE_ENDPOINT}">'
+            '<div class="lc-device"><img src="images/ub-payphone-closeup.jpg" alt="Close-up of the Last Call Department payphone: keypad and receiver" loading="lazy"></div>'
+            '<div class="lc-panel"><p class="lc-label">Concept demo · AI voice · sample recordings</p>'
+            '<button type="button" class="lc-pickup" aria-expanded="false">Pick up the phone</button>'
+            f'<div class="lc-samples" role="group" aria-label="Sample calls" hidden>{btns}</div>'
+            '<p class="lc-status" aria-live="polite"></p></div></div>')
+
+def sample_audio(src, label):
+    return f'<div class="sample-audio"><p class="lc-label">{label}</p><audio controls preload="none" src="{src}"></audio></div>'
 
 def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name, desc):
     split = ''
@@ -402,24 +448,31 @@ case('desert-diamonds.html', 'Desert Diamonds', ['Premier Gem','Campaign · Film
 
 case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],
      'When it&#39;s time to go.',
-     'A spec campaign for Uber that meets people at the exact moment a night turns. It uses the things everyone says at the end of a night, printed right where the decision happens: on the coaster, on the tab, on the way out the door. Visuals AI-assisted.',
-     'ub-receipt', 'An itemized bar receipt from the Tipsy Oak: two Old Fashioneds, fries, four OK one more, I&#39;m not even tired, we should start a business, I love you guys. Total: time to go. Close your tab. Open your app.',
-     [section('01','The insight','', insight_box('Everyone knows the night is over before they admit it. You can hear it.', 'The things you say before it&#39;s time to go.')),
+     'A spec campaign built around the things people say when a good night has gone on a little too long. From bar receipts and coasters to an AI-powered last-call hotline, Uber helps turn the moment into a way home. <span class="fine">Spec work. Visuals AI-assisted.</span>',
+     'ub-receipt', 'An itemized bar receipt from the Tipsy Oak: two Old Fashioneds, fries, four OK one more, I&#39;m not even tired, we should start a business, I love you guys. Total: time to go. Close your tab. Open your app. Signed off with the Uber logo.',
+     [s_ for s_ in [
+      section('01','The insight','', insight_box('Everyone knows the night is over before they admit it. You can hear it.', 'The things you say before it&#39;s time to go.')),
 
       section('02','On-premise: the coasters','A coaster series built from the lines everyone has heard at last call. Each one ends the same way.',
-              img('ub-coaster-ex','Coaster: Should I text my ex? Just to say hi. Time to go.','&quot;Should I text my ex? Just to say hi.&quot;')
-              + img('ub-coaster-boat','Coaster: Let&#39;s all quit our jobs and buy a boat. Time to go.','&quot;Let&#39;s all quit our jobs and buy a boat.&quot;')
-              + img('ub-coaster-tattoos','Coaster: We should all get matching tattoos. Time to go.','&quot;We should all get matching tattoos.&quot;')
-              + img('ub-coaster-food','Coaster: Let&#39;s order bar to the food. Time to go.','&quot;Let&#39;s order bar to the food.&quot;')),
+              ''.join(img(f, alt, cap) for f, alt, cap in UB_COASTERS)),
 
-      section('03','The tab','The bill is the natural cue to leave, so that&#39;s where the idea lands hardest: an itemized receipt of everything you said (above), then the check presenter and the ride already on its way.',
-              img('ub-hero','End of the night at a bar: a check presenter and a phone showing a ride on its way, as the bartender wipes down and two friends put on their coats','Close your tab. Open your app.')
-              + img('ub-presenter','A check presenter with a card reading Tip your bartender. Then tap your app.','Tip your bartender. Then tap your app.')),
+      (section('03','Experiential: The Last Call Department','An old payphone appears in neighborhood bars, offering a second opinion on those brilliant ideas that only seem brilliant after midnight. Pick up the receiver and a deadpan AI operator answers. Every conversation is different. Every case has one thing in common: knowing when it&#39;s time to go.',
+              img('ub-payphone','A vintage payphone mounted in a neighborhood bar, signed The Last Call Department')
+              + lastcall_panel()) if has_img('ub-payphone') else ''),
 
-      section('04','Out-of-home: on the way out','The last word, placed between the bar door and the curb.',
+      section('04' if has_img('ub-payphone') else '03','The tab','The bill is the natural cue to leave: the check presenter, and the ride already on its way.',
+              '<div class="pair secondary">' + img('ub-hero','End of the night at a bar: a check presenter and a phone showing a ride on its way, as the bartender wipes down and two friends put on their coats','Close your tab. Open your app.')
+              + img('ub-presenter','A check presenter with a card reading Tip your bartender. Then tap your app.','Tip your bartender. Then tap your app.') + '</div>'),
+
+      section('05' if has_img('ub-payphone') else '04','Out-of-home: on the way out','The last word, placed between the bar door and the curb.',
               '<div class="feed tall9">' + img('ub-sign','Sidewalk sign: Last call is a suggestion. Closing time isn&#39;t.','Sidewalk sign.')
-              + img('ub-shelter','Bus shelter: Your tab closed at 1:52. Your ride&#39;s here at 1:55.','Bus shelter.')
-              + img('ub-billboard','Digital billboard over a nightlife street: Close your tab. Open your app.','Digital billboard.') + '</div>')],
+              + (img('ub-shelter-goodbye','Bus shelter ad: You&#39;ve been saying goodbye for 45 minutes.','Bus shelter.') if has_img('ub-shelter-goodbye') else img('ub-shelter','Bus shelter: Your tab closed at 1:52. Your ride&#39;s here at 1:55.','Bus shelter.'))
+              + ''.join(img(f, alt, cap) for f, alt, cap in UB_BILLBOARDS if has_img(f)) + '</div>'),
+
+      (section('06','The morning after','<span class="proposed">Proposed extension</span> Some brilliant ideas sound different in daylight. Callers who opt in could hear their late-night pitch again the next morning. The Last Call Department keeps the receipts.',
+              (img('ub-morning','The Last Call Department morning-after follow-up') if has_img('ub-morning') else '')
+              + (sample_audio('audio/ub-morning-after.mp3','Sample: a morning-after follow-up') if has_file('audio/ub-morning-after.mp3') else '')) if has_img('ub-payphone') else ''),
+      ] if s_],
      'turbochef.html', 'Turbochef', 'Uber: When it&#39;s time to go. A spec campaign built on the things you say before it&#39;s time to go.')
 
 tc_insight = insight_box('TurboChef builds the ovens restaurants run on. Now there&#39;s one for the home.', 'Compliments to the chef.')

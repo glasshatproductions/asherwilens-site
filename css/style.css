@@ -314,3 +314,25 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 .byline .dot{margin:0 .7em;color:#aaa}
 .byline .short{display:none}
 @media (max-width:760px){.byline .full{display:none}.byline .short{display:inline}.cs-meta.byline{letter-spacing:.08em;font-size:11px}.byline .dot{margin:0 .45em}}
+
+/* Uber: Last Call Department payphone demo */
+.fine{display:block;margin-top:14px;font-size:13px;letter-spacing:.06em;color:#6b6b6b}
+.proposed{display:inline-block;margin-right:10px;padding:2px 8px;border:1px solid currentColor;font-size:11px;letter-spacing:.14em;text-transform:uppercase;vertical-align:2px}
+.pair.secondary{max-width:min(var(--media-w),760px)}
+.lastcall{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:center;max-width:var(--media-w);margin:40px auto 0;padding:28px;background:#111;color:#e9e6df}
+.lc-device img{width:100%;height:auto;display:block;max-height:420px;object-fit:cover}
+.lc-label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#9a968c;margin-bottom:16px}
+.lc-pickup{display:block;width:100%;min-height:56px;border:1px solid #e9e6df;background:#e9e6df;color:#111;font:600 14px/1 inherit;letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.lastcall.off-hook .lc-pickup{background:transparent;color:#e9e6df}
+.lc-samples{display:grid;gap:10px;margin-top:16px}
+.lc-sample{display:flex;align-items:center;gap:12px;min-height:48px;padding:0 16px;border:1px solid #4a4741;background:transparent;color:#e9e6df;font:500 15px/1.2 inherit;text-align:left;cursor:pointer}
+.lc-sample:hover,.lc-sample:focus-visible,.lc-pickup:focus-visible{outline:2px solid #3fbf74;outline-offset:2px}
+.lc-sample:disabled{opacity:.4;cursor:not-allowed}
+.lc-ic{width:0;height:0;border-left:10px solid currentColor;border-top:6px solid transparent;border-bottom:6px solid transparent}
+.lc-sample.playing{border-color:#3fbf74;color:#fff}
+.lc-sample.playing .lc-ic{width:10px;height:12px;border:0;border-left:3px solid currentColor;border-right:3px solid currentColor}
+.lc-status{min-height:1.4em;margin-top:14px;font-size:14px;color:#b9b5ab}
+.sample-audio{max-width:520px;margin:28px auto 0}
+.sample-audio audio{width:100%}
+@media (max-width:760px){.lastcall{grid-template-columns:1fr;padding:20px}}
+.lc-samples[hidden]{display:none}
