@@ -403,7 +403,7 @@ case('desert-diamonds.html', 'Desert Diamonds', ['Premier Gem','Campaign · Film
 case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],
      'When it&#39;s time to go.',
      'A spec campaign for Uber that meets people at the exact moment a night turns. It uses the things everyone says at the end of a night, printed right where the decision happens: on the coaster, on the tab, on the way out the door. Visuals AI-assisted.',
-     'ub-hero', 'End of the night at a bar: a check presenter and a phone showing a ride on its way, as the bartender wipes down and two friends put on their coats',
+     'ub-receipt', 'An itemized bar receipt from the Tipsy Oak: two Old Fashioneds, fries, four OK one more, I&#39;m not even tired, we should start a business, I love you guys. Total: time to go. Close your tab. Open your app.',
      [section('01','The insight','', insight_box('Everyone knows the night is over before they admit it. You can hear it.', 'The things you say before it&#39;s time to go.')),
 
       section('02','On-premise: the coasters','A coaster series built from the lines everyone has heard at last call. Each one ends the same way.',
@@ -412,8 +412,8 @@ case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Dir
               + img('ub-coaster-tattoos','Coaster: We should all get matching tattoos. Time to go.','&quot;We should all get matching tattoos.&quot;')
               + img('ub-coaster-food','Coaster: Let&#39;s order bar to the food. Time to go.','&quot;Let&#39;s order bar to the food.&quot;')),
 
-      section('03','The tab','The bill is the natural cue to leave, so that&#39;s where the idea lands hardest: an itemized receipt of everything you said, and a card in the check presenter.',
-              img('ub-receipt','An itemized bar receipt listing OK one more, I&#39;m not even tired, we should start a business, I love you guys, with Total: time to go','Itemized.')
+      section('03','The tab','The bill is the natural cue to leave, so that&#39;s where the idea lands hardest: an itemized receipt of everything you said (above), then the check presenter and the ride already on its way.',
+              img('ub-hero','End of the night at a bar: a check presenter and a phone showing a ride on its way, as the bartender wipes down and two friends put on their coats','Close your tab. Open your app.')
               + img('ub-presenter','A check presenter with a card reading Tip your bartender. Then tap your app.','Tip your bartender. Then tap your app.')),
 
       section('04','Out-of-home: on the way out','The last word, placed between the bar door and the curb.',
