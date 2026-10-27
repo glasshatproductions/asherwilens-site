@@ -58,7 +58,8 @@ def page(fname, title, desc, body, current=''):
 TALL = {'det-dollar','det-mouse','det-earbuds','synth-transmission-live'}
 def img(src, alt, cap=''):
     c = f'<figcaption>{cap}</figcaption>' if cap else ''
-    k = ' class="tall"' if src in TALL else ''
+    FIT = {'synth-warning','synth-site'}
+    k = ' class="tall"' if src in TALL else (' class="fit"' if src in FIT else '')
     return f'<figure{k}><img src="images/{src}.jpg" alt="{alt}" loading="lazy">{c}</figure>'
 
 def section(num, label, intro, content):
