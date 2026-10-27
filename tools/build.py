@@ -45,7 +45,7 @@ def page(fname, title, desc, body, current=''):
 </section>
 <footer class="site-footer">
 <div class="wrap">
-<span>© 2026 Asher Wilens</span>
+<span>© 2026 Asher Wilens. <em class="mom">My mom says I&#39;m creative.</em></span>
 <span><a href="index.html#work">Work</a> · <a href="lab.html">Lab</a> · <a href="resume.pdf">Résumé</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span>
 </div>
 </footer>
@@ -113,7 +113,7 @@ cards = ''.join(f'''<a class="card" href="{h}"><div class="frame"><img src="imag
 <div class="card-title"><h3>{n}</h3><span class="tag">{t}</span></div><p>{d}</p></a>''' for h, im, n, t, d in work)
 home = f'''<section class="intro"><div class="wrap">
 <p class="eyebrow">Asher Wilens · Creative Director</p>
-<p class="lede">Creative Director. Luxury, retail and integrated campaigns, plus the occasional invention.</p>
+<p class="lede">The best ads don&#39;t feel like ads.</p>
 </div></section>
 <div class="wrap">
 <a class="feature" href="synth-city.html">
@@ -135,7 +135,7 @@ home = f'''<section class="intro"><div class="wrap">
 </ul>
 </div></section>'''
 page('index.html', 'A. Wilens | Creative Director',
-     'Asher Wilens, Creative Director. Luxury, retail and integrated campaigns, plus the occasional invention.', home)
+     'Asher Wilens, Creative Director. The best ads don&#39;t feel like ads.', home)
 
 # ---------- LAB ----------
 projects = [

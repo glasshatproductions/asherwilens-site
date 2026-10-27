@@ -246,3 +246,4 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 .insight .ins-line{font-size:clamp(17px,1.6vw,19px);line-height:1.55;color:var(--ink-2);max-width:640px;margin-bottom:14px}
 .insight .ins-tag{font-family:var(--display);font-size:clamp(26px,3.2vw,38px);line-height:1.15;color:var(--ink)}
 .contact-band .band-sub{color:#bdbdbd;margin-top:16px;font-size:17px;max-width:560px}
+.site-footer .mom{font-style:normal;text-transform:none;letter-spacing:.02em}
