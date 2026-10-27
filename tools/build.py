@@ -139,8 +139,11 @@ UB_LIVE_ENDPOINT = ''
 
 def lastcall_panel():
     samples = [(src, label) for src, label in UB_SAMPLES if has_file(src)]
-    if not samples or not has_img('ub-payphone-closeup'):
+    if not has_img('ub-payphone-closeup'):
         return ''
+    if not samples:
+        # Concept first: show the close-up as a still until the audio is ready.
+        return img('ub-payphone-closeup', 'Close-up of the Last Call Department payphone: keypad and receiver', 'Pick up the receiver.')
     btns = ''.join(f'<button type="button" class="lc-sample" data-src="{src}" aria-pressed="false"><span class="lc-ic" aria-hidden="true"></span>{label}</button>' for src, label in samples)
     return (f'<div class="lastcall" data-live-endpoint="{UB_LIVE_ENDPOINT}">'
             '<div class="lc-device"><img src="images/ub-payphone-closeup.jpg" alt="Close-up of the Last Call Department payphone: keypad and receiver" loading="lazy"></div>'
