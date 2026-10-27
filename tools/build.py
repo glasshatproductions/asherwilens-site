@@ -8,6 +8,7 @@ def _v(path):
     except Exception: return '1'
 ASSET_V=True
 
+LASTCALL_TAG = ''
 def page(fname, title, desc, body, current=''):
     def nav(href, label, key):
         cur = ' aria-current="page"' if key == current else ''
@@ -56,8 +57,7 @@ def page(fname, title, desc, body, current=''):
 </div>
 </footer>
 <script src="js/gallery.js?v={_v('js/gallery.js')}"></script>
-<script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>
-<script src="js/lastcall.js?v={_v('js/lastcall.js')}" defer></script>
+<script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>{LASTCALL_TAG if fname == 'uber.html' else ''}
 </body>
 </html>
 '''
@@ -107,6 +107,7 @@ SHORT_TAGS = {
 }
 
 # ---------- Uber helpers ----------
+LASTCALL_TAG = f'\n<script src="js/lastcall.js?v={_v("js/lastcall.js")}" defer></script>'
 # Each optional asset switches its piece on as soon as the file is added;
 # until then nothing empty or non-working is shown on the live page.
 _ROOT = _o.path.join(_o.path.dirname(__file__), '..')
