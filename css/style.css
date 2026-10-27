@@ -300,3 +300,10 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 .answer-prompt span{white-space:nowrap}
 .live-phone-note{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
 .live-phone-reload{margin-left:0}
+
+/* Opening: image, campaign line, then the live call */
+.cs-hero figcaption{margin-top:12px;font-size:14px;color:#6b6b6b;text-align:center}
+.cs-open{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:24px;padding-bottom:72px}
+.cs-open .body-copy{max-width:680px;margin:0 auto}
+.cs-open .answer-prompt{margin:44px 0 28px;line-height:2}
+.cs-open .answer-prompt span::after{content:" ↓"}

@@ -97,9 +97,14 @@ def live_phone(src):
 
 def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name, desc):
     split = ''
+    phone_open = ''
     if hero.startswith('phone:'):
-        split = live_phone(hero[6:])
-        hero_html = ''
+        src, himg, hcap = hero[6:].split('|')
+        hero_html = (f'<div class="wrap cs-hero"><figure><img src="images/{himg}.jpg" alt="{hero_alt}"><figcaption>{hcap}</figcaption></figure></div>'
+                     f'<div class="wrap cs-open"><p class="body-copy">{intro}</p>'
+                     '<p class="answer-prompt">How do we know? <span>Answer the call below to find out</span></p>'
+                     f'{live_phone(src)}</div>')
+        phone_open = 'yes'
     elif hero.startswith('video:'):
         src, poster = hero[6:].split('|')
         hero_html = f'<div class="wrap cs-hero"><div class="video-embed"><video controls playsinline preload="metadata" poster="images/{poster}.jpg" aria-label="{hero_alt}"><source src="{src}" type="video/mp4">Your browser does not support video.</video></div></div>'
@@ -109,8 +114,7 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
     head_text = f'''<a class="text-link back" href="index.html#work">← All work</a>
 <div class="cs-meta">{tag_html}</div>
 <h1 class="display">{name.upper()}</h1>
-<p class="lede">{lede}</p>
-<p class="body-copy">{intro}</p>'''
+<p class="lede">{lede}</p>''' + ('' if phone_open else f'<p class="body-copy">{intro}</p>')
     if split:
         head_text += '<p class="answer-prompt">Someone from 2187 is calling. <span>Answer it</span></p>'
         head_inner = f'<div class="cs-split"><div class="cs-split-text">{head_text}</div><div class="cs-split-phone">{split}</div></div>'
@@ -234,14 +238,14 @@ final_card = ('<div class="endcard"><p class="endcard-small">Synthetic diamonds.
 case('synth-city.html', 'Synth City', ['Premier Gem','In development · Soft launch 2026','Creative Direction · Concept · Art Direction'],
      'The future made everything available. Except one thing: rarity.',
      'Synth City is a dystopian brand world for Premier Gem, told across six films, a live broadcast network and working AI tools. Each touchpoint goes a layer deeper, built to feel like something you discover rather than an ad you&#39;re served. Soft-launched in 2026 to test the world and its tools; the full rollout is in development.',
-     'phone:https://synthcity.tv/', 'The live synthcity.tv call',
+     'phone:https://synthcity.tv/|synth-hero|The last natural diamond on display. The real thing draws a crowd.', 'A crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor',
      [section('01','The insight','', insight_card),
 
       section('02','The journey','Every piece hands off to the next. A viewer can enter anywhere, but the path always ends with something real.',
               '<ol class="journey"><li><span class="j-n">01</span><strong>The film</strong><span>Each episode plants a QR code inside the world.</span></li><li><span class="j-n">02</span><strong>synthcity.tv</strong><span>A call from 2187 patches you into the Bureau&#39;s broadcast, live.</span></li><li><span class="j-n">03</span><strong>Rarity Detector</strong><span>Scan any stone. The Bureau decides what&#39;s real.</span></li><li><span class="j-n">04</span><strong>Synth-Mate Lab</strong><span>Order a partner. Meet the system&#39;s endgame.</span></li><li><span class="j-n">05</span><strong>The transmission</strong><span>The last geologist breaks through.</span></li><li><span class="j-n">06</span><strong>Premier Gem</strong><span>Hold something the future can&#39;t make.</span></li></ol>'),
 
       section('03','The world','In 2187, synthetic won. Diamonds are infinite, identical and Bureau approved. Even a proposal is something you grab on the way to your gate.',
-              '<div class="stack">' + img('synth-hero','A crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor','The last natural diamond on display. The real thing draws a crowd.') + img('synth-aerial','Aerial view of Synth City at night: flying cars, neon towers and a Welcome to Synth City sign','Welcome to Synth City, Cycle 2187.') + img('synth-world','Bureau Approved billboards selling lab-grown happiness over a crowded plaza at night')
+              '<div class="stack">' + img('synth-aerial','Aerial view of Synth City at night: flying cars, neon towers and a Welcome to Synth City sign','Welcome to Synth City, Cycle 2187.') + img('synth-world','Bureau Approved billboards selling lab-grown happiness over a crowded plaza at night')
               + img('synth-factory','A vast night factory complex of glowing carbon pressure chambers growing diamonds','Carbon Pressure Chamber 07. Diamonds, grown by the ton.')
               + img('synth-vending','A proposal kit vending machine in a 2187 airport terminal','In 2187, a proposal ring comes out of a vending machine.')
               + '<div class="narrow">' + img('synth-protocol','Bureau poster of a smiling couple in gloves showing matching rings: Love is a protocol. Bureau approved compatibility.','Even marriage comes pre-approved.') + '</div></div>'),
