@@ -96,6 +96,21 @@
     figs.forEach(function (f, i) { makeOpenable(f, figs, i); });
   });
 
+  // social reels: autoplay muted; click opens the clip full screen with sound
+  document.querySelectorAll('.reel-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var v = btn.querySelector('video');
+      if (v.requestFullscreen) { v.muted = false; v.controls = true; v.currentTime = 0; v.play(); v.requestFullscreen(); }
+    });
+    document.addEventListener('fullscreenchange', function () {
+      var v = btn.querySelector('video');
+      if (!document.fullscreenElement) { v.muted = true; v.controls = false; v.play(); }
+    });
+  });
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.reel-btn video').forEach(function (v) { v.removeAttribute('autoplay'); v.pause(); });
+  }
+
   // case-study hero opens too
   var hero = document.querySelector('.cs-hero img');
   if (hero) {
