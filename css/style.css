@@ -278,3 +278,21 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 .live-phone.loaded .live-phone-start{display:none}
 .live-phone-note{margin-top:18px;font-size:14px;color:#6b6b6b;text-align:center}
 .live-phone-reload{border:0;background:none;color:inherit;text-decoration:underline;cursor:pointer;font:inherit;margin-left:6px}
+
+/* Case study opening with the live phone beside the title */
+.cs-head.has-phone{padding:64px 0 48px}
+.cs-split{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(32px,6vw,96px);align-items:center}
+.cs-split .lede{max-width:560px}
+.answer-prompt{margin-top:32px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#6b6b6b}
+.answer-prompt span{color:#111;border-bottom:1px solid currentColor;margin-left:6px}
+.answer-prompt span::after{content:" →"}
+.cs-split-phone .live-phone{width:min(320px,80vw)}
+@media (max-width:860px){
+  .cs-split{display:flex;flex-direction:column;align-items:flex-start;gap:0;text-align:left}
+  .cs-split-text{display:contents}
+  .cs-split .back{order:1}.cs-split .cs-meta{order:2}.cs-split h1{order:3}.cs-split .lede{order:4}
+  .cs-split .answer-prompt{order:5;margin-top:24px}
+  .cs-split-phone{order:6;align-self:center;margin-top:24px}
+  .cs-split .body-copy{order:7;margin-top:36px}
+  .answer-prompt span::after{content:" ↓"}
+}

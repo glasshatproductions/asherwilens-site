@@ -89,19 +89,35 @@ def insight_box(line, tagline):
     return (f'<div class="insight"><p class="eyebrow">The insight</p><p class="ins-line">{line}</p>'
             f'<p class="eyebrow">The idea</p><p class="ins-tag">{tagline}</p></div>')
 
+def live_phone(src):
+    return ('<div class="live-phone-wrap"><div class="live-phone" data-src="' + src + '">'
+            '<div class="live-phone-screen"><iframe title="synthcity.tv, live" allow="autoplay; fullscreen" loading="lazy"></iframe>'
+            '<button class="live-phone-start" type="button">Load the live call</button></div></div>'
+            '<p class="live-phone-note">Live, not a recording. Tap Accept, sound on. <button class="live-phone-reload" type="button">Restart ↻</button></p></div>')
+
 def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name, desc):
-    if hero.startswith('video:'):
+    split = ''
+    if hero.startswith('phone:'):
+        split = live_phone(hero[6:])
+        hero_html = ''
+    elif hero.startswith('video:'):
         src, poster = hero[6:].split('|')
         hero_html = f'<div class="wrap cs-hero"><div class="video-embed"><video controls playsinline preload="metadata" poster="images/{poster}.jpg" aria-label="{hero_alt}"><source src="{src}" type="video/mp4">Your browser does not support video.</video></div></div>'
     else:
         hero_html = f'<div class="wrap cs-hero"><img src="images/{hero}.jpg" alt="{hero_alt}"></div>'
     tag_html = ''.join(f'<span class="tag{" solid" if i==0 else ""}">{t}</span>' for i, t in enumerate(tags))
-    body = f'''<header class="cs-head"><div class="wrap">
-<a class="text-link back" href="index.html#work">← All work</a>
+    head_text = f'''<a class="text-link back" href="index.html#work">← All work</a>
 <div class="cs-meta">{tag_html}</div>
 <h1 class="display">{name.upper()}</h1>
 <p class="lede">{lede}</p>
-<p class="body-copy">{intro}</p>
+<p class="body-copy">{intro}</p>'''
+    if split:
+        head_text += '<p class="answer-prompt">Someone from 2187 is calling. <span>Answer it</span></p>'
+        head_inner = f'<div class="cs-split"><div class="cs-split-text">{head_text}</div><div class="cs-split-phone">{split}</div></div>'
+    else:
+        head_inner = head_text
+    body = f'''<header class="cs-head{' has-phone' if split else ''}"><div class="wrap">
+{head_inner}
 </div></header>
 {hero_html}
 {''.join(sections)}
@@ -218,27 +234,20 @@ final_card = ('<div class="endcard"><p class="endcard-small">Synthetic diamonds.
 case('synth-city.html', 'Synth City', ['Premier Gem','In development · Soft launch 2026','Creative Direction · Concept · Art Direction'],
      'The future made everything available. Except one thing: rarity.',
      'Synth City is a dystopian brand world for Premier Gem, told across six films, a live broadcast network and working AI tools. Each touchpoint goes a layer deeper, built to feel like something you discover rather than an ad you&#39;re served. Soft-launched in 2026 to test the world and its tools; the full rollout is in development.',
-     'synth-hero', 'A crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor',
+     'phone:https://synthcity.tv/', 'The live synthcity.tv call',
      [section('01','The insight','', insight_card),
 
       section('02','The journey','Every piece hands off to the next. A viewer can enter anywhere, but the path always ends with something real.',
               '<ol class="journey"><li><span class="j-n">01</span><strong>The film</strong><span>Each episode plants a QR code inside the world.</span></li><li><span class="j-n">02</span><strong>synthcity.tv</strong><span>A call from 2187 patches you into the Bureau&#39;s broadcast, live.</span></li><li><span class="j-n">03</span><strong>Rarity Detector</strong><span>Scan any stone. The Bureau decides what&#39;s real.</span></li><li><span class="j-n">04</span><strong>Synth-Mate Lab</strong><span>Order a partner. Meet the system&#39;s endgame.</span></li><li><span class="j-n">05</span><strong>The transmission</strong><span>The last geologist breaks through.</span></li><li><span class="j-n">06</span><strong>Premier Gem</strong><span>Hold something the future can&#39;t make.</span></li></ol>'),
 
       section('03','The world','In 2187, synthetic won. Diamonds are infinite, identical and Bureau approved. Even a proposal is something you grab on the way to your gate.',
-              '<div class="stack">' + img('synth-aerial','Aerial view of Synth City at night: flying cars, neon towers and a Welcome to Synth City sign','Welcome to Synth City, Cycle 2187.') + img('synth-world','Bureau Approved billboards selling lab-grown happiness over a crowded plaza at night')
+              '<div class="stack">' + img('synth-hero','A crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor','The last natural diamond on display. The real thing draws a crowd.') + img('synth-aerial','Aerial view of Synth City at night: flying cars, neon towers and a Welcome to Synth City sign','Welcome to Synth City, Cycle 2187.') + img('synth-world','Bureau Approved billboards selling lab-grown happiness over a crowded plaza at night')
               + img('synth-factory','A vast night factory complex of glowing carbon pressure chambers growing diamonds','Carbon Pressure Chamber 07. Diamonds, grown by the ton.')
               + img('synth-vending','A proposal kit vending machine in a 2187 airport terminal','In 2187, a proposal ring comes out of a vending machine.')
               + '<div class="narrow">' + img('synth-protocol','Bureau poster of a smiling couple in gloves showing matching rings: Love is a protocol. Bureau approved compatibility.','Even marriage comes pre-approved.') + '</div></div>'),
 
       section('04','The system','A world this perfect needs enforcing. The Synthetic Bureau controls what people see, what counts as real and, finally, who they love. Each of its tools is a live piece of the campaign.',
               img('synth-hq','The Synthetic Bureau headquarters, a brutalist monolith with a wireframe-head seal, citizens queuing beneath drones')
-              + beat('The call','The future calls collect.',
-                     'synthcity.tv opens on an incoming call. A reporter in 2187 is reaching back, and only earth-formed crystal can carry her signal. Her voice ripples through the receiver as she speaks, the year counts up from your own clock to 2187, and the call cuts straight into the Bureau&#39;s live broadcast.',
-                     '<div class="live-phone-wrap"><div class="live-phone" data-src="https://synthcity.tv/">'
-                     '<div class="live-phone-screen"><iframe title="synthcity.tv, live" allow="autoplay; fullscreen" loading="lazy"></iframe>'
-                     '<button class="live-phone-start" type="button">Load the live call</button></div><span class="live-phone-notch" aria-hidden="true"></span></div>'
-                     '<p class="live-phone-note">Live, not a recording. Tap Accept, sound on. <button class="live-phone-reload" type="button">Restart ↻</button></p></div>'
-                     + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv">Answer the call: synthcity.tv →</a></div>')
               + beat('The Broadcasts','It controls the story.',
                      'A Bureau news network and public announcements, one message repeated until it sticks: synthetic is better.',
                      '<div class="stack">' + img('synth-broadcast','The SCB7 news network site: Bureau classifies global synthetic diamond oversupply as economic success') + img('scfn-newsroom','A financial news anchor in front of a market wall: natural diamond values surpass Manhattan real estate per gram','SCFN: natural diamonds overtake Manhattan real estate, per gram.') + img('scfn-street','The same market update on a giant screen over a rainy Fifth Avenue in 2187','The story everyone stops for.') + '<div class="pair">' + img('synth-relay','The broadcast received on a relay station screen beside a battered deep-space probe','How it reaches us: a deep-space relay picks up the feed from 2187.') + img('synth-relay-live','The live synthcity.tv broadcast inside the relay station frame','The live site.') + '</div>' + '<div class="pair">' + img('sbcn-cubes','A reporter holds out a palm of raw cube-shaped diamonds','Tonight on SBCN: cubic diamonds, the Bureau&#39;s newest luxury standard.') + img('sbcn-rings','Cube-diamond rings held up to the camera','Unpolished. Unfiltered. The future is cubic.') + '</div>' + '<div class="pair">' + img('sbcn-socialite','A socialite in sunglasses shows off cube-diamond jewelry on camera','The red carpet goes cubic.') + img('scb-internal','Bureau internal surveillance still of cube-diamond rings on display','Bureau internal feed: the Cubic Diamond Index.') + '</div></div>' + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv">Watch the broadcasts: synthcity.tv →</a></div>')
