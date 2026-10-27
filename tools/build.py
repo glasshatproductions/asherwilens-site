@@ -325,11 +325,9 @@ case('fage.html', 'Fage', ['Spec','Integrated campaign','Concept · Creative Dir
               img('fage-lids','Three FAGE cups with lids reading Contains: eaten in bed, twice. Double-dipping, no regrets. Straight from the tub at 2am.','Lids: one more ingredient.')
               + img('fage-social','#NothingToHide on Instagram and Reels: eating it on the fire escape at 2am, not a diet, a lifestyle','#NothingToHide.')),
 
-      section('07','The neighbors','Everyone in the building has a yogurt secret. Building-side billboards out the habits of the people who live there, by apartment number.',
-              img('fage-buzzer','A hand holding a FAGE cup presses an apartment buzzer','Everyone in the building has a yogurt secret.')
-              + img('fage-ooh-1','Billboard: Jim in 5B eats yogurt with a fork, and he&#39;s proud of it.','Jim in 5B.')
-              + img('fage-ooh-2','Billboard: Lisa in 2A steals her roommate&#39;s yogurt. We see you, Lisa.','Lisa in 2A.')
-              + img('fage-ooh-3','Billboard: Matt in 6F whispers I love you to his yogurt before taking a bite.','Matt in 6F.'))],
+      section('07','Experiential: buzz for the truth','A FAGE-branded intercom on a New York brownstone invites passersby to buzz a neighbor and hear their yogurt confession, live. Every conversation ends the same way: &quot;I&#39;ll send some down.&quot;',
+              img('fage-buzz','A woman presses a buzzer on a brass intercom under a sign reading Buzz for the truth. Everyone here has a yogurt secret. Go on. Buzz someone.','Buzz for the truth.')
+              + img('fage-basket','A neighbor smiles from a brownstone window, lowering a basket of FAGE Total yogurt on a rope to the woman below','A little something from upstairs.'))],
      'uber.html', 'Uber', 'Fage: Honestly crafted. Nothing to hide. A spec campaign that makes the ingredient list the ad.')
 
 
