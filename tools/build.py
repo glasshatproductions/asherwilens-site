@@ -228,11 +228,11 @@ def beat(title, line, text, content):
     return (f'<div class="beat"><div class="beat-head"><h3>{title}</h3><p class="beat-line">{line}</p></div>'
             f'<p class="body-copy">{text}</p>{content}</div>')
 
-insight_card = insight_box('Lab-grown made diamonds abundant. Rarity only matters when you imagine losing it.', 'Natural diamonds. Beyond fiction.')
+insight_card = insight_box('Lab-grown made diamonds abundant. Rarity only matters when you imagine losing it.', 'Natural diamonds are beyond fiction.')
 
 final_card = ('<div class="endcard"><p class="endcard-small">Synthetic diamonds. Synthetic love. Synthetic everything.</p>'
               '<p class="endcard-mid">Hold something the future can&#39;t make.</p>'
-              '<p class="endcard-big">Natural diamonds. Beyond fiction.</p>'
+              '<p class="endcard-big">Natural diamonds are beyond fiction.</p>'
               '<p class="endcard-small brand">Premier Gem</p></div>')
 
 case('synth-city.html', 'Synth City', ['Premier Gem','In development · Soft launch 2026','Creative Direction · Concept · Art Direction'],
@@ -369,19 +369,20 @@ case('desert-diamonds.html', 'Desert Diamonds', ['Premier Gem','Campaign · Film
      'A natural diamond is a rare sighting.',
      'Treat a natural diamond like the rarest creature in the desert. The campaign starts with paparazzi going to absurd lengths, hiding in cacti, shrubs and pool floats, for a single glimpse of the real thing. Then it hands the binoculars to everyone else: a microsite and social program where real people document their own rare sightings.',
      'dd-hero', 'A photographer disguised as a lizard watches a woman wearing a diamond ring',
-     [section('01','The campaign','Print and social executions that cast natural diamonds as a rare species and the people hunting them as obsessive field photographers.',
+     [section('01','The insight','', insight_box('People will go to absurd lengths to glimpse something truly rare. A natural diamond deserves that kind of attention.', 'A natural diamond is a rare sighting.')),
+      section('02','The campaign','Print and social executions that cast natural diamonds as a rare species and the people hunting them as obsessive field photographers.',
               '<div class="stack">' + img('dd-1','A photographer hides in a hedge while a woman with a diamond bracelet sits on a desert terrace') + '<div class="pair">' + img('dd-3-photo','A photographer hides inside a saguaro cactus as a woman adjusts her sunglasses, showing a yellow diamond ring','The cactus.') + img('dd-4-photo','A photographer floats in a flamingo pool float, lens aimed at a yellow diamond ring','The pool float.') + '</div>' + '<div class="pair">' + img('dd-5-photo','A man at breakfast watches through binoculars beside a woman wearing a diamond pendant','The binoculars.') + img('dd-2-photo','Grainy night-vision shot of a woman in a gown, her diamond flaring in a hotel corridor','Night vision.') + '</div></div>'),
-      section('02','Social: built for the feed','The same series recut for Instagram and mobile: 4:5 frames, the line set large enough to read in a scroll, and the photographer right in the middle of the shot.',
+      section('03','Social: built for the feed','The same series recut for Instagram and mobile: 4:5 frames, the line set large enough to read in a scroll, and the photographer right in the middle of the shot.',
               '<div class="feed">' + img('dd-social-lizard','4:5 social ad: A natural diamond is a rare sighting, the lizard','The lizard.') + img('dd-social-hedge','4:5 social ad: A natural diamond is a rare sighting, the hedge','The hedge.') + img('dd-social-cactus','4:5 social ad: A natural diamond is a rare sighting, the cactus','The cactus.') + img('dd-social-pool','4:5 social ad: A natural diamond is a rare sighting, the pool float','The pool float.') + img('dd-social-binoculars','4:5 social ad: A natural diamond is a rare sighting, the binoculars','The binoculars.') + img('dd-social-nightvision','4:5 social ad: A natural diamond is a rare sighting, night vision','Night vision.') + '</div>'),
-      section('03','The films','Short films that play the stakeout for laughs: the long lens, the binoculars, the paparazzo who will go anywhere, even underwater, for one glimpse of the real thing.',
+      section('04','The films','Short films that play the stakeout for laughs: the long lens, the binoculars, the paparazzo who will go anywhere, even underwater, for one glimpse of the real thing.',
               '<div class="films">' + film('TheBinoculars.mp4','The Binoculars','dd-film-binoculars') + film('ThePool_DesertRing.mp4','The Pool','dd-film-pool') + film('TheSubmarine_DesertPendant.mp4','The Submarine','') + '</div>'),
-      section('04','The microsite: Rare Sightings','The campaign lands on a field expedition. The researcher has left; the notes, maps and binoculars are waiting for you.',
+      section('05','The microsite: Rare Sightings','The campaign lands on a field expedition. The researcher has left; the notes, maps and binoculars are waiting for you.',
               img('dd-site-hero','Rare Sightings homepage: a field desk with binoculars and a note reading Departed on a field expedition to document rare sightings')),
-      section('05','The archive','Every ring becomes a numbered field entry, logged by location and date and classified by species: the round, the pear, the oval, the halo. Each one confirmed.',
+      section('06','The archive','Every ring becomes a numbered field entry, logged by location and date and classified by species: the round, the pear, the oval, the halo. Each one confirmed.',
               img('dd-site-sightings','Recent Sightings archive cards')),
-      section('06','The field reporter program','Owners upload a photo or video of their own ring, name it and say where it was spotted. They get an official field report back, and the best sightings are featured in the archive and on Instagram. The audience becomes the content engine.',
+      section('07','The field reporter program','Owners upload a photo or video of their own ring, name it and say where it was spotted. They get an official field report back, and the best sightings are featured in the archive and on Instagram. The audience becomes the content engine.',
               img('dd-site-reporter','Become a Field Reporter upload section')),
-      section('07','The full experience','From expedition to field guide to available stones: one page that moves from story to shopping without breaking character.',
+      section('08','The full experience','From expedition to field guide to available stones: one page that moves from story to shopping without breaking character.',
               '<div style="max-width:620px;margin:0 auto">' + img('dd-site-full','Full Rare Sightings microsite design') + '</div>' + '<div class="outlinks"><a class="text-link" href="https://premiergem.com/rare-sightings" target="_blank" rel="noopener">Visit Rare Sightings: premiergem.com/rare-sightings →</a></div>')],
      'brown-co.html', 'Brown &amp; Co', 'Desert Diamonds: A natural diamond is a rare sighting. Campaign, films and UGC microsite.')
 
