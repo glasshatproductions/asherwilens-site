@@ -101,7 +101,7 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
     if hero.startswith('phone:'):
         src, himg, hcap = hero[6:].split('|')
         hero_html = (f'<div class="wrap cs-hero"><figure><img src="images/{himg}.jpg" alt="{hero_alt}"><figcaption>{hcap}</figcaption></figure></div>'
-                     f'<div class="wrap cs-open"><p class="body-copy">{intro}</p>'
+                     '<div class="wrap cs-open">'
                      '<p class="answer-prompt">How do we know? <span>Answer the call below to find out</span></p>'
                      f'{live_phone(src)}</div>')
         phone_open = 'yes'
@@ -114,7 +114,7 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
     head_text = f'''<a class="text-link back" href="index.html#work">← All work</a>
 <div class="cs-meta">{tag_html}</div>
 <h1 class="display">{name.upper()}</h1>
-<p class="lede">{lede}</p>''' + ('' if phone_open else f'<p class="body-copy">{intro}</p>')
+<p class="lede">{lede}</p>''' + f'<p class="body-copy">{intro}</p>'
     if split:
         head_text += '<p class="answer-prompt">Someone from 2187 is calling. <span>Answer it</span></p>'
         head_inner = f'<div class="cs-split"><div class="cs-split-text">{head_text}</div><div class="cs-split-phone">{split}</div></div>'
@@ -237,8 +237,8 @@ final_card = ('<div class="endcard"><p class="endcard-small">Synthetic diamonds.
 
 case('synth-city.html', 'Synth City', ['Premier Gem','In development · Soft launch 2026','Creative Direction · Concept · Art Direction'],
      'The future made everything available. Except one thing: rarity.',
-     'Synth City is a dystopian brand world for Premier Gem, told across six films, a live broadcast network and working AI tools. Each touchpoint goes a layer deeper, built to feel like something you discover rather than an ad you&#39;re served. Soft-launched in 2026 to test the world and its tools; the full rollout is in development.',
-     'phone:https://synthcity.tv/|synth-hero|The last natural diamond on display. The real thing draws a crowd.', 'A crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor',
+     'A brand world for Premier Gem: six films, a live broadcast network and working AI tools.',
+     'phone:https://synthcity.tv/|synth-hero|The last natural diamond on display, before the Bureau shut it down for good.', 'A crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor',
      [section('01','The insight','', insight_card),
 
       section('02','The journey','Every piece hands off to the next. A viewer can enter anywhere, but the path always ends with something real.',
