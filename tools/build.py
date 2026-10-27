@@ -2,6 +2,12 @@ import pathlib
 OUT = pathlib.Path(__file__).resolve().parent.parent
 EMAIL = 'ashwilens@gmail.com'
 
+import hashlib as _h, os as _o
+def _v(path):
+    try: return _h.md5(open(_o.path.join(_o.path.dirname(__file__),'..',path),'rb').read()).hexdigest()[:8]
+    except Exception: return '1'
+ASSET_V=True
+
 def page(fname, title, desc, body, current=''):
     def nav(href, label, key):
         cur = ' aria-current="page"' if key == current else ''
@@ -19,7 +25,7 @@ def page(fname, title, desc, body, current=''):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v={_v('css/style.css')}">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -49,8 +55,8 @@ def page(fname, title, desc, body, current=''):
 <span><a href="index.html#work">Work</a> · <a href="lab.html">Lab</a> · <a href="resume.pdf">Résumé</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span>
 </div>
 </footer>
-<script src="js/gallery.js"></script>
-<script src="js/livephone.js" defer></script>
+<script src="js/gallery.js?v={_v('js/gallery.js')}"></script>
+<script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>
 </body>
 </html>
 '''
