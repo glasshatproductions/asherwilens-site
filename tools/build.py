@@ -50,6 +50,7 @@ def page(fname, title, desc, body, current=''):
 </div>
 </footer>
 <script src="js/gallery.js"></script>
+<script src="js/livephone.js" defer></script>
 </body>
 </html>
 '''
@@ -227,7 +228,10 @@ case('synth-city.html', 'Synth City', ['Premier Gem','In development · Soft lau
               img('synth-hq','The Synthetic Bureau headquarters, a brutalist monolith with a wireframe-head seal, citizens queuing beneath drones')
               + beat('The call','The future calls collect.',
                      'synthcity.tv opens on an incoming call. A reporter in 2187 is reaching back, and only earth-formed crystal can carry her signal. Her voice ripples through the receiver as she speaks, the year counts up from your own clock to 2187, and the call cuts straight into the Bureau&#39;s live broadcast.',
-                     img('synth-call','Four phone screens of the synthcity.tv call: an incoming call from an unknown caller, a sound-wave receiver reacting to her voice, the year counting up past 2066, and a flare into the live broadcast')
+                     '<div class="live-phone-wrap"><div class="live-phone" data-src="https://synthcity.tv/">'
+                     '<div class="live-phone-screen"><iframe title="synthcity.tv, live" allow="autoplay; fullscreen" loading="lazy"></iframe>'
+                     '<button class="live-phone-start" type="button">Load the live call</button></div><span class="live-phone-notch" aria-hidden="true"></span></div>'
+                     '<p class="live-phone-note">Live, not a recording. Tap Accept, sound on. <button class="live-phone-reload" type="button">Restart ↻</button></p></div>'
                      + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv">Answer the call: synthcity.tv →</a></div>')
               + beat('The Broadcasts','It controls the story.',
                      'A Bureau news network and public announcements, one message repeated until it sticks: synthetic is better.',
