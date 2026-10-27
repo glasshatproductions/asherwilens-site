@@ -5,7 +5,7 @@
 
   function figuresIn(container, excludeBeats) {
     return Array.prototype.filter.call(container.querySelectorAll('figure'), function (f) {
-      if (!f.querySelector('img') || f.classList.contains('film')) return false;
+      if (!f.querySelector('img') || f.classList.contains('film') || f.closest('.feed')) return false;
       if (excludeBeats && f.closest('.beat')) return false;
       return true;
     });
@@ -114,6 +114,11 @@
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll('.reel-btn video').forEach(function (v) { v.removeAttribute('autoplay'); v.pause(); });
   }
+
+  document.querySelectorAll('.feed').forEach(function (fd) {
+    var fs = Array.prototype.slice.call(fd.querySelectorAll('figure'));
+    fs.forEach(function (f, i) { makeOpenable(f, fs, i); });
+  });
 
   // case-study hero opens too
   var hero = document.querySelector('.cs-hero img');
