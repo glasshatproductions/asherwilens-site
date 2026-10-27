@@ -103,9 +103,9 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
 # ---------- HOME ----------
 work = [
     ('synth-city.html','thumb-synth-city','Synth City','Premier Gem','Transmedia brand series: six films, a live site and a working AI tool.'),
+    ('desert-diamonds.html','thumb-desert-diamonds','Desert Diamonds','Premier Gem','A natural diamond is a rare sighting. A campaign that grew into a UGC microsite.'),
     ('brown-co.html','thumb-brown-co','Brown &amp; Co','Pitch','Every light of the season, ending with her name in lights.'),
     ('fage.html','thumb-fage','Fage','Spec','Nothing to hide: the ingredient list becomes the ad.'),
-    ('desert-diamonds.html','thumb-desert-diamonds','Desert Diamonds','Premier Gem','A natural diamond is a rare sighting. A campaign that grew into a UGC microsite.'),
     ('uber.html','thumb-uber','Uber','Spec','When it\'s time to go.'),
     ('turbochef.html','thumb-turbochef','Turbochef','Spec','Compliments to the chef: the house becomes the restaurant.'),
 ]
@@ -258,7 +258,7 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Brand world','Creative Dir
               + img('synth-now','Present day: a woman&#39;s hand with a natural diamond engagement ring resting on a sunlit kitchen table beside a coffee cup','Back to now.')
               + final_card
               + img('synth-site','The campaign landing page where every film, broadcast and transmission leads','Where every touchpoint leads.') + '</div>')],
-     'brown-co.html', 'Brown &amp; Co', 'Synth City, a dystopian brand world for Premier Gem: six films, a live broadcast network and working AI tools.')
+     'desert-diamonds.html', 'Desert Diamonds', 'Synth City, a dystopian brand world for Premier Gem: six films, a live broadcast network and working AI tools.')
 
 
 bc_insight = insight_box('Jewelry is chosen under showroom lights. It&#39;s worn under every other kind.', 'Every light of the season.')
@@ -330,7 +330,7 @@ case('fage.html', 'Fage', ['Spec','Integrated campaign','Concept · Creative Dir
               + img('fage-ooh-1','Billboard: Jim in 5B eats yogurt with a fork, and he&#39;s proud of it.','Jim in 5B.')
               + img('fage-ooh-2','Billboard: Lisa in 2A steals her roommate&#39;s yogurt. We see you, Lisa.','Lisa in 2A.')
               + img('fage-ooh-3','Billboard: Matt in 6F whispers I love you to his yogurt before taking a bite.','Matt in 6F.'))],
-     'desert-diamonds.html', 'Desert Diamonds', 'Fage: Honestly crafted. Nothing to hide. A spec campaign that makes the ingredient list the ad.')
+     'uber.html', 'Uber', 'Fage: Honestly crafted. Nothing to hide. A spec campaign that makes the ingredient list the ad.')
 
 
 case('desert-diamonds.html', 'Desert Diamonds', ['Premier Gem','Campaign · Films · Microsite','Concept · Art Direction · Design'],
@@ -349,7 +349,7 @@ case('desert-diamonds.html', 'Desert Diamonds', ['Premier Gem','Campaign · Film
               img('dd-site-reporter','Become a Field Reporter upload section')),
       section('06','The full experience','From expedition to field guide to available stones: one page that moves from story to shopping without breaking character.',
               '<div style="max-width:620px;margin:0 auto">' + img('dd-site-full','Full Rare Sightings microsite design') + '</div>' + '<div class="outlinks"><a class="text-link" href="https://premiergem.com/rare-sightings" target="_blank" rel="noopener">Visit Rare Sightings: premiergem.com/rare-sightings →</a></div>')],
-     'uber.html', 'Uber', 'Desert Diamonds: A natural diamond is a rare sighting. Campaign, films and UGC microsite.')
+     'brown-co.html', 'Brown &amp; Co', 'Desert Diamonds: A natural diamond is a rare sighting. Campaign, films and UGC microsite.')
 
 case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Art Direction · Design'],
      'When it\'s time to go.',
