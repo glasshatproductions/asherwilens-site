@@ -307,3 +307,10 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 .cs-open .body-copy{max-width:680px;margin:0 auto}
 .cs-open .answer-prompt{margin:20px 0 28px;line-height:2}
 .cs-open .answer-prompt span::after{content:" ↓"}
+
+/* Category line: one line of small caps with bullets, no boxes */
+.cs-meta.byline{display:block;margin:0 0 20px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#6b6b6b;white-space:nowrap;overflow:hidden;line-height:1.6}
+.byline b{font-weight:600;color:var(--ink)}
+.byline .dot{margin:0 .7em;color:#aaa}
+.byline .short{display:none}
+@media (max-width:760px){.byline .full{display:none}.byline .short{display:inline}.cs-meta.byline{letter-spacing:.08em;font-size:11px}.byline .dot{margin:0 .45em}}

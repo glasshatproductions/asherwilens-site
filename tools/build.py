@@ -95,6 +95,16 @@ def live_phone(src):
             '<button class="live-phone-start" type="button">Load the live call</button></div></div>'
             '<p class="live-phone-note">Live, not a recording. Tap Accept, sound on. <button class="live-phone-reload" type="button">Restart ↻</button></p></div>')
 
+# Phone-width versions of the category line, short enough to stay on one line.
+SHORT_TAGS = {
+    'synth-city.html': ['Premier Gem', 'Soft launch 2026', 'Concept, CD, AD'],
+    'desert-diamonds.html': ['Premier Gem', 'Films + microsite', 'Concept, AD, Design'],
+    'brown-co.html': ['Pitch', 'Integrated', 'Concept, CD, AD'],
+    'fage.html': ['Spec', 'Integrated', 'Concept, CD, AD'],
+    'uber.html': ['Spec', 'Integrated', 'Concept, CD, AD'],
+    'turbochef.html': ['Spec', 'Integrated', 'Concept, CD, AD'],
+}
+
 def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name, desc):
     split = ''
     phone_open = ''
@@ -110,9 +120,13 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
         hero_html = f'<div class="wrap cs-hero"><div class="video-embed"><video controls playsinline preload="metadata" poster="images/{poster}.jpg" aria-label="{hero_alt}"><source src="{src}" type="video/mp4">Your browser does not support video.</video></div></div>'
     else:
         hero_html = f'<div class="wrap cs-hero"><img src="images/{hero}.jpg" alt="{hero_alt}"></div>'
-    tag_html = ''.join(f'<span class="tag{" solid" if i==0 else ""}">{t}</span>' for i, t in enumerate(tags))
+    sep = '<span class="dot">•</span>'
+    full = sep.join((f'<b>{t}</b>' if i == 0 else t) for i, t in enumerate(tags))
+    short_tags = SHORT_TAGS.get(fname, tags)
+    short = sep.join((f'<b>{t}</b>' if i == 0 else t) for i, t in enumerate(short_tags))
+    tag_html = f'<span class="full">{full}</span><span class="short">{short}</span>'
     head_text = f'''<a class="text-link back" href="index.html#work">← All work</a>
-<div class="cs-meta">{tag_html}</div>
+<p class="cs-meta byline">{tag_html}</p>
 <h1 class="display">{name.upper()}</h1>
 <p class="lede">{lede}</p>''' + f'<p class="body-copy">{intro}</p>'
     if split:

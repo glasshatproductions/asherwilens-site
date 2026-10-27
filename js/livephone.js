@@ -29,3 +29,16 @@
     }
   });
 })();
+
+/* Keep the category line on one line: shrink a touch if it would wrap. */
+(function () {
+  function fit() {
+    document.querySelectorAll('.cs-meta.byline').forEach(function (e) {
+      e.style.fontSize = '';
+      var f = parseFloat(getComputedStyle(e).fontSize);
+      while (e.scrollWidth > e.clientWidth + 1 && f > 8.5) { f -= 0.25; e.style.fontSize = f + 'px'; }
+    });
+  }
+  fit(); window.addEventListener('resize', fit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+})();
