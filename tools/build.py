@@ -121,12 +121,31 @@ UB_COASTERS = [
     ('ub-coaster-sommelier', 'Coaster: I&#39;m basically a sommelier. Time to go. Uber.', 'The sommelier.') if has_img('ub-coaster-sommelier') else ('ub-coaster-food', 'Coaster: Let&#39;s order bar to the food. Time to go. Uber.', 'The order.'),
 ]
 
-# Billboard creative: add variants (ub-billboard-2.jpg, ub-billboard-3.jpg) to show more than one.
-UB_BILLBOARDS = [
-    ('ub-billboard', 'Digital billboard over a nightlife street: Close your tab. Open your app.', 'Digital billboard.'),
-    ('ub-billboard-2', 'Digital billboard, alternate late-night creative', 'Digital billboard, later that night.'),
-    ('ub-billboard-3', 'Digital billboard, alternate late-night creative', 'Digital billboard, closing time.'),
+# Digital billboard with time-based headlines.
+# Turns on when images/ub-billboard-clean.jpg (the billboard with an empty screen) is added.
+# Until then the finished ub-billboard.jpg shows. Headlines are drafts: edit freely.
+# UB_BB_SCREEN is the empty screen's box inside the clean image, in percent
+# (left, top, width, height); re-measure it once the clean image arrives.
+UB_BB_HEADLINES = [
+    ('11:45 PM', 'It&#39;s not one more. It&#39;s four.'),
+    ('12:30 AM', 'Nobody asked for your DJ set.'),
+    ('1:15 AM', 'Your big idea will still be big tomorrow.'),
+    ('1:55 AM', 'Close your tab. Open your app.'),
 ]
+UB_BB_SCREEN = (20.0, 20.0, 60.0, 45.0)
+
+def billboard_html():
+    if not has_img('ub-billboard-clean'):
+        return img('ub-billboard', 'Digital billboard over a nightlife street: Close your tab. Open your app.', 'Digital billboard.')
+    l, t, w, h = UB_BB_SCREEN
+    tabs = ''.join(f'<button type="button" class="bb-time" role="tab" aria-selected="false" data-i="{i}">{tm}</button>' for i, (tm, _) in enumerate(UB_BB_HEADLINES))
+    heads = ''.join(f'<p class="bb-head" data-i="{i}" hidden>{hl}</p>' for i, (_, hl) in enumerate(UB_BB_HEADLINES))
+    return ('<div class="billboard"><div class="bb-art">'
+            '<img src="images/ub-billboard-clean.jpg" alt="A digital billboard over a nightlife street" loading="lazy">'
+            f'<div class="bb-screen" style="left:{l}%;top:{t}%;width:{w}%;height:{h}%" aria-live="polite">{heads}'
+            '<p class="bb-tag">When it&#39;s time to go.</p></div></div>'
+            f'<div class="bb-times" role="tablist" aria-label="Billboard headline by time of night">{tabs}</div>'
+            '<p class="bb-note">One digital board, four headlines that change as the night goes on. Pick a time.</p></div>')
 
 UB_SAMPLES = [
     ('audio/ub-lastcall-business-partners.mp3', 'The Business Partners'),
@@ -473,20 +492,18 @@ case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Dir
               ''.join(img(f, alt, cap) for f, alt, cap in UB_COASTERS)),
 
       (section('03','Experiential: The Last Call Department','An old payphone appears in neighborhood bars, offering a second opinion on those brilliant ideas that only seem brilliant after midnight. Pick up the receiver and a deadpan AI operator answers. Every conversation is different. Every case has one thing in common: knowing when it&#39;s time to go.',
-              (img('ub-payphone','A vintage payphone mounted in a neighborhood bar, signed The Last Call Department') if has_img('ub-payphone') else '')
+              (img('ub-payphone','A vintage payphone on a dark wood bar wall under a brass plaque: The Last Call Department. For great ideas after midnight. Pick up. Share your brilliant idea. We&#39;ll decide if it&#39;s time to go. Uber.','The installation.') if has_img('ub-payphone') else '')
               + lastcall_panel()) if UB_LASTCALL else ''),
 
-      section('04' if UB_LASTCALL else '03','The tab','The bill is the natural cue to leave: the check presenter, and the ride already on its way.',
-              '<div class="pair secondary">' + img('ub-hero','End of the night at a bar: a check presenter and a phone showing a ride on its way, as the bartender wipes down and two friends put on their coats','Close your tab. Open your app.')
-              + img('ub-presenter','A check presenter with a card reading Tip your bartender. Then tap your app.','Tip your bartender. Then tap your app.') + '</div>'),
+      section('04' if UB_LASTCALL else '03','Out-of-home: on the way out','The last word, placed between the bar door and the curb.',
+              ('<div class="feed tall9">' if not has_img('ub-billboard-clean') else '<div class="feed tall9 two">')
+              + img('ub-sign','Sidewalk sign: Last call is a suggestion. Closing time isn&#39;t.','Sidewalk sign.')
+              + (img('ub-shelter-goodbye','Bus shelter at night on a wet city street. The poster reads: You&#39;ve been saying goodbye for 45 minutes. When it&#39;s time to go. Uber.','Bus shelter.') if has_img('ub-shelter-goodbye') else img('ub-shelter','Bus shelter: Your tab closed at 1:52. Your ride&#39;s here at 1:55.','Bus shelter.'))
+              + (billboard_html() if not has_img('ub-billboard-clean') else '') + '</div>'
+              + (billboard_html() if has_img('ub-billboard-clean') else '')),
 
-      section('05' if UB_LASTCALL else '04','Out-of-home: on the way out','The last word, placed between the bar door and the curb.',
-              '<div class="feed tall9">' + img('ub-sign','Sidewalk sign: Last call is a suggestion. Closing time isn&#39;t.','Sidewalk sign.')
-              + (img('ub-shelter-goodbye','Bus shelter ad: You&#39;ve been saying goodbye for 45 minutes.','Bus shelter.') if has_img('ub-shelter-goodbye') else img('ub-shelter','Bus shelter: Your tab closed at 1:52. Your ride&#39;s here at 1:55.','Bus shelter.'))
-              + ''.join(img(f, alt, cap) for f, alt, cap in UB_BILLBOARDS if has_img(f)) + '</div>'),
-
-      (section('06','The morning after','<span class="proposed">Proposed extension</span> Some brilliant ideas sound different in daylight. Callers who opt in could hear their late-night pitch again the next morning. The Last Call Department keeps the receipts.',
-              (img('ub-morning','The Last Call Department morning-after follow-up') if has_img('ub-morning') else '')
+      (section('05','The morning after','<span class="proposed">Proposed extension</span> Some brilliant ideas sound different in daylight. Callers who opt in could hear their late-night pitch again the next morning. The Last Call Department keeps the receipts.',
+              (img('ub-morning','Morning light on a nightstand: a glass of water, keys and a phone on the lock screen showing an Uber notification: Your brilliant idea from last night is ready for review.','The next morning.') if has_img('ub-morning') else '')
               + (sample_audio('audio/ub-morning-after.mp3','Sample: a morning-after follow-up') if has_file('audio/ub-morning-after.mp3') else '')) if UB_LASTCALL else ''),
       ] if s_],
      'turbochef.html', 'Turbochef', 'Uber: When it&#39;s time to go. A spec campaign built on the things you say before it&#39;s time to go.')
