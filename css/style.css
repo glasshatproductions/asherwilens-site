@@ -359,3 +359,4 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 @media (max-width:760px){.lastcall-art{max-width:none}.lc-overlay{padding:22px 18px}}
 .lc-hot:hover{box-shadow:0 0 0 1px rgba(255,214,160,.55),0 0 28px 4px rgba(255,190,110,.45);background:rgba(255,214,160,.08)}
 .lc-overlay .lc-sample:focus-visible,.lc-overlay .lc-hangup:focus-visible{outline:2px solid #ffd7a0;outline-offset:2px}
+.lc-overlay .lc-sample:hover{outline:1px solid #ffd7a0;outline-offset:2px}
