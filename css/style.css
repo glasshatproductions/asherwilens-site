@@ -361,19 +361,26 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 .lc-overlay .lc-sample:focus-visible,.lc-overlay .lc-hangup:focus-visible{outline:2px solid #ffd7a0;outline-offset:2px}
 .lc-overlay .lc-sample:hover{outline:1px solid #ffd7a0;outline-offset:2px}
 
-/* Uber digital billboard: clean board + live headline */
+/* Uber digital billboard: headlines warped onto the board's face */
+@font-face{font-family:"Bebas Neue";src:url(../fonts/bebas-neue-latin-400-normal.woff2) format("woff2");font-display:swap}
 .feed.two{grid-template-columns:repeat(2,minmax(0,1fr));max-width:min(var(--media-w),640px)}
-.billboard{max-width:min(var(--media-w),720px);margin:40px auto 0}
-.bb-art{position:relative;line-height:0}
+.billboard{max-width:var(--media-w);margin:40px auto 0}
+.bb-art{position:relative;line-height:0;overflow:hidden;aspect-ratio:1672/941}
 .bb-art>img{display:block;width:100%;height:auto}
-.bb-screen{position:absolute;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:4%;box-sizing:border-box;line-height:1;color:#fff;overflow:hidden}
-.bb-head{margin:0;font-family:"Bebas Neue",Impact,"Arial Narrow",sans-serif;font-weight:700;text-transform:uppercase;font-size:clamp(22px,5.4vw,52px);line-height:.95;letter-spacing:.01em;text-shadow:0 0 18px rgba(255,255,255,.35);animation:bbIn .4s ease both}
-@keyframes bbIn{from{opacity:0}to{opacity:1}}
-.bb-tag{margin:.9em 0 0;font-size:clamp(8px,1.4vw,12px);letter-spacing:.16em;text-transform:uppercase;line-height:1.2;opacity:.85}
+.bb-stage{position:absolute;left:0;top:0;width:1672px;height:941px;transform-origin:0 0;pointer-events:none}
+.bb-face{position:absolute;left:0;top:0;width:1000px;height:380px;transform-origin:0 0;padding:44px 56px 34px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;color:#f3efe6;
+  -webkit-mask-image:linear-gradient(#000,#000);}
+.bb-heads{position:relative;flex:1}
+.bb-head{position:absolute;left:0;right:0;top:0;margin:0;font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;text-transform:uppercase;font-size:120px;line-height:.9;letter-spacing:.01em;
+  text-shadow:0 0 14px rgba(255,250,235,.28);opacity:0;transition:opacity .7s ease}
+.bb-head.on{opacity:1}
+.bb-foot{display:flex;justify-content:space-between;align-items:flex-end}
+.bb-tag{font:600 22px/1 "Hanken Grotesk",Helvetica,Arial,sans-serif;letter-spacing:.22em;text-transform:uppercase;opacity:.92}
+.bb-logo{height:44px;width:auto;opacity:.95}
 .bb-times{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px}
 .bb-time{min-width:84px;padding:10px 14px;border:1px solid #cfcac1;background:transparent;color:#555;font:600 12px/1 inherit;letter-spacing:.12em;cursor:pointer}
 .bb-time[aria-selected="true"]{background:#111;border-color:#111;color:#fff}
 .bb-time:focus-visible{outline:2px solid #111;outline-offset:2px}
 .bb-note{margin-top:10px;font-size:13px;color:#6b6b6b;text-align:center}
-@media (prefers-reduced-motion:reduce){.bb-head{animation:none}}
 @media (max-width:760px){.bb-times{flex-wrap:nowrap;gap:6px}.bb-time{min-width:0;flex:1;padding:10px 4px;font-size:11px;letter-spacing:.06em}}
+@media (prefers-reduced-motion:reduce){.bb-head{transition:none}}

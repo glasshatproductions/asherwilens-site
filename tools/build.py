@@ -121,31 +121,33 @@ UB_COASTERS = [
     ('ub-coaster-sommelier', 'Coaster: I&#39;m basically a sommelier. Time to go. Uber.', 'The sommelier.') if has_img('ub-coaster-sommelier') else ('ub-coaster-food', 'Coaster: Let&#39;s order bar to the food. Time to go. Uber.', 'The order.'),
 ]
 
-# Digital billboard with time-based headlines.
-# Turns on when images/ub-billboard-clean.jpg (the billboard with an empty screen) is added.
-# Until then the finished ub-billboard.jpg shows. Headlines are drafts: edit freely.
-# UB_BB_SCREEN is the empty screen's box inside the clean image, in percent
-# (left, top, width, height); re-measure it once the clean image arrives.
+# Digital billboard with time-based headlines (a proposed schedule, shown as examples).
+# Turns on when images/ub-billboard-clean.jpg exists. The headline layer is a
+# 1000x380 design surface warped onto the board's blank face with a perspective
+# matrix measured from that photo (corners 412,330 / 1450,58 / 1468,535 / 395,672
+# in its 1672x941 pixels). Re-measure if the image is ever replaced.
 UB_BB_HEADLINES = [
-    ('11:45 PM', 'It&#39;s not one more. It&#39;s four.'),
-    ('12:30 AM', 'Nobody asked for your DJ set.'),
-    ('1:15 AM', 'Your big idea will still be big tomorrow.'),
-    ('1:55 AM', 'Close your tab. Open your app.'),
+    ('10:00 PM', 'Just one more.'),
+    ('12:30 AM', 'We should<br>start a band.'),
+    ('1:45 AM', 'You&#39;re giving the bartender<br>career advice.'),
+    ('2:00 AM', 'Close your tab.<br>Open your app.'),
 ]
-UB_BB_SCREEN = (20.0, 20.0, 60.0, 45.0)
+UB_BB_MATRIX = 'matrix3d(0.616071194,-0.288877152,0,-0.000290985384,-0.0735691713,0.850948544,0,-7.29932386e-05,0,0,1,0,412,330,0,1)'
 
 def billboard_html():
     if not has_img('ub-billboard-clean'):
         return img('ub-billboard', 'Digital billboard over a nightlife street: Close your tab. Open your app.', 'Digital billboard.')
-    l, t, w, h = UB_BB_SCREEN
     tabs = ''.join(f'<button type="button" class="bb-time" role="tab" aria-selected="false" data-i="{i}">{tm}</button>' for i, (tm, _) in enumerate(UB_BB_HEADLINES))
-    heads = ''.join(f'<p class="bb-head" data-i="{i}" hidden>{hl}</p>' for i, (_, hl) in enumerate(UB_BB_HEADLINES))
-    return ('<div class="billboard"><div class="bb-art">'
-            '<img src="images/ub-billboard-clean.jpg" alt="A digital billboard over a nightlife street" loading="lazy">'
-            f'<div class="bb-screen" style="left:{l}%;top:{t}%;width:{w}%;height:{h}%" aria-live="polite">{heads}'
-            '<p class="bb-tag">When it&#39;s time to go.</p></div></div>'
-            f'<div class="bb-times" role="tablist" aria-label="Billboard headline by time of night">{tabs}</div>'
-            '<p class="bb-note">One digital board, four headlines that change as the night goes on. Pick a time.</p></div>')
+    heads = ''.join(f'<p class="bb-head" data-i="{i}" aria-hidden="true">{hl}</p>' for i, (_, hl) in enumerate(UB_BB_HEADLINES))
+    alts = ' / '.join(f'{tm}: ' + hl.replace('<br>', ' ') for tm, hl in UB_BB_HEADLINES)
+    return ('<div class="billboard"><div class="bb-art" role="img" aria-label="A rooftop billboard over a Manhattan street at night, with headlines that change through the night: ' + alts + '. When it&#39;s time to go. Uber.">'
+            '<img src="images/ub-billboard-clean.jpg" alt="" loading="lazy">'
+            '<div class="bb-stage"><div class="bb-face" style="transform:' + UB_BB_MATRIX + '">'
+            f'<div class="bb-heads">{heads}</div>'
+            '<div class="bb-foot"><span class="bb-tag">When it&#39;s time to go.</span><img class="bb-logo" src="images/uber-logo-white.png" alt=""></div>'
+            '</div></div></div>'
+            f'<div class="bb-times" role="tablist" aria-label="Headline by time of night">{tabs}</div>'
+            '<p class="bb-note">A proposed schedule: one digital board, four headlines through the night. Example times. Pick one.</p></div>')
 
 UB_SAMPLES = [
     ('audio/ub-lastcall-business-partners.mp3', 'The Business Partners'),

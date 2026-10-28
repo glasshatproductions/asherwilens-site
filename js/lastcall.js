@@ -61,32 +61,41 @@
   });
 })();
 
-/* Digital billboard: four headlines by time of night. Starts on the slot that
-   matches the visitor's clock (late night), otherwise the last one. */
+/* Digital billboard: four headlines on a proposed schedule. The headline layer
+   lives in the photo's own pixel space (1672x941) and is scaled to fit, so the
+   perspective warp stays locked to the board at any screen size. Each headline
+   is sized to fit inside the board's face. Opens on the slot matching the
+   visitor's clock (before the first slot: the first). */
 (function () {
   document.querySelectorAll('.billboard').forEach(function (bb) {
+    var art = bb.querySelector('.bb-art'), stage = bb.querySelector('.bb-stage');
     var tabs = Array.prototype.slice.call(bb.querySelectorAll('.bb-time'));
     var heads = Array.prototype.slice.call(bb.querySelectorAll('.bb-head'));
+    var box = bb.querySelector('.bb-heads');
+    function scale() { stage.style.transform = 'scale(' + (art.clientWidth / 1672) + ')'; }
+    function fit(h) {           // shrink until the headline fits the face (design px, so once is enough)
+      var f = 120; h.style.fontSize = f + 'px';
+      while ((h.scrollHeight > box.clientHeight || h.scrollWidth > box.clientWidth) && f > 40) { f -= 2; h.style.fontSize = f + 'px'; }
+    }
     function show(i) {
       tabs.forEach(function (t, k) { t.setAttribute('aria-selected', k === i ? 'true' : 'false'); t.tabIndex = k === i ? 0 : -1; });
-      heads.forEach(function (h, k) { h.hidden = k !== i; });
+      heads.forEach(function (h, k) { h.classList.toggle('on', k === i); });
     }
     function mins(label) {
       var m = label.match(/(\d+):(\d+)\s*(AM|PM)/i); if (!m) return 0;
-      var h = (+m[1]) % 12 + (/pm/i.test(m[3]) ? 12 : 0), v = h * 60 + (+m[2]);
-      return v < 12 * 60 ? v + 24 * 60 : v;   // after-midnight slots sort after PM ones
+      var v = ((+m[1]) % 12 + (/pm/i.test(m[3]) ? 12 : 0)) * 60 + (+m[2]);
+      return v < 12 * 60 ? v + 24 * 60 : v;
     }
-    var now = new Date(), n = now.getHours() * 60 + now.getMinutes(); if (n < 12 * 60) n += 24 * 60;
-    // the latest slot that has already started tonight; before the first slot, show the first
-    var start = 0;
-    tabs.forEach(function (t, k) { if (mins(t.textContent) <= n) start = k; });
+    var d = new Date(), n = d.getHours() * 60 + d.getMinutes(); if (n < 12 * 60) n += 24 * 60;
+    var start = 0; tabs.forEach(function (t, k) { if (mins(t.textContent) <= n) start = k; });
+    scale(); window.addEventListener('resize', scale);
+    function fitAll() { heads.forEach(fit); }
+    fitAll(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
     show(start);
     tabs.forEach(function (t, k) {
       t.addEventListener('click', function () { show(k); });
       t.addEventListener('keydown', function (e) {
-        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-          var j = (k + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length; show(j); tabs[j].focus(); e.preventDefault();
-        }
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { var j = (k + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length; show(j); tabs[j].focus(); e.preventDefault(); }
       });
     });
   });
