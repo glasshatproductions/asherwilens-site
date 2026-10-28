@@ -418,3 +418,18 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 @media (max-width:640px){.ml-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.ml-btn:nth-child(3){border-left:0}.ml-btn:nth-child(n+3){border-top:1px solid #ece8e1}.ml-btn{padding:16px 6px;font-size:11px;letter-spacing:.12em}}
 @media (prefers-reduced-motion:reduce){.ml-img,.ml-btn,.ml-btn::after{transition:none}}
 .mech-first{margin-top:40px}.sequence+.mech-first,.stack.sequence~.body-copy{max-width:680px}
+
+/* Moments Lamp buttons v2: outlined, rounded, the chosen light is lit */
+.ml-controls{gap:10px;border:0;margin-top:22px}
+.ml-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 10px;border:1px solid #cfc8bc;border-radius:999px;background:#fff;color:#5c574f;
+  transition:border-color .2s,color .2s,background .3s,box-shadow .3s}
+.ml-btn+.ml-btn{border-left:1px solid #cfc8bc}
+.ml-btn::after{display:none}
+.ml-btn::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;border:1px solid #b9b1a4;background:transparent;transition:background .3s,border-color .3s,box-shadow .3s}
+.ml-btn:hover{border-color:#8f7a55;color:#111}
+.ml-btn:hover::before{border-color:#a8824a}
+.ml-btn[aria-pressed="true"]{color:#2b2216;border-color:#c9a467;background:linear-gradient(180deg,#fff6e6,#f6e6c8);box-shadow:0 0 0 1px rgba(201,164,103,.35),0 6px 22px -6px rgba(214,165,82,.55)}
+.ml-btn[aria-pressed="true"]::before{background:#f2b94e;border-color:#e2a53a;box-shadow:0 0 6px 2px rgba(242,185,78,.75)}
+.ml-btn:focus-visible{outline:2px solid #111;outline-offset:2px}
+@media (max-width:640px){.ml-controls{gap:8px}.ml-btn,.ml-btn:nth-child(3),.ml-btn:nth-child(n+3){border:1px solid #cfc8bc;border-top:1px solid #cfc8bc}.ml-btn[aria-pressed="true"]{border-color:#c9a467}.ml-btn{padding:13px 8px;gap:8px}}
+@media (prefers-reduced-motion:reduce){.ml-btn,.ml-btn::before{transition:none}}
