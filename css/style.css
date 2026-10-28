@@ -433,3 +433,5 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 .ml-btn:focus-visible{outline:2px solid #111;outline-offset:2px}
 @media (max-width:640px){.ml-controls{gap:8px}.ml-btn,.ml-btn:nth-child(3),.ml-btn:nth-child(n+3){border:1px solid #cfc8bc;border-top:1px solid #cfc8bc}.ml-btn[aria-pressed="true"]{border-color:#c9a467}.ml-btn{padding:13px 8px;gap:8px}}
 @media (prefers-reduced-motion:reduce){.ml-btn,.ml-btn::before{transition:none}}
+.cs-hero-follow{margin-top:-8px}.cs-hero-follow img{max-height:min(80vh,900px)}
+.cs-hero-follow{margin-top:12px}.cs-hero-follow img{max-height:min(56vh,560px)}@media (max-width:640px){.cs-hero-follow img{max-height:none;width:78%;margin:0 auto}}

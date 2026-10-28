@@ -189,6 +189,11 @@ def lastcall_panel():
 def sample_audio(src, label):
     return f'<div class="sample-audio"><p class="lc-label">{label}</p><audio controls preload="none" src="{src}"></audio></div>'
 
+# A second image shown directly under a case-study hero (a reveal).
+HERO_FOLLOW = {
+    'fage-blank': ('fage-closeup', 'Close-up of the billboard&#39;s small label: Ingredients: milk, live active cultures. Honestly crafted. Nothing to hide. FAGE.', 'Read the fine print.'),
+}
+
 def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name, desc):
     split = ''
     phone_open = ''
@@ -206,6 +211,9 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
         hero_html = f'<div class="wrap cs-hero"><div class="video-embed"><video controls playsinline preload="metadata" poster="images/{poster}.jpg" aria-label="{hero_alt}"><source src="{src}" type="video/mp4">Your browser does not support video.</video></div></div>'
     else:
         hero_html = f'<div class="wrap cs-hero"><img src="images/{hero}.jpg" alt="{hero_alt}"></div>'
+        if hero in HERO_FOLLOW:
+            f_img, f_alt, f_cap = HERO_FOLLOW[hero]
+            hero_html += f'<div class="wrap cs-hero cs-hero-follow"><figure><img src="images/{f_img}.jpg" alt="{f_alt}" loading="lazy"><figcaption>{f_cap}</figcaption></figure></div>'
     sep = '<span class="dot">•</span>'
     full = sep.join((f'<b>{t}</b>' if i == 0 else t) for i, t in enumerate(tags))
     short_tags = SHORT_TAGS.get(fname, tags)
