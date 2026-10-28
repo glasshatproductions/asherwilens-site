@@ -137,20 +137,32 @@ UB_SAMPLES = [
 # issues short-lived tokens. Empty = no live control is shown. Never put API keys here.
 UB_LIVE_ENDPOINT = ''
 
+UB_LASTCALL = has_img('ub-payphone') or has_img('ub-payphone-closeup')
+
 def lastcall_panel():
-    samples = [(src, label) for src, label in UB_SAMPLES if has_file(src)]
+    """The approved close-up is the payphone itself. A transparent button sits
+    exactly over the photographed PICK UP THE PHONE key (percent-positioned, so
+    it stays aligned at every size). The button only exists once something can
+    actually happen: sample recordings, or later a live operator endpoint."""
     if not has_img('ub-payphone-closeup'):
         return ''
-    if not samples:
-        # Concept first: show the close-up as a still until the audio is ready.
-        return img('ub-payphone-closeup', 'Close-up of the Last Call Department payphone: keypad and receiver', 'Pick up the receiver.')
+    samples = [(src, label) for src, label in UB_SAMPLES if has_file(src)]
+    interactive = bool(samples) or bool(UB_LIVE_ENDPOINT)
+    art = ('<img src="images/ub-payphone-closeup.jpg" alt="The Last Call Department payphone: chrome keypad, black receiver and a plate reading For great ideas after midnight. '
+           'Pick up. Share your brilliant idea. We&#39;ll decide if it&#39;s time to go. Pick up the phone. Uber." loading="lazy">')
+    if not interactive:
+        return f'<div class="lastcall-art">{art}</div>'
     btns = ''.join(f'<button type="button" class="lc-sample" data-src="{src}" aria-pressed="false"><span class="lc-ic" aria-hidden="true"></span>{label}</button>' for src, label in samples)
-    return (f'<div class="lastcall" data-live-endpoint="{UB_LIVE_ENDPOINT}">'
-            '<div class="lc-device"><img src="images/ub-payphone-closeup.jpg" alt="Close-up of the Last Call Department payphone: keypad and receiver" loading="lazy"></div>'
-            '<div class="lc-panel"><p class="lc-label">Concept demo · AI voice · sample recordings</p>'
-            '<button type="button" class="lc-pickup" aria-expanded="false">Pick up the phone</button>'
-            f'<div class="lc-samples" role="group" aria-label="Sample calls" hidden>{btns}</div>'
-            '<p class="lc-status" aria-live="polite"></p></div></div>')
+    return (f'<div class="lastcall-art is-interactive" data-live-endpoint="{UB_LIVE_ENDPOINT}">{art}'
+            '<button type="button" class="lc-hot" aria-label="Pick up the phone" aria-expanded="false" aria-controls="lcOverlay"></button>'
+            '<div class="lc-overlay" id="lcOverlay" hidden>'
+            '<p class="lc-label">Concept demo · AI voice · sample recordings</p>'
+            '<p class="lc-prompt">Choose a case to hear the operator.</p>'
+            f'<div class="lc-samples" role="group" aria-label="Sample calls">{btns}</div>'
+            '<div class="lc-live" hidden></div>'
+            '<p class="lc-status" aria-live="polite"></p>'
+            '<button type="button" class="lc-hangup">Hang up</button>'
+            '</div></div>')
 
 def sample_audio(src, label):
     return f'<div class="sample-audio"><p class="lc-label">{label}</p><audio controls preload="none" src="{src}"></audio></div>'
@@ -461,21 +473,21 @@ case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Dir
               ''.join(img(f, alt, cap) for f, alt, cap in UB_COASTERS)),
 
       (section('03','Experiential: The Last Call Department','An old payphone appears in neighborhood bars, offering a second opinion on those brilliant ideas that only seem brilliant after midnight. Pick up the receiver and a deadpan AI operator answers. Every conversation is different. Every case has one thing in common: knowing when it&#39;s time to go.',
-              img('ub-payphone','A vintage payphone mounted in a neighborhood bar, signed The Last Call Department')
-              + lastcall_panel()) if has_img('ub-payphone') else ''),
+              (img('ub-payphone','A vintage payphone mounted in a neighborhood bar, signed The Last Call Department') if has_img('ub-payphone') else '')
+              + lastcall_panel()) if UB_LASTCALL else ''),
 
-      section('04' if has_img('ub-payphone') else '03','The tab','The bill is the natural cue to leave: the check presenter, and the ride already on its way.',
+      section('04' if UB_LASTCALL else '03','The tab','The bill is the natural cue to leave: the check presenter, and the ride already on its way.',
               '<div class="pair secondary">' + img('ub-hero','End of the night at a bar: a check presenter and a phone showing a ride on its way, as the bartender wipes down and two friends put on their coats','Close your tab. Open your app.')
               + img('ub-presenter','A check presenter with a card reading Tip your bartender. Then tap your app.','Tip your bartender. Then tap your app.') + '</div>'),
 
-      section('05' if has_img('ub-payphone') else '04','Out-of-home: on the way out','The last word, placed between the bar door and the curb.',
+      section('05' if UB_LASTCALL else '04','Out-of-home: on the way out','The last word, placed between the bar door and the curb.',
               '<div class="feed tall9">' + img('ub-sign','Sidewalk sign: Last call is a suggestion. Closing time isn&#39;t.','Sidewalk sign.')
               + (img('ub-shelter-goodbye','Bus shelter ad: You&#39;ve been saying goodbye for 45 minutes.','Bus shelter.') if has_img('ub-shelter-goodbye') else img('ub-shelter','Bus shelter: Your tab closed at 1:52. Your ride&#39;s here at 1:55.','Bus shelter.'))
               + ''.join(img(f, alt, cap) for f, alt, cap in UB_BILLBOARDS if has_img(f)) + '</div>'),
 
       (section('06','The morning after','<span class="proposed">Proposed extension</span> Some brilliant ideas sound different in daylight. Callers who opt in could hear their late-night pitch again the next morning. The Last Call Department keeps the receipts.',
               (img('ub-morning','The Last Call Department morning-after follow-up') if has_img('ub-morning') else '')
-              + (sample_audio('audio/ub-morning-after.mp3','Sample: a morning-after follow-up') if has_file('audio/ub-morning-after.mp3') else '')) if has_img('ub-payphone') else ''),
+              + (sample_audio('audio/ub-morning-after.mp3','Sample: a morning-after follow-up') if has_file('audio/ub-morning-after.mp3') else '')) if UB_LASTCALL else ''),
       ] if s_],
      'turbochef.html', 'Turbochef', 'Uber: When it&#39;s time to go. A spec campaign built on the things you say before it&#39;s time to go.')
 
