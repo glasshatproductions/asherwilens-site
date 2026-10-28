@@ -9,6 +9,7 @@ def _v(path):
 ASSET_V=True
 
 LASTCALL_TAG = ''
+MOMENTS_TAG = ''
 def page(fname, title, desc, body, current=''):
     def nav(href, label, key):
         cur = ' aria-current="page"' if key == current else ''
@@ -57,7 +58,7 @@ def page(fname, title, desc, body, current=''):
 </div>
 </footer>
 <script src="js/gallery.js?v={_v('js/gallery.js')}"></script>
-<script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>{LASTCALL_TAG if fname == 'uber.html' else ''}
+<script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>{LASTCALL_TAG if fname == 'uber.html' else ''}{MOMENTS_TAG if fname == 'brown-co.html' else ''}
 </body>
 </html>
 '''
@@ -191,7 +192,9 @@ def sample_audio(src, label):
 def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name, desc):
     split = ''
     phone_open = ''
-    if hero.startswith('phone:'):
+    if hero == 'moments:':
+        hero_html = moments_hero()
+    elif hero.startswith('phone:'):
         src, himg, hcap = hero[6:].split('|')
         hero_html = (f'<div class="wrap cs-hero"><figure><img src="images/{himg}.jpg" alt="{hero_alt}"><figcaption>{hcap}</figcaption></figure></div>'
                      '<div class="wrap cs-open">'
@@ -392,39 +395,60 @@ case('synth-city.html', 'Synth City', ['Premier Gem','In development · Soft lau
      'desert-diamonds.html', 'Desert Diamonds', 'Synth City, a dystopian brand world for Premier Gem: six films, a live broadcast network and working AI tools.')
 
 
-bc_insight = insight_box('Jewelry is chosen under showroom lights. It&#39;s worn under every other kind.', 'Every light of the season.')
+MOMENTS_TAG = f'\n<script src="js/moments.js?v={_v("js/moments.js")}" defer></script>'
 
-bc_steps = '''<ol class="steps">
-<li><strong>Choose the ring.</strong> Engagement rings purchased December 1&ndash;24 qualify.</li>
-<li><strong>Choose the night.</strong> The customer books a time slot and a first name, approved by Brown &amp; Co.</li>
-<li><strong>Light it up.</strong> The question runs on a digital board over Buckhead, and Brown &amp; Co. captures the moment for the couple to share.</li>
-</ol>'''
+bc_insight = insight_box('Jewelry is chosen under showroom lights. It&#39;s worn under every other kind.', 'Bring the lights of real life into the showroom.')
 
-bc_end = ('<div class="endcard"><p class="endcard-small">Every light of the season.</p>'
-          '<p class="endcard-big">The brightest one has her name on it.</p>'
-          '<p class="endcard-small brand">Brown &amp; Co. Jewelers &middot; Buckhead | Roswell</p></div>')
+# The Moments Lamp hero: four matching photographs, one shown at a time.
+BC_MODES = [
+    ('candlelight', 'Candlelight', 'The intimacy of two.', 'Under the Moments Lamp set to candlelight, a round solitaire glows warm gold on a dark velvet stand.'),
+    ('sunday', 'Sunday morning', 'The quiet beauty of an ordinary morning.', 'Under the Moments Lamp set to Sunday morning, the same solitaire reads crisp and soft-white in pale daylight.'),
+    ('city', 'City lights', 'A night out, somewhere unforgettable.', 'Under the Moments Lamp set to city lights, the solitaire flashes cool blue against a night-blue background.'),
+    ('celebration', 'Celebration', 'The moments worth raising a glass to.', 'Under the Moments Lamp set to celebration, the solitaire throws warm sparks against pink and violet party lights.'),
+]
 
-case('brown-co.html', 'Brown &amp; Co', ['Pitch','Integrated campaign','Concept · Creative Direction · Art Direction'],
-     'Every light of the season.',
-     'A holiday campaign pitched to Brown &amp; Co. Jewelers in Buckhead and Roswell. Every piece is built on light: billboards that outshine the season, a print promise, an in-store proof, and a finale that puts the customer&#39;s own proposal in lights.',
-     'bc-plugin', 'Billboard at dusk: The only light on this tree we didn&#39;t have to plug in.',
+def moments_hero():
+    imgs = ''.join(
+        f'<img src="images/bc-lamp-{k}.jpg" alt="{alt}" width="1532" height="1020" class="ml-img{" on" if i == 0 else ""}" data-mode="{k}"'
+        + (' fetchpriority="high"' if i == 0 else ' loading="eager" fetchpriority="low" decoding="async"') + (' aria-hidden="true"' if i else '') + '>'
+        for i, (k, _, _, alt) in enumerate(BC_MODES))
+    btns = ''.join(
+        f'<button type="button" class="ml-btn" data-mode="{k}" data-copy="{copy}" aria-pressed="{"true" if i == 0 else "false"}">{label}</button>'
+        for i, (k, label, copy, _) in enumerate(BC_MODES))
+    return ('<div class="wrap moments"><div class="ml-frame">' + imgs + '</div>'
+            f'<div class="ml-controls" role="group" aria-label="Moments Lamp lighting">{btns}</div>'
+            f'<p class="ml-copy" aria-live="polite">{BC_MODES[0][2]}</p>'
+            '<p class="ml-note">The Moments Lamp: a proposed in-store lighting experience. Choose a light.</p></div>')
+
+bc_mechanics = ('<p class="body-copy mech-first">As a proposed holiday promotion, Brown &amp; Co. would invite engagement-ring customers to reserve a personal moment on a digital billboard above Buckhead.</p>'
+                '<p class="body-copy">A name. A question. A moment they&#39;ll remember every time they see the city lights.</p>'
+                '<p class="steps-label">Proposed mechanics</p><ol class="steps">'
+                '<li><strong>Choose the ring.</strong></li>'
+                '<li><strong>Reserve the moment.</strong></li>'
+                '<li><strong>See your question in lights.</strong></li></ol>')
+
+bc_end = ('<div class="endcard"><p class="endcard-big">It begins under a lamp.<br>It ends under the city lights.</p>'
+          '<p class="endcard-small brand">Brown &amp; Co. Jewelers<br>Buckhead | Roswell</p></div>')
+
+case('brown-co.html', 'Brown &amp; Co.', ['Pitch','Integrated campaign','Concept · Creative Direction · Art Direction'],
+     'Love looks different in every light.',
+     'From candlelight to city lights, discover the moments your diamond will become part of. <span class="fine">Pitch work for Brown &amp; Co. Jewelers, Buckhead | Roswell. Visuals AI-assisted.</span>',
+     'moments:', 'The Moments Lamp',
      [section('01','The insight','', bc_insight),
 
-      section('02','Out-of-home: it outshines the season','Every holiday light needs a plug, a battery or a box in the attic. The diamond doesn&#39;t.',
-              '<div class="stack">' + img('bc-strings','Billboard: String lights come down in January. This doesn&#39;t.')
-              + img('bc-forever','Billboard at night over the Atlanta skyline: This ornament stays lit forever.') + '</div>'),
+      section('02','The Lighting Bar','A diamond isn&#39;t just chosen for the moment you buy it. It&#39;s chosen for every moment that follows.',
+              '<p class="body-copy section-more">The Lighting Bar brings those moments into the store through the Moments Lamp, a proposed lighting experience inspired by candlelit dinners, quiet mornings, nights out, and celebrations.</p>'
+              '<p class="body-copy section-more"><em>One diamond. A lifetime of different lights.</em></p>'
+              + img('bc-lamp-instore','A woman studies the round solitaire on her hand beside a brass Moments Lamp on a marble counter; its base is labeled Candlelight, Sunday morning, City lights and Celebration.')),
 
-      section('03','Print: it makes the promise','The spread turns the idea into a claim: Brown &amp; Co. tests every stone in the light it will actually live in, not just the light of the showroom.',
-              img('bc-magazine','Magazine spread at night: One ring. Every light of the season. Six ring photos, each passing a lighting test, ending with the skyline test') ),
+      section('03','Every light of the season','The season is full of lights that come and go. Some things stay with us long after they&#39;ve been taken down.',
+              img('bc-strings','Brown &amp; Co. billboard: String lights come down in January. This doesn&#39;t.')),
 
-      section('04','In-store: it proves it','The Lighting Bar brings the claim to the counter: five lighting booths, from string lights to the phone flash, so customers see a stone in every light before they buy. The sixth booth and a card on the counter sell the finale: Your Name in Lights.',
-              img('bc-lightingbar','The Lighting Bar: six booths testing a ring under string lights, candlelight, morning sun, party lights, a phone flash and a miniature skyline billboard, with a Your Name in Lights card on the counter') ),
-
-      section('05','The final light: your name in lights','First, the space goes dark. One board across Buckhead runs almost empty, holding a place for a name. Then customers fill it: buy an engagement ring in December, and Brown &amp; Co. lights that board with one question. The campaign starts on billboards and ends on one, only now the billboard belongs to the customer, and every proposal becomes a story the couple shares for us.',
-              '<div class="stack">' + img('bc-reserved','Night billboard, almost entirely empty black, reading This space reserved for her name, with a gold line where a name would go and a small ring by the logo','The teaser.')
-              + img('bc-proposal-night','On a Buckhead rooftop at dusk, a man kneels with a ring as a Brown &amp; Co. billboard over the highway reads Sarah, will you marry me?','The payoff: the same space, filled.')
-              + bc_steps + bc_end + '</div>')],
-     'fage.html', 'Fage', 'Brown & Co: Every light of the season. A holiday campaign pitch that ends with her name in lights.')
+      section('04','Your name in lights','Some moments deserve more than candlelight. For the biggest question of all, Brown &amp; Co. takes the experience beyond the showroom and into the Atlanta skyline.',
+              '<div class="stack sequence">' + img('bc-reserved','Night billboard, almost entirely empty black, reading This space reserved for her name, with a gold line where a name would go','The invitation.')
+              + img('bc-proposal-night','On a Buckhead rooftop at dusk, a man kneels with a ring as a Brown &amp; Co. billboard over the highway reads Sarah, will you marry me?','The moment.')
+              + '</div>' + bc_mechanics + bc_end)],
+     'fage.html', 'Fage', 'Brown & Co.: Love looks different in every light. A pitch built on the Moments Lamp, ending with her name in lights.')
 
 
 fage_insight = insight_box('FAGE&#39;s ingredient list is two lines long. So we made it the ad.', 'Nothing to hide.')

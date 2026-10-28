@@ -66,7 +66,7 @@
 
   groups.forEach(function (figs) {
     if (!figs.length) return;
-    if (figs.length === 2 && !figs[0].parentNode.classList.contains('pair')) {
+    if (figs.length === 2 && !figs[0].parentNode.classList.contains('pair') && !figs[0].closest('.sequence')) {
       var pair = document.createElement('div'); pair.className = 'pair';
       figs[0].parentNode.insertBefore(pair, figs[0]);
       pair.appendChild(figs[0]); pair.appendChild(figs[1]);
