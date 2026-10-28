@@ -340,7 +340,7 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 /* Last Call Department: the approved payphone photo is the interface */
 .lastcall-art{position:relative;max-width:440px;margin:40px auto 0;line-height:0;overflow:hidden}
 .lastcall-art>img{display:block;width:100%;height:auto}
-.lc-hot{position:absolute;left:67.69%;top:51.38%;width:24.44%;height:13.1%;padding:0;border:0;border-radius:6px;background:transparent;cursor:pointer;transition:box-shadow .25s ease,background-color .25s ease}
+.lc-hot{position:absolute;left:64.93%;top:52.03%;width:21.57%;height:11.72%;padding:0;border:0;border-radius:6px;background:transparent;cursor:pointer;transition:box-shadow .25s ease,background-color .25s ease}
 .lc-hot:hover{box-shadow:0 0 22px 2px rgba(255,196,128,.35);background:rgba(255,214,160,.05)}
 .lc-hot:active{background:rgba(255,214,160,.12)}
 .lc-hot:focus-visible{outline:2px solid #ffd7a0;outline-offset:3px}
