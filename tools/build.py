@@ -499,7 +499,7 @@ case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Dir
 
       section('04' if UB_LASTCALL else '03','Out-of-home: on the way out','The last word, placed between the bar door and the curb.',
               ('<div class="feed tall9">' if not has_img('ub-billboard-clean') else '<div class="feed tall9 two">')
-              + img('ub-sign','Sidewalk sign: Last call is a suggestion. Closing time isn&#39;t.','Sidewalk sign.')
+              + img('ub-sign','A lit sidewalk sign on a rainy nightlife street as a couple walks past, one checking her phone: Last call is a suggestion. Closing time isn&#39;t. When it&#39;s time to go. Uber.','Sidewalk sign.')
               + (img('ub-shelter-goodbye','Bus shelter at night on a wet city street. The poster reads: You&#39;ve been saying goodbye for 45 minutes. When it&#39;s time to go. Uber.','Bus shelter.') if has_img('ub-shelter-goodbye') else img('ub-shelter','Bus shelter: Your tab closed at 1:52. Your ride&#39;s here at 1:55.','Bus shelter.'))
               + (billboard_html() if not has_img('ub-billboard-clean') else '') + '</div>'
               + (billboard_html() if has_img('ub-billboard-clean') else '')),
