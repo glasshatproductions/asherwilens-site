@@ -477,7 +477,7 @@ case('fage.html', 'Fage', ['Spec','Integrated campaign','Concept · Creative Dir
               + img('fage-mike','Poster: Keep refrigerated. Keep Mike happy. He&#39;s rejected 96 batches for being a little thin.')),
 
       section('04','Corp-Cam','Live cameras inside the factory, the lab and the break room at fagelivecam.com. Nine feeds, around the clock. Subway posters show what the cameras catch.',
-              img('fage-corpcam','The Corp-Cam site: nine live feeds from milk reception to the loading dock. Watch us make it.')
+              img('fage-corpcam','The Corp-Cam page on a desktop monitor: nine live feeds from milk reception to the loading dock, beside the line Watch us make it. Nothing to hide.')
               + img('fage-caught','Subway poster: a security-cam still of a worker sneaking yogurt in the cold room. Caught on Corp-Cam.','Caught on Corp-Cam.')),
 
       section('05','Experiential: the confession booth','Then the brand turns the honesty back on the public. Step into the booth, confess a yogurt secret, walk out with free FAGE.',
