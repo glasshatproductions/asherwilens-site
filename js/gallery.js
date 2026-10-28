@@ -100,17 +100,53 @@
     figs.forEach(function (f, i) { makeOpenable(f, figs, i); });
   });
 
-  // social reels: autoplay muted; click opens the clip full screen with sound
-  document.querySelectorAll('.reel-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var v = btn.querySelector('video');
-      if (v.requestFullscreen) { v.muted = false; v.controls = true; v.currentTime = 0; v.play(); v.requestFullscreen(); }
+  // social reels: autoplay muted in the grid; tap opens a player with sound
+  // (works on iPhone too, unlike element fullscreen). Esc / arrows / close.
+  var reels = Array.prototype.slice.call(document.querySelectorAll('.reel-btn'));
+  if (reels.length) {
+    var rv = document.createElement('div');
+    rv.className = 'rv'; rv.hidden = true;
+    rv.setAttribute('role', 'dialog'); rv.setAttribute('aria-modal', 'true'); rv.setAttribute('aria-label', 'Video player');
+    rv.innerHTML = '<button class="lb-close" aria-label="Close">&times;</button>' +
+      '<button class="lb-prev" aria-label="Previous video">&#8249;</button>' +
+      '<figure class="rv-fig"><video controls playsinline preload="auto"></video><figcaption></figcaption></figure>' +
+      '<button class="lb-next" aria-label="Next video">&#8250;</button>';
+    document.body.appendChild(rv);
+    var rvVid = rv.querySelector('video'), rvCap = rv.querySelector('figcaption'), rvIdx = 0, rvFrom = null;
+    reels.forEach(function (btn) { btn.insertAdjacentHTML('beforeend', '<span class="reel-play" aria-hidden="true">&#9654; Sound on</span>'); });
+    function rvLoad(i, play) {
+      rvIdx = (i + reels.length) % reels.length;
+      var src = reels[rvIdx].querySelector('source').getAttribute('src');
+      var cap = reels[rvIdx].parentNode.querySelector('figcaption');
+      rvVid.src = src; rvVid.poster = reels[rvIdx].querySelector('video').getAttribute('poster') || '';
+      rvCap.textContent = cap ? cap.textContent : '';
+      rvVid.muted = false;
+      if (play) rvVid.play().catch(function () { /* controls are there to start it */ });
+    }
+    function rvOpen(i, from) {
+      rvFrom = from; reels.forEach(function (b) { b.querySelector('video').pause(); });
+      rv.hidden = false; document.body.style.overflow = 'hidden';
+      rvLoad(i, true); rv.querySelector('.lb-close').focus();
+    }
+    function rvClose() {
+      rvVid.pause(); rvVid.removeAttribute('src'); rvVid.load();
+      rv.hidden = true; document.body.style.overflow = '';
+      reels.forEach(function (b) { var v = b.querySelector('video'); if (v.hasAttribute('autoplay')) v.play().catch(function () {}); });
+      if (rvFrom) rvFrom.focus();
+    }
+    reels.forEach(function (btn, i) { btn.addEventListener('click', function () { rvOpen(i, btn); }); });
+    rv.querySelector('.lb-close').onclick = rvClose;
+    rv.querySelector('.lb-prev').onclick = function () { rvLoad(rvIdx - 1, true); };
+    rv.querySelector('.lb-next').onclick = function () { rvLoad(rvIdx + 1, true); };
+    rv.querySelector('.lb-prev').hidden = rv.querySelector('.lb-next').hidden = reels.length < 2;
+    rv.addEventListener('click', function (e) { if (e.target === rv) rvClose(); });
+    document.addEventListener('keydown', function (e) {
+      if (rv.hidden) return;
+      if (e.key === 'Escape') rvClose();
+      else if (e.key === 'ArrowRight') rvLoad(rvIdx + 1, true);
+      else if (e.key === 'ArrowLeft') rvLoad(rvIdx - 1, true);
     });
-    document.addEventListener('fullscreenchange', function () {
-      var v = btn.querySelector('video');
-      if (!document.fullscreenElement) { v.muted = true; v.controls = false; v.play(); }
-    });
-  });
+  }
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll('.reel-btn video').forEach(function (v) { v.removeAttribute('autoplay'); v.pause(); });
   }
