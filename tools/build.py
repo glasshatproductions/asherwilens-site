@@ -697,7 +697,7 @@ def pm_seg(group, v, label):
     return (f'<label class="pm-seg"><input type="radio" name="{group}" value="{v}">'
             f'<span class="pm-led" aria-hidden="true"></span><span class="pm-seg-t">{label}</span></label>')
 
-pm_cells = ''.join(f'<span class="pm-cell" data-row="{r}" data-col="{c}"><span class="pm-shutter"><span class="pm-sh-t">Dispensing</span><i></i></span></span>'
+pm_cells = ''.join(f'<span class="pm-cell" data-row="{r}" data-col="{c}"><span class="pm-shutter"><span class="pm-sh-t">Retrieving</span><i></i></span></span>'
                    for r in range(3) for c in range(4))
 
 pm_body = f'''<div class="pm" id="pm" data-state="WELCOME">
@@ -718,12 +718,10 @@ pm_body = f'''<div class="pm" id="pm" data-state="WELCOME">
 <div class="pm-body">
 <div class="pm-bay" aria-hidden="true">
 <div class="pm-display">
-<div class="pm-chute"><span class="pm-chute-leds"></span><span class="pm-port" data-row="0"></span><span class="pm-port" data-row="1"></span><span class="pm-port" data-row="2"></span><span class="pm-lift"></span><span class="pm-chute-glass"></span></div>
 <div class="pm-window"><img src="images/pm-display.jpg" alt="" width="801" height="952"><div class="pm-cells">{pm_cells}</div><span class="pm-scanline"></span><span class="pm-dim"></span><span class="pm-glass"></span></div>
 </div>
 <div class="pm-sep"><span>Synthetic Bureau · Certified dispenser · SB-2187-0451</span></div>
-<div class="pm-tray"><span class="pm-tray-in"></span><span class="pm-tray-light"></span><span class="pm-tray-flap"><span class="pm-tray-label">Collect your ring</span></span></div>
-<span class="pm-box"><span class="pm-box-lid"></span><span class="pm-box-mark"></span></span>
+<div class="pm-tray"><span class="pm-tray-in"></span><span class="pm-tray-light"></span><span class="pm-box"></span><span class="pm-tray-flap"><span class="pm-tray-label">Collect your ring</span></span></div>
 </div>
 <div class="pm-screen" role="region" aria-label="PROPOSALMATIC touchscreen">
 <div class="pm-sbar"><span class="pm-sbar-id" aria-hidden="true">SB · CRD · PM-07</span><span class="pm-pips" aria-hidden="true"><i></i><i></i><i></i><i></i></span><button type="button" class="pm-sound" aria-pressed="false"><span class="pm-sound-ic" aria-hidden="true"></span><span class="pm-sound-t">Sound off</span></button></div>

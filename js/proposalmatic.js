@@ -17,8 +17,6 @@
   var machine = $('#pmMachine');
   var bay = $('.pm-bay');
   var box = $('.pm-box');
-  var lift = $('.pm-lift');
-  var chute = $('.pm-chute');
   var tray = $('.pm-tray');
   var paper = $('#pmPaper');
   var receipt = $('#pmReceipt');
@@ -295,14 +293,11 @@
     say(text + '.');
   }
 
-  // ---------- Dispensing: shutter, transfer, lift, drop, conveyor ----------
-  function rel(el) {
-    var a = el.getBoundingClientRect(), b = bay.getBoundingClientRect();
-    return { x: a.left - b.left, y: a.top - b.top, w: a.width, h: a.height };
-  }
+  // ---------- Dispensing: retrieval behind the shutter, drop into the bay ----------
   // Three beats the visitor can read on the screen and see in the machine:
-  // SELECTED (shutter closes on the compartment), DISPENSED (box rides the lift
-  // into the collection bay), REPLACED (shutter lifts on an identical ring).
+  // SELECTED (the compartment goes dark and shutters while the ring is retrieved
+  // internally), DISPENSED (the presentation box drops into the collection bay),
+  // REPLACED (the shutter lifts on an identical ring).
   function seq(key, mode) {
     var li = $('.pm-seq li[data-k="' + key + '"]');
     if (!li) return;
@@ -310,81 +305,57 @@
     if (mode) li.classList.add(mode);
   }
   function shutterText(cell, t) { var n = cell.querySelector('.pm-sh-t'); if (n) n.textContent = t; }
+  function work(cell, ms) {
+    cell.style.setProperty('--pm-work', ms + 'ms');
+    cell.classList.remove('is-working'); void cell.offsetWidth; cell.classList.add('is-working');
+  }
 
   function runDispense(id) {
     var pick = cellAt(order.row, order.col);
-    var portEl = $('.pm-port[data-row="' + order.row + '"]');
-    say('Selected: compartment ' + order.cell + '. Dispensing.');
-    // keep the collection bay in view while the ring travels (short screens, phones)
+    var quick = still();
+    say('Selected: compartment ' + order.cell + '. Retrieving.');
+    // keep the collection bay in view (short screens, phones)
     var tb = tray.getBoundingClientRect();
-    if (tb.bottom > window.innerHeight - 8) window.scrollBy({ top: tb.bottom - window.innerHeight + 28, behavior: still() ? 'auto' : 'smooth' });
-    var bw = box.offsetWidth, bh = box.offsetHeight;
-    var ch = rel(chute), tr = rel(tray), port = rel(portEl);
-    var x0 = ch.x + (ch.w - bw) / 2;
-    var yPort = port.y - bh;                                 // box sits on the lift at the port
-    var yLow = ch.y + ch.h - bh - 6;                         // bottom of the chute
-    var yFloor = tr.y + tr.h - bh - 14;                      // resting on the tray floor
-    var xRest = tr.x + (tr.w - bw) / 2;
-    var liftRest = ch.h * 0.06;
+    if (tb.bottom > window.innerHeight - 8) window.scrollBy({ top: tb.bottom - window.innerHeight + 28, behavior: quick ? 'auto' : 'smooth' });
+    seq('sel', 'is-done'); seq('disp', 'is-active');
+    shutterText(pick, 'Retrieving');
+
+    var bw = box.offsetWidth, bh = box.offsetHeight, tw = tray.clientWidth, th = tray.clientHeight;
+    var xRest = (tw - bw) / 2, yFloor = th - bh - (th > 90 ? 12 : 9), yTop = -bh - 6;
     function T(x, y) { return 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)'; }
 
-    seq('sel', 'is-done'); seq('disp', 'is-active');
-    shutterText(pick, 'Dispensing');
-
-    if (still() || !box.animate) {
+    if (quick || !box.animate) {
       pick.classList.remove('is-pick');
-      pick.classList.add('is-shut');
+      pick.classList.add('is-dark', 'is-shut');
       box.style.transform = T(xRest, yFloor);
       box.classList.add('is-in');
       landed(id, pick);
       return;
     }
-    // 1. the compartment is chosen and closes
-    later(function () { pick.classList.remove('is-pick'); pick.classList.add('is-shut'); Sound.play('shutter'); }, 160, id);
-    // 2. the box is transferred, carried down and delivered
-    var start = 560, dur = 3000;
+    var RETRIEVE = 1100;
+    // 1. the compartment light goes out, then the shutter closes over it
+    later(function () { pick.classList.remove('is-pick'); pick.classList.add('is-dark'); }, 120, id);
     later(function () {
+      pick.classList.add('is-shut');
+      Sound.play('shutter');
+      work(pick, RETRIEVE - 150);
       root.classList.add('is-moving');
-      portEl.classList.add('is-open');
+      Sound.play('motor', (RETRIEVE - 200) / 1000);
+    }, 380, id);
+    // 2. the box drops from inside the machine into the collection bay
+    later(function () {
       box.classList.add('is-in');
+      var dur = 900;
       var anim = box.animate([
-        { transform: T(x0 + bw * 0.75, yPort), opacity: 0, offset: 0, easing: 'cubic-bezier(.25,.8,.35,1)' },
-        { transform: T(x0, yPort), opacity: 1, offset: 0.13, easing: 'linear' },               // transfer onto the lift
-        { transform: T(x0, yPort + 1.5), opacity: 1, offset: 0.17, easing: 'ease-out' },        // lift takes the weight
-        { transform: T(x0, yPort), opacity: 1, offset: 0.2, easing: 'cubic-bezier(.6,0,.35,1)' },
-        { transform: T(x0, yLow), opacity: 1, offset: 0.55, easing: 'ease-out' },               // ride down, decelerate
-        { transform: T(x0, yLow - 1), opacity: 1, offset: 0.58, easing: 'linear' },
-        { transform: T(x0, yLow), opacity: 1, offset: 0.63, easing: 'cubic-bezier(.55,0,1,.45)' },
-        { transform: T(x0, yFloor), opacity: 1, offset: 0.7, easing: 'cubic-bezier(.2,.6,.4,1)' }, // gate opens, short drop
-        { transform: T(x0, yFloor - 2.5), opacity: 1, offset: 0.735, easing: 'ease-in' },
-        { transform: T(x0, yFloor), opacity: 1, offset: 0.77, easing: 'cubic-bezier(.3,.1,.25,1)' },
-        { transform: T(xRest + 2, yFloor), opacity: 1, offset: 0.965, easing: 'ease-out' },     // conveyor to the front
-        { transform: T(xRest, yFloor), opacity: 1, offset: 1 }
+        { transform: T(xRest, yTop), offset: 0, easing: 'cubic-bezier(.55,0,1,.45)' },   // falls
+        { transform: T(xRest, yFloor), offset: 0.48, easing: 'cubic-bezier(.2,.6,.4,1)' },  // lands
+        { transform: T(xRest, yFloor - 5), offset: 0.62, easing: 'cubic-bezier(.5,0,.75,0)' }, // small bounce
+        { transform: T(xRest, yFloor), offset: 0.76, easing: 'ease-out' },
+        { transform: T(xRest, yFloor - 1), offset: 0.86, easing: 'ease-in' },
+        { transform: T(xRest, yFloor), offset: 1 }
       ], { duration: dur, fill: 'forwards' });
-      if (lift.animate) {
-        lift.animate([
-          { top: liftRest + 'px', offset: 0, easing: 'cubic-bezier(.4,0,.2,1)' },
-          { top: (yPort - ch.y + bh) + 'px', offset: 0.11, easing: 'linear' },
-          { top: (yPort - ch.y + bh) + 'px', offset: 0.2, easing: 'cubic-bezier(.6,0,.35,1)' },
-          { top: (yLow - ch.y + bh) + 'px', offset: 0.55, easing: 'linear' },
-          { top: (yLow - ch.y + bh) + 'px', offset: 0.66, easing: 'cubic-bezier(.4,0,.2,1)' },
-          { top: liftRest + 'px', offset: 1 }
-        ], { duration: dur });
-      }
-      // light inside the chute follows the lift
-      var t0 = performance.now();
-      (function follow() {
-        if (id !== runId || !root.classList.contains('is-moving')) return;
-        var k = Math.min(1, (performance.now() - t0) / dur);
-        var y = k < 0.2 ? yPort : k < 0.55 ? yPort + (yLow - yPort) * ((k - 0.2) / 0.35) : yLow;
-        chute.style.setProperty('--pm-lift-y', ((y - ch.y + bh / 2) / ch.h * 100).toFixed(1) + '%');
-        requestAnimationFrame(follow);
-      })();
-      later(function () { portEl.classList.remove('is-open'); }, dur * 0.2, id);
-      later(function () { Sound.play('motor', dur * 0.36 / 1000); }, dur * 0.19, id);
-      later(function () { root.classList.add('is-tray-open'); }, dur * 0.58, id);
-      later(function () { Sound.play('clunk'); }, dur * 0.7, id);
-      later(function () { Sound.play('conveyor', dur * 0.2 / 1000); }, dur * 0.77, id);
+      later(function () { Sound.play('clunk'); }, dur * 0.48, id);
+      later(function () { root.classList.add('is-tray-open'); }, dur * 0.7, id);
       anim.onfinish = function () {
         if (id !== runId) return;
         root.classList.remove('is-moving');
@@ -392,7 +363,7 @@
         try { anim.cancel(); } catch (e) {}
         landed(id, pick);
       };
-    }, start, id);
+    }, 380 + RETRIEVE, id);
   }
   function landed(id, pick) {
     var quick = still();
@@ -403,18 +374,18 @@
     // 3. the compartment is restocked with an identical ring, in plain view
     later(function () {
       shutterText(pick, 'Restocking');
-      pick.classList.add('is-restocking');
+      work(pick, 800);
       Sound.play('tick');
-    }, quick ? 100 : 420, id);
+    }, quick ? 100 : 450, id);
     later(function () {
-      pick.classList.remove('is-shut', 'is-restocking');
+      pick.classList.remove('is-shut', 'is-working', 'is-dark');
       pick.classList.add('is-restocked', 'is-flash');
       Sound.play('shutter');
       seq('rep', 'is-done');
       say('Replaced. Compartment ' + order.cell + ' holds an identical ring.');
-    }, quick ? 300 : 1300, id);
-    later(function () { pick.classList.remove('is-flash'); }, quick ? 400 : 2500, id);
-    later(function () { if (go('RECEIPT')) runReceipt(id); }, quick ? 700 : 2400, id);
+    }, quick ? 300 : 1350, id);
+    later(function () { pick.classList.remove('is-flash'); }, quick ? 400 : 2550, id);
+    later(function () { if (go('RECEIPT')) runReceipt(id); }, quick ? 700 : 2450, id);
   }
 
   // ---------- Receipt ----------
@@ -490,16 +461,14 @@
   function restart() {
     runId++;
     clearTimers();
-    [box, lift].forEach(function (el) { if (el.getAnimations) el.getAnimations().forEach(function (a) { a.cancel(); }); });
+    if (box.getAnimations) box.getAnimations().forEach(function (a) { a.cancel(); });
     if (box.classList.contains('is-in')) {
       box.classList.add('is-collected');
       setTimeout(function () { box.classList.remove('is-in', 'is-collected'); box.style.transform = ''; }, 420);
     }
     root.classList.remove('is-moving', 'is-tray-lit', 'is-tray-open', 'is-printing', 'has-receipt', 'has-actions', 'is-revealed', 'is-analyzing', 'is-scanning', 'cfg-ready');
-    cells().forEach(function (c) { c.classList.remove('is-scan', 'is-pick', 'is-shut', 'is-restocking', 'is-restocked', 'is-flash'); shutterText(c, 'Dispensing'); });
-    $$('.pm-port').forEach(function (p) { p.classList.remove('is-open'); });
+    cells().forEach(function (c) { c.classList.remove('is-scan', 'is-pick', 'is-shut', 'is-dark', 'is-working', 'is-restocked', 'is-flash'); shutterText(c, 'Retrieving'); });
     $$('.pm-seq li').forEach(function (li) { li.classList.remove('is-active', 'is-done'); });
-    chute.style.removeProperty('--pm-lift-y');
     paper.style.height = '0px';
     actions.hidden = true;
     reveal.hidden = true;
