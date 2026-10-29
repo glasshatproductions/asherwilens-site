@@ -1,6 +1,7 @@
 /* PROPOSALMATIC™: an interactive Synth City activation.
-   The machine is built in CSS around a crop of the campaign's Proposal Kits
-   artwork (images/pm-display.jpg). Every control and line of text is HTML.
+   One machine on every screen size. The front glass IS the touchscreen: live HTML
+   controls float over the illuminated compartments (images/pm-display.jpg), and
+   step aside during dispensing so the mechanism is fully visible.
    Art direction: bronze-black brushed housing, warm integrated light, champagne
    interface accents, recessed glass and metal bays. */
 
@@ -14,12 +15,14 @@
   --pm-led:#fff2da;
   --pm-glow:255,214,160;
   --pm-paper:#f3f1ea;
-  --pm-pad:30px;
-  --pm-gap:22px;
-  --pm-scr:336px;
-  --pm-bay:clamp(390px,calc((100vh - 456px) / 1.189 + 16px),470px);
-  --pm-bx:76px;
+  --pm-pad:30px;          /* housing edge to glass frame */
+  --pm-dp:8px;            /* glass frame padding */
+  --pm-glass:clamp(360px,calc((100vh - 330px) * .8414),520px);   /* glass width; height follows the artwork */
+  --pm-bx:76px;           /* ring box width */
   --pm-tray:96px;
+  --pm-prn:54px;          /* receipt printer strip */
+  --pm-slotb:14px;        /* slot distance from printer bottom */
+  --pm-pb:20px;           /* housing padding under the printer */
   --pm-plinth:30px;
   --pm-mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
   background:#070706;color:var(--pm-ink);overflow-x:clip;
@@ -29,32 +32,32 @@
 .pm-noscript a{color:#fff}
 
 /* ---------- Stage ---------- */
-.pm-stage{position:relative;isolation:isolate;padding:12px 0 clamp(72px,9vw,120px)}
+.pm-stage{position:relative;isolation:isolate;padding:12px 0 clamp(80px,10vw,140px)}
 .pm-bg{position:absolute;inset:0;z-index:-1;overflow:hidden}
-.pm-bg::before{content:"";position:absolute;inset:-40px;background:url(../images/synth-vending.jpg) 22% 40%/cover no-repeat;filter:blur(22px) brightness(.32) saturate(.55);transform:scale(1.06)}
-.pm-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 70% at 50% 30%,rgba(7,7,6,.12),rgba(7,7,6,.9) 70%),linear-gradient(180deg,rgba(7,7,6,.3),#070706 82%)}
-.pm-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 24px;margin-bottom:8px}
+.pm-bg::before{content:"";position:absolute;inset:-40px;background:url(../images/synth-vending.jpg) 22% 40%/cover no-repeat;filter:blur(22px) brightness(.3) saturate(.55);transform:scale(1.06)}
+.pm-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 50% 34%,rgba(7,7,6,.1),rgba(7,7,6,.92) 75%),linear-gradient(180deg,rgba(7,7,6,.3),#070706 82%)}
+.pm-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 24px;margin-bottom:clamp(8px,2vh,22px)}
 .pm .text-link{color:#ebe6dc}
 .pm .text-link:hover{color:#fff}
 .pm-fiction{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8f887c}
 
-.pm-rig{position:relative;width:max-content;max-width:100%;margin:0 auto;padding:0 16px}
+.pm-rig{position:relative;width:100%;margin:0 auto;padding:0 16px}
 /* warm light pooling on a polished floor */
-.pm-rig::after{content:"";position:absolute;left:50%;top:calc(100% - 250px);width:min(1100px,130%);height:220px;transform:translateX(-50%);background:radial-gradient(48% 50% at 50% 0,rgba(var(--pm-glow),.12),transparent 70%);pointer-events:none;z-index:-1;transition:opacity .8s}
+.pm-rig::after{content:"";position:absolute;left:50%;top:calc(100% - 210px);width:min(1100px,240%);height:240px;transform:translateX(-50%);background:radial-gradient(40% 50% at 50% 0,rgba(var(--pm-glow),.13),transparent 70%);pointer-events:none;z-index:-1;transition:opacity .8s}
 
 /* ---------- Housing ---------- */
-.pm-machine{position:relative;width:calc(var(--pm-bay) + var(--pm-scr) + var(--pm-gap) + var(--pm-pad) * 2);max-width:100%;padding-top:12px;border-radius:22px 22px 8px 8px;
+.pm-machine{position:relative;width:calc(var(--pm-glass) + var(--pm-dp) * 2 + var(--pm-pad) * 2);max-width:100%;margin:0 auto;padding-top:12px;border-radius:22px 22px 8px 8px;
   background:
-    linear-gradient(90deg,rgba(255,240,215,.05),transparent 5%,transparent 95%,rgba(255,240,215,.04)),
+    linear-gradient(90deg,rgba(255,240,215,.05),transparent 7%,transparent 93%,rgba(255,240,215,.04)),
     repeating-linear-gradient(90deg,rgba(255,255,255,.016) 0 1px,transparent 1px 3px),
     linear-gradient(180deg,#1c1915 0%,#12100e 32%,#0b0a09 100%);
-  box-shadow:inset 0 1px 0 rgba(255,236,205,.16),inset 0 0 0 1px rgba(176,138,87,.2),0 0 0 1px #040303,0 50px 90px rgba(0,0,0,.72),0 0 140px rgba(var(--pm-glow),.05)}
+  box-shadow:inset 0 1px 0 rgba(255,236,205,.16),inset 0 0 0 1px rgba(176,138,87,.2),0 0 0 1px #040303,0 50px 90px rgba(0,0,0,.72),0 0 160px rgba(var(--pm-glow),.06)}
 /* rounded top cap with a bronze edge */
 .pm-machine::after{content:"";position:absolute;left:0;right:0;top:0;height:12px;border-radius:22px 22px 0 0;pointer-events:none;
   background:linear-gradient(180deg,#463a2c,#1a1612);box-shadow:inset 0 1px 0 rgba(255,236,205,.4),0 1px 0 #000,0 2px 0 rgba(176,138,87,.18)}
 
 /* vertical light pillars on both edges */
-.pm-pillar{position:absolute;top:122px;bottom:calc(var(--pm-plinth) + 26px);width:10px;margin-left:-5px;border-radius:5px;background:#050404;box-shadow:inset 0 0 0 1px rgba(176,138,87,.28),inset 0 2px 4px rgba(0,0,0,.9)}
+.pm-pillar{position:absolute;top:24px;bottom:calc(var(--pm-plinth) + 14px);width:10px;margin-left:-5px;border-radius:5px;background:#050404;box-shadow:inset 0 0 0 1px rgba(176,138,87,.28),inset 0 2px 4px rgba(0,0,0,.9)}
 .pm-pillar-l{left:calc(var(--pm-pad) / 2)}
 .pm-pillar-r{left:calc(100% - var(--pm-pad) / 2)}
 .pm-pillar::before{content:"";position:absolute;inset:4px 3px;border-radius:2px;background:repeating-linear-gradient(180deg,var(--pm-led) 0 30px,transparent 30px 42px);filter:drop-shadow(0 0 3px rgba(var(--pm-glow),.95)) drop-shadow(0 0 8px rgba(var(--pm-glow),.45));opacity:.9;transition:opacity .7s}
@@ -63,34 +66,30 @@
 .pm.is-tray-lit .pm-pillar::before{animation:pm-pillar 1.2s ease-out}
 @keyframes pm-pillar{30%{opacity:1;filter:drop-shadow(0 0 4px rgba(var(--pm-glow),1)) drop-shadow(0 0 14px rgba(var(--pm-glow),.8))}}
 
-/* header panel */
-.pm-marquee{position:relative;padding:calc(var(--pm-pad) - 8px) var(--pm-pad) 0}
-.pm-mq-main{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 16px 13px;border-radius:3px;
+/* header panel: the machine's own name, so the glass doesn't repeat it */
+.pm-marquee{position:relative;padding:calc(var(--pm-pad) - 10px) var(--pm-pad) 0}
+.pm-mq-main{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:17px 12px 14px;border-radius:3px;
   background:linear-gradient(180deg,#100f0d,#080807);box-shadow:inset 0 0 0 1px rgba(176,138,87,.26),inset 0 3px 14px rgba(0,0,0,.9),0 1px 0 rgba(255,236,205,.06)}
-.pm-mq-name{font-family:var(--body);font-weight:400;font-size:clamp(20px,2.7vw,30px);letter-spacing:.52em;margin-right:-.52em;color:#f5efe4;line-height:1;text-shadow:0 0 16px rgba(var(--pm-glow),.4);transition:opacity .8s,text-shadow .8s}
+.pm-mq-name{font-family:var(--body);font-weight:400;font-size:clamp(18px,calc(var(--pm-glass) * .054),28px);letter-spacing:.5em;margin-right:-.5em;color:#f5efe4;line-height:1;text-shadow:0 0 16px rgba(var(--pm-glow),.4);transition:opacity .8s,text-shadow .8s}
 .pm-mq-name sup{font-size:.36em;letter-spacing:0;vertical-align:1.2em;margin-left:-.3em}
-.pm-mq-rule{display:block;width:min(440px,72%);height:1px;background:linear-gradient(90deg,transparent,rgba(var(--pm-gold-rgb),.75),transparent)}
-.pm-mq-line{font-size:10.5px;letter-spacing:.5em;margin-right:-.5em;text-transform:uppercase;color:#cbbfaa}
-.pm-mq-plate{position:absolute;right:calc(var(--pm-pad) + 14px);top:calc(var(--pm-pad) - 8px + 10px);display:flex;align-items:baseline;gap:8px}
-.pm-mq-year{font-size:10px;letter-spacing:.24em;color:#9c8a6c}
-.pm-mq-unit{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:#6e665a}
+.pm-mq-rule{display:block;width:min(400px,76%);height:1px;background:linear-gradient(90deg,transparent,rgba(var(--pm-gold-rgb),.75),transparent)}
+.pm-mq-line{font-size:10.5px;letter-spacing:.42em;margin-right:-.42em;text-transform:uppercase;color:#d2b88b}
+.pm-mq-plate{display:none}
 .pm-machine[data-power="off"] .pm-mq-name,.pm-machine[data-power="off"] .pm-mq-line{opacity:.16;text-shadow:none}
 .pm-machine[data-power="standby"] .pm-mq-name{opacity:.55;text-shadow:none}
 
-.pm-body{display:grid;grid-template-columns:var(--pm-bay) var(--pm-scr);grid-template-rows:1fr auto;grid-template-areas:"bay screen" "bay printer";gap:16px var(--pm-gap);padding:16px var(--pm-pad) 24px}
+.pm-body{display:flex;flex-direction:column;gap:6px;padding:16px var(--pm-pad) var(--pm-pb)}
 .pm-plinth{position:relative;height:var(--pm-plinth);border-radius:0 0 8px 8px;background:linear-gradient(180deg,#3b3125 0,#1a1612 2px,#0e0c0a 40%,#050404);box-shadow:inset 0 1px 0 rgba(255,236,205,.22)}
 .pm-plinth::after{content:"";position:absolute;left:10%;right:10%;bottom:-10px;height:10px;border-radius:50%;background:radial-gradient(closest-side,rgba(var(--pm-glow),.16),transparent)}
 
-/* ---------- Bay: display window and collection tray ---------- */
-.pm-bay{grid-area:bay;position:relative;display:flex;flex-direction:column}
-.pm-display{position:relative;display:flex;gap:0;padding:8px;border-radius:3px;background:#060505;
+/* ---------- Bay: glass display, collection tray ---------- */
+.pm-bay{position:relative;display:flex;flex-direction:column;gap:6px}
+.pm-display{position:relative;padding:var(--pm-dp);border-radius:4px;background:#060505;
   box-shadow:0 0 0 1px #000,0 0 0 2px rgba(196,158,104,.55),0 0 0 5px #0e0c0a,0 0 0 6px rgba(196,158,104,.16),inset 0 8px 20px rgba(0,0,0,.9),0 0 46px rgba(var(--pm-glow),.08)}
 /* recessed light bar along the top of the glass */
 .pm-display::before{content:"";position:absolute;left:12px;right:12px;top:3px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--pm-led) 10%,var(--pm-led) 90%,transparent);box-shadow:0 0 12px rgba(var(--pm-glow),.9),0 4px 18px rgba(var(--pm-glow),.4);opacity:.85;z-index:6;transition:opacity .7s}
 .pm-machine[data-power="off"] .pm-display::before{opacity:.05}
 .pm-machine[data-power="standby"] .pm-display::before{opacity:.3}
-
-/* transfer ports: one per shelf, they light as the box passes through */
 
 .pm-window{position:relative;flex:1;min-width:0;line-height:0;overflow:hidden;border-radius:2px}
 .pm-window img{width:100%;height:auto;aspect-ratio:801/952}
@@ -130,8 +129,12 @@
 @keyframes pm-flash{0%{background:rgba(255,244,224,.55);box-shadow:inset 0 0 0 2px #fff6e6,0 0 34px rgba(var(--pm-glow),.9)}100%{background:transparent;box-shadow:inset 0 0 0 1px rgba(255,236,204,.25),0 0 0 rgba(0,0,0,0)}}
 @keyframes pm-tag{from{transform:translateY(-100%)}to{transform:none}}
 
-.pm-sep{position:relative;z-index:5;height:22px;margin-top:auto;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#1b1814,#0e0c0a);box-shadow:inset 0 1px 0 rgba(255,236,205,.08),inset 0 0 0 1px rgba(176,138,87,.14),0 2px 4px rgba(0,0,0,.6)}
-.pm-sep span{font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:#8d7657;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:94%}
+
+.pm-sep{position:relative;z-index:5;height:22px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#1b1814,#0e0c0a);box-shadow:inset 0 1px 0 rgba(255,236,205,.08),inset 0 0 0 1px rgba(176,138,87,.14),0 2px 4px rgba(0,0,0,.6)}
+.pm-sep-t{font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:#8d7657;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:94%;transition:color .3s}
+/* the strip doubles as the machine's status readout while the glass UI is away */
+.pm-sep.is-live .pm-sep-t{color:#f2dfbd;text-shadow:0 0 8px rgba(var(--pm-glow),.6)}
+.pm-sep.is-live .pm-sep-t::before{content:"";display:inline-block;width:5px;height:5px;margin:0 9px 1px 0;border-radius:50%;background:var(--pm-led);box-shadow:0 0 6px rgba(var(--pm-glow),1);animation:pm-blink .6s steps(2,end) infinite}
 
 .pm-tray{position:relative;overflow:hidden;height:var(--pm-tray);margin-top:6px;border-radius:3px;background:#030303;box-shadow:0 0 0 1px #000,0 0 0 2px rgba(196,158,104,.4),0 0 0 5px #0e0c0a,inset 0 12px 26px rgba(0,0,0,1)}
 .pm-tray::before{content:"";position:absolute;left:14px;right:14px;top:5px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--pm-led),transparent);box-shadow:0 0 10px rgba(var(--pm-glow),.8);opacity:.35;transition:opacity .4s;z-index:5}
@@ -151,18 +154,26 @@
 .pm-box.is-in{opacity:1}
 .pm-box.is-collected{opacity:0;transition:opacity .4s}
 
-/* ---------- Touchscreen ---------- */
-.pm-screen{grid-area:screen;position:relative;display:flex;flex-direction:column;min-height:410px;padding:4px;border-radius:6px;
-  background:linear-gradient(180deg,#2c271f,#100e0b);box-shadow:inset 0 1px 0 rgba(255,236,205,.2),0 0 0 1px #000,0 0 0 2px rgba(196,158,104,.24),0 0 30px rgba(0,0,0,.6)}
-.pm-screen::before{content:"";position:absolute;inset:4px;border-radius:3px;pointer-events:none;z-index:3;
-  background:linear-gradient(125deg,rgba(255,250,240,.06),transparent 30%),repeating-linear-gradient(180deg,rgba(255,255,255,.01) 0 1px,transparent 1px 3px)}
-.pm-sbar,.pm-views{background:radial-gradient(120% 70% at 50% 0%,#17140f,#090807 65%)}
-.pm-sbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 8px 6px 14px;border-radius:3px 3px 0 0;border-bottom:1px solid rgba(var(--pm-gold-rgb),.14)}
-.pm-sbar-id{font-size:8.5px;letter-spacing:.16em;color:var(--pm-ink-3);white-space:nowrap}
+
+/* ---------- The glass touchscreen ---------- */
+.pm-screen{position:absolute;inset:var(--pm-dp);z-index:4;display:flex;flex-direction:column;border-radius:2px;overflow:hidden;
+  transition:opacity .45s ease,transform .45s cubic-bezier(.2,.7,.3,1),visibility 0s}
+/* scrims: a soft centre pool for Welcome, a darker translucent pane for choices */
+.pm-scrim{position:absolute;inset:0;z-index:0;opacity:0;pointer-events:none;transition:opacity .45s ease}
+.pm-scrim-c{background:radial-gradient(ellipse 88% 34% at 50% 57%,rgba(6,5,4,.9) 0,rgba(6,5,4,.66) 52%,rgba(6,5,4,.12) 100%)}
+.pm-scrim-f{background:rgba(7,6,5,.8);-webkit-backdrop-filter:blur(2px) saturate(.85);backdrop-filter:blur(2px) saturate(.85)}
+.pm[data-state="WELCOME"] .pm-scrim-c,.pm[data-state="PACKAGE"] .pm-scrim-f,.pm[data-state="CONFIGURATION"] .pm-scrim-f{opacity:1}
+/* dispensing: the interface steps aside and the machine works in plain view */
+.pm[data-state="DISPENSING"] .pm-screen{opacity:0;transform:translateY(12px);visibility:hidden;pointer-events:none;
+  transition:opacity .4s ease,transform .4s ease,visibility 0s .4s}
+
+.pm-sbar{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 8px 14px 12px;
+  background:linear-gradient(180deg,rgba(6,5,4,.86),rgba(6,5,4,.5) 60%,rgba(6,5,4,0))}
+.pm-sbar-id{font-size:8.5px;letter-spacing:.18em;color:#a69a86;white-space:nowrap}
 .pm-pips{display:flex;gap:5px}
-.pm-pips i{width:14px;height:3px;border-radius:2px;background:rgba(var(--pm-gold-rgb),.16);transition:background .3s,box-shadow .3s}
+.pm-pips i{width:14px;height:3px;border-radius:2px;background:rgba(var(--pm-gold-rgb),.2);transition:background .3s,box-shadow .3s}
 .pm-pips i.on{background:var(--pm-gold);box-shadow:0 0 6px rgba(var(--pm-glow),.7)}
-.pm-sound{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 10px;white-space:nowrap;border:1px solid rgba(var(--pm-gold-rgb),.28);border-radius:18px;background:transparent;color:var(--pm-ink-2);font:500 10px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;position:relative;z-index:4}
+.pm-sound{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 12px;white-space:nowrap;border:1px solid rgba(var(--pm-gold-rgb),.34);border-radius:18px;background:rgba(6,5,4,.55);color:var(--pm-ink-2);font:500 10px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;position:relative;z-index:4;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 .pm-sound:hover{border-color:rgba(var(--pm-gold-rgb),.6);color:var(--pm-ink)}
 .pm-sound-ic{width:12px;height:12px;position:relative}
 .pm-sound-ic::before{content:"";position:absolute;left:0;top:3px;width:4px;height:6px;background:currentColor;box-shadow:3px 0 0 0 currentColor}
@@ -170,14 +181,17 @@
 .pm-sound[aria-pressed="true"]{color:var(--pm-led);border-color:rgba(var(--pm-gold-rgb),.7);box-shadow:0 0 10px rgba(var(--pm-glow),.18)}
 .pm-sound[aria-pressed="false"] .pm-sound-ic{opacity:.6}
 
-.pm-views{position:relative;flex:1;display:flex;border-radius:0 0 3px 3px;overflow:hidden}
-.pm-machine[data-power="off"] .pm-views > *{opacity:0}
+.pm-views{position:relative;z-index:1;flex:1;min-height:0;display:flex;flex-direction:column}
+.pm-machine[data-power="off"] .pm-views > *,.pm-machine[data-power="off"] .pm-scrim{opacity:0}
 .pm-machine[data-power="off"] .pm-sbar{opacity:.15}
 .pm-machine[data-power="boot"] .pm-views{animation:pm-boot .9s steps(9,end) both}
 @keyframes pm-boot{0%{filter:brightness(0)}20%{filter:brightness(1.6)}30%{filter:brightness(.2)}55%{filter:brightness(1.2)}100%{filter:brightness(1)}}
-.pm-machine[data-power="standby"] .pm-views{filter:brightness(.78)}
-.pm-view{flex:1;display:flex;flex-direction:column;padding:18px 18px 14px;min-width:0}
+.pm-machine[data-power="standby"] .pm-views{filter:brightness(.85)}
+.pm-view{flex:1;min-height:0;display:flex;flex-direction:column;padding:4px 18px 16px;overflow-y:auto;scrollbar-width:none}
+.pm-view::-webkit-scrollbar{display:none}
 .pm-view[hidden]{display:none}
+/* results panels rest low on the glass, over the gift-box shelf, so the rings stay in view */
+.pm-v-low{flex:0 0 auto;margin-top:auto;padding:30px 18px 16px;background:linear-gradient(180deg,rgba(6,5,4,0),rgba(6,5,4,.86) 28px,rgba(6,5,4,.93))}
 .pm-view.is-enter > *{animation:pm-in .38s cubic-bezier(.2,.7,.3,1) both}
 .pm-view.is-enter > *:nth-child(2){animation-delay:.04s}
 .pm-view.is-enter > *:nth-child(3){animation-delay:.08s}
@@ -187,17 +201,15 @@
 @keyframes pm-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .pm-view h2:focus{outline:none}
 
-.pm-v-welcome{align-items:center;justify-content:center;text-align:center}
-.pm-k{font-size:11px;letter-spacing:.32em;margin-right:-.32em;text-transform:uppercase;color:var(--pm-ink)}
-.pm-k2{font-size:9px;letter-spacing:.24em;margin-right:-.24em;text-transform:uppercase;color:var(--pm-ink-3);margin-top:6px}
-.pm-wring{display:block;width:64px;height:64px;margin:20px auto 4px;color:#f4ead8;filter:drop-shadow(0 0 10px rgba(var(--pm-glow),.45))}
-.pm-wring svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.2;stroke-linejoin:round;stroke-linecap:round}
-.pm-logo{font-family:var(--body);font-weight:400;font-size:clamp(19px,2.2vw,22px);letter-spacing:.42em;margin:12px 0 0 .42em;color:#fff;text-shadow:0 0 18px rgba(var(--pm-glow),.4);line-height:1}
-.pm-logo sup{font-size:.4em;letter-spacing:0;vertical-align:1.2em;margin-left:-.35em}
-.pm-hl{font-family:var(--display);font-size:19px;line-height:1.3;color:var(--pm-ink-2);margin:14px 0 26px;max-width:250px}
+/* Welcome: almost nothing on the glass */
+.pm-v-welcome{align-items:center;justify-content:center;text-align:center;padding-bottom:6%}
+.pm-wring{display:block;width:50px;height:50px;margin:0 auto 14px;color:#f4ead8;filter:drop-shadow(0 0 10px rgba(var(--pm-glow),.5))}
+.pm-wring svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linejoin:round;stroke-linecap:round}
+.pm-k{font-size:11px;letter-spacing:.5em;margin-right:-.5em;text-transform:uppercase;color:#e9dfcd}
+.pm-hl{font-family:var(--display);font-size:clamp(23px,calc(var(--pm-glass) * .06),31px);line-height:1.22;color:#fff;margin:14px 0 26px;text-shadow:0 2px 18px rgba(0,0,0,.9)}
 .pm-fine{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--pm-ink-3);margin-top:10px;line-height:1.5}
 .pm-step{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--pm-gold)}
-.pm-h{font-family:var(--display);font-weight:400;font-size:21px;line-height:1.2;letter-spacing:.02em;margin:4px 0 12px;color:#fff}
+.pm-h{font-family:var(--display);font-weight:400;font-size:22px;line-height:1.2;letter-spacing:.02em;margin:5px 0 14px;color:#fff}
 .pm-sub{font-size:14px;line-height:1.5;color:var(--pm-ink-2)}
 .pm-sub span{color:var(--pm-ink);font-variant-numeric:tabular-nums}
 
@@ -270,30 +282,37 @@
 .pm-seq li.is-done b{color:var(--pm-gold)}
 .pm-seq li.is-done .pm-led{background:var(--pm-led);box-shadow:0 0 8px 2px rgba(var(--pm-glow),.8)}
 
-/* ---------- Bureau seal plate, labels and receipt printer ---------- */
-.pm-ctrl{grid-area:printer;align-self:start;position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:12px;margin-top:6px;padding:12px 14px 0}
-.pm-ctrl .pm-grille,.pm-ctrl .pm-plate,.pm-ctrl .pm-sticker{display:none}
-.pm-seal{display:flex;align-items:center;gap:12px;color:#c7a774}
-.pm-seal svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.2}
-.pm-seal span{font-size:9px;letter-spacing:.34em;margin-right:-.34em;text-transform:uppercase;color:#a99273}
-.pm-grille{width:54px;height:54px;border-radius:3px;background:radial-gradient(circle,#030303 1.2px,transparent 1.6px) 0 0/6px 6px,linear-gradient(180deg,#1d1a16,#100e0c);box-shadow:inset 0 0 0 1px rgba(176,138,87,.14)}
-.pm-plate{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#a08c6f;padding:6px 8px;border:1px solid #3a3025;background:linear-gradient(180deg,#1b1814,#110f0c);line-height:1.3}
-.pm-plate-sm{font-size:7px;color:#7a6c58}
-.pm-sticker{font-size:7px;letter-spacing:.14em;text-transform:uppercase;line-height:1.35;color:#3a2e1f;background:#e8dcc5;padding:5px 7px;border-radius:2px;transform:rotate(-2deg);opacity:.85}
 
-.pm-printer{grid-area:printer;position:relative;height:var(--pm-tray);margin-top:6px;border-top:0;border-radius:3px;background:linear-gradient(180deg,#191612,#0d0b09);box-shadow:inset 0 0 0 1px rgba(176,138,87,.22),inset 0 1px 0 rgba(255,236,205,.06)}
-.pm-printer-label{position:absolute;top:47px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:.34em;margin-right:-.34em;text-transform:uppercase;color:#bda782}
-.pm-printer-led{position:absolute;top:48px;right:16px;width:6px;height:6px;border-radius:50%;background:#2a231b;box-shadow:inset 0 0 0 1px rgba(var(--pm-gold-rgb),.3)}
+
+/* glass-context refinements */
+.pm-v-welcome .pm-btn{min-width:min(280px,100%);min-height:56px;justify-content:space-between;padding:0 20px 0 26px;background:rgba(10,8,6,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.pm-pkg{background:rgba(10,9,7,.35)}
+.pm-segs{background:rgba(3,3,2,.7)}
+.pm-v-low .pm-h{margin-bottom:8px}
+.pm-v-low > .pm-btn{margin-top:14px}
+/* processing cycles one message at a time; the full list stays in the DOM */
+.pm-v-proc .pm-bar{margin:2px 0 12px}
+.pm-log{min-height:26px}
+.pm-log li:not(:last-child){display:none}
+.pm-log li.is-final{margin-top:0}
+
+/* ---------- Receipt printer ---------- */
+.pm-seal{position:absolute;left:16px;top:50%;margin-top:-11px;color:#c7a774;line-height:0}
+.pm-seal svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.2}
+.pm-printer{position:relative;height:var(--pm-prn);border-radius:3px;background:linear-gradient(180deg,#191612,#0d0b09);box-shadow:inset 0 0 0 1px rgba(176,138,87,.22),inset 0 1px 0 rgba(255,236,205,.06)}
+.pm-printer-label{position:absolute;top:9px;left:0;right:0;text-align:center;font-size:8.5px;letter-spacing:.34em;margin-right:-.34em;text-transform:uppercase;color:#bda782}
+.pm-printer-led{position:absolute;top:50%;margin-top:-3px;right:16px;width:6px;height:6px;border-radius:50%;background:#2a231b;box-shadow:inset 0 0 0 1px rgba(var(--pm-gold-rgb),.3)}
 .pm.is-printing .pm-printer-led{background:var(--pm-led);box-shadow:0 0 8px rgba(var(--pm-glow),1);animation:pm-blink .3s steps(2,end) infinite}
 .pm.has-receipt .pm-printer-led{background:#9fe0b4;box-shadow:0 0 8px rgba(159,224,180,.7)}
-.pm-slot{position:absolute;left:50%;bottom:16px;width:290px;max-width:88%;height:10px;transform:translateX(-50%);border-radius:5px;background:#000;
+.pm-slot{position:absolute;left:50%;bottom:var(--pm-slotb);width:296px;max-width:82%;height:10px;transform:translateX(-50%);border-radius:5px;background:#000;
   box-shadow:inset 0 2px 3px #000,0 0 0 1px rgba(196,158,104,.45),0 0 0 4px #0b0a08,0 1px 0 4px rgba(255,236,205,.06)}
 .pm-slot::after{content:"";position:absolute;left:10px;right:10px;top:2px;height:1px;background:linear-gradient(90deg,transparent,var(--pm-led),transparent);opacity:.35;box-shadow:0 0 8px rgba(var(--pm-glow),.8);transition:opacity .3s}
 .pm.is-printing .pm-slot::after,.pm.has-receipt .pm-slot::after{opacity:1}
 
-/* ---------- Below the machine: receipt and campaign reveal ---------- */
-.pm-below{position:relative;display:grid;grid-template-columns:var(--pm-bay) var(--pm-scr);gap:0 var(--pm-gap);padding:0 var(--pm-pad);
-  margin-top:calc(-1 * (var(--pm-plinth) + 24px + 16px + 5px));z-index:6;pointer-events:none}
+/* ---------- Below the machine: the receipt hangs from the slot, the reveal sits beside it ---------- */
+.pm-below{position:relative;z-index:6;width:min(1100px,100%);margin-left:auto;margin-right:auto;
+  display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:56px;
+  margin-top:calc(-1 * (var(--pm-plinth) + var(--pm-pb) + var(--pm-slotb) + 5px));pointer-events:none}
 .pm-below > *{pointer-events:auto}
 .pm-out{grid-column:2;grid-row:1;display:flex;flex-direction:column;align-items:center}
 .pm-paper{width:272px;height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;filter:drop-shadow(0 10px 14px rgba(0,0,0,.55))}
@@ -327,7 +346,8 @@
 .pm.has-actions .pm-actions{animation:pm-in .4s ease-out both}
 .pm-status{min-height:1.5em;width:272px;margin-top:10px;font-size:13px;line-height:1.5;color:#bbb4a8;text-align:center}
 
-.pm-reveal{grid-column:1;grid-row:1;align-self:start;padding:calc(var(--pm-plinth) + 24px + 84px) 8px 0 0;max-width:var(--pm-bay)}
+
+.pm-reveal{grid-column:1;grid-row:1;justify-self:end;align-self:start;text-align:right;max-width:380px;padding-top:calc(var(--pm-plinth) + 70px)}
 .pm-reveal[hidden]{display:none}
 .pm-rv-a,.pm-rv-b{font-family:var(--display);font-size:clamp(30px,3.6vw,44px);line-height:1.12;letter-spacing:.02em;color:#f2efe9}
 .pm-rv-b{color:#fff}
@@ -342,67 +362,76 @@
 @keyframes pm-rv{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .pm.is-revealed .pm-rig::after{opacity:.35}
 
-/* ---------- Medium screens: same machine, a little smaller ---------- */
+
+/* ---------- Narrower screens: the receipt and reveal stack under the machine ---------- */
 @media (max-width:980px){
-  .pm{--pm-bay:396px;--pm-scr:318px;--pm-gap:18px;--pm-pad:24px;--pm-bx:70px;--pm-tray:90px}
+  .pm-below{display:flex;flex-direction:column;align-items:center}
+  .pm-reveal{padding:56px 8px 0;text-align:center;max-width:440px;justify-self:auto}
 }
 
-/* ---------- Phones and narrow tablets: touchscreen first ---------- */
-@media (max-width:820px){
-  .pm{--pm-pad:14px;--pm-gap:12px;--pm-bx:56px;--pm-tray:84px;--pm-plinth:20px}
+/* ---------- Phones: same machine, sized to the screen ---------- */
+@media (max-width:640px){
+  .pm{--pm-pad:12px;--pm-dp:5px;--pm-glass:calc(100vw - 20px - 24px - 10px);--pm-bx:56px;--pm-tray:80px;--pm-prn:48px;--pm-slotb:12px;--pm-pb:14px;--pm-plinth:18px}
   .pm-stage{padding-top:14px}
   .pm-top{margin-bottom:12px}
   .pm-fiction{font-size:10px;letter-spacing:.12em}
   .pm-rig{width:100%;padding:0 10px}
   .pm-machine{width:100%;max-width:480px;margin:0 auto;padding-top:10px;border-radius:18px 18px 6px 6px}
   .pm-machine::after{height:10px;border-radius:18px 18px 0 0}
-  .pm-pillar{top:96px;bottom:calc(var(--pm-plinth) + 18px);width:6px;margin-left:-3px}
+  .pm-pillar{top:18px;bottom:calc(var(--pm-plinth) + 10px);width:6px;margin-left:-3px}
   .pm-pillar::before{inset:2px 1.5px;background:repeating-linear-gradient(180deg,var(--pm-led) 0 22px,transparent 22px 32px)}
-  .pm-marquee{padding:12px var(--pm-pad) 0}
-  .pm-mq-main{padding:14px 8px 12px;gap:7px}
-  .pm-mq-name{font-size:clamp(15px,4.6vw,21px);letter-spacing:.38em;margin-right:-.38em}
+  .pm-marquee{padding:10px var(--pm-pad) 0}
+  .pm-mq-main{padding:13px 8px 11px;gap:7px}
+  .pm-mq-name{font-size:clamp(15px,4.6vw,21px);letter-spacing:.42em;margin-right:-.42em}
   .pm-mq-line{font-size:8.5px;letter-spacing:.32em;margin-right:-.32em}
-  .pm-mq-plate{display:none}
-  .pm-body{grid-template-columns:minmax(0,1fr) 76px;grid-template-rows:auto auto auto;grid-template-areas:"screen screen" "bay ctrl" "printer printer";gap:var(--pm-gap);padding:14px var(--pm-pad) 18px}
-  .pm-screen{min-height:0}
-  .pm-view{padding:18px 16px 16px}
-  .pm-v-welcome{min-height:360px}
-  .pm-wring{width:56px;height:56px;margin-top:18px}
-  .pm-display{padding:5px}
+  .pm-body{padding:12px var(--pm-pad) var(--pm-pb);gap:5px}
+  .pm-bay{gap:5px}
   .pm-display::before{left:8px;right:8px}
-  .pm-sep{height:16px;margin-top:5px}
-  .pm-sep span{font-size:6.5px;letter-spacing:.14em}
-  .pm-tray{margin-top:5px}
+  .pm-sbar{padding:6px 6px 10px 10px}
+  .pm-sbar-id{font-size:8px;letter-spacing:.12em}
+  .pm-sound{min-height:34px;padding:0 10px}
+  .pm-view{padding:2px 14px 12px}
+  .pm-v-low{padding:24px 14px 12px}
+  .pm-v-welcome{padding-bottom:4%}
+  .pm-wring{width:42px;height:42px;margin-bottom:10px}
+  .pm-k{font-size:10px;letter-spacing:.42em;margin-right:-.42em}
+  .pm-hl{font-size:clamp(21px,6.4vw,26px);margin:10px 0 20px}
+  .pm-v-welcome .pm-btn{min-height:52px}
+  .pm-step{font-size:9px}
+  .pm-h{font-size:19px;margin:3px 0 10px}
+  .pm-pkgs{gap:6px}
+  .pm-pkg{min-height:54px;padding:5px 10px 5px 6px;gap:10px}
+  .pm-pkg-ring{flex-basis:42px;height:42px}
+  .pm-pkg-ring svg{width:36px;height:36px}
+  .pm-pkg-t b{font-size:15px}
+  .pm-pkg-t span{font-size:11.5px}
+  .pm-set + .pm-set{margin-top:8px}
+  .pm-set legend{margin-bottom:6px;font-size:9px}
+  .pm-seg{min-height:52px;padding:7px 6px 6px}
+  .pm-seg-t{font-size:9.5px;letter-spacing:.06em}
+  .pm-nav{padding-top:10px}
+  .pm-nav .pm-btn{min-height:46px}
+  .pm-view > .pm-fine{display:none}
+  .pm-v-low .pm-sub{font-size:12.5px}
+  .pm-v-low > .pm-btn{margin-top:10px;min-height:44px}
+  .pm-sep{height:16px}
+  .pm-sep-t{font-size:6.5px;letter-spacing:.14em}
+  .pm-sep.is-live .pm-sep-t::before{margin-right:6px}
   .pm-tray-label{font-size:7.5px;letter-spacing:.22em;margin-right:-.22em}
   .pm-sh-t{font-size:6px;padding:2px 3px;letter-spacing:.08em}
   .pm-cell.is-restocked::after{content:"Identical";font-size:6px;letter-spacing:.06em;padding:3px 1px 2px}
-  .pm-ctrl{grid-area:ctrl;align-self:stretch;margin-top:0;flex-direction:column;justify-content:center;gap:12px;padding:10px 6px;border-radius:3px;background:linear-gradient(180deg,#191612,#0d0b09);box-shadow:inset 0 0 0 1px rgba(176,138,87,.22)}
-  .pm-ctrl .pm-grille,.pm-ctrl .pm-plate,.pm-ctrl .pm-sticker{display:block}
-  .pm-seal{flex-direction:column;gap:6px}
-  .pm-seal svg{width:24px;height:24px}
-  .pm-seal span{font-size:6.5px;letter-spacing:.16em;margin-right:-.16em;text-align:center;line-height:1.4}
-  .pm-grille{width:46px;height:40px}
-  .pm-plate{text-align:center;padding:5px 3px;font-size:6.5px;letter-spacing:.1em}
-  .pm-plate-sm{font-size:6px}
-  .pm-sticker{font-size:6px;text-align:center}
-  .pm-printer{height:60px;margin-top:0}
-  .pm-printer-label{top:11px;font-size:8px}
-  .pm-printer-led{top:12px;right:12px}
-  .pm-slot{bottom:13px;width:280px}
-  .pm-below{display:flex;flex-direction:column;align-items:center;padding:0;margin-top:calc(-1 * (var(--pm-plinth) + 18px + 13px + 5px))}
-  .pm-paper,.pm-actions,.pm-status{width:min(262px,82vw)}
-  .pm-reveal{padding:56px 8px 0;text-align:center;max-width:440px}
+  .pm-seal{left:10px;margin-top:-9px}
+  .pm-seal svg{width:18px;height:18px}
+  .pm-printer-label{top:7px;font-size:7.5px}
+  .pm-printer-led{right:12px}
+  .pm-slot{width:calc(100% - 60px);max-width:none}
+  .pm-paper{width:min(250px,calc(100vw - 120px))}
+  .pm-actions,.pm-status{width:min(262px,82vw)}
   .pm-rv-brand{margin-top:26px}
 }
-@media (max-width:380px){
-  .pm-body{grid-template-columns:minmax(0,1fr) 62px}
-  .pm-segs{gap:4px;padding:4px}
-  .pm-seg{padding:8px 6px 7px;min-height:58px}
-  .pm-seg-t{font-size:9.5px;letter-spacing:.06em}
-  .pm-pkg{gap:10px;padding-right:10px}
-  .pm-pkg-ring{flex-basis:42px;height:42px}
-  .pm-pkg-ring svg{width:34px;height:34px}
+@media (max-width:360px){
   .pm-sbar-id{display:none}
+  .pm-pkg-t span{font-size:11px}
 }
 
 /* ---------- Reduced motion ---------- */

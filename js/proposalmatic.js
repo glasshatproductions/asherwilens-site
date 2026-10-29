@@ -16,6 +16,8 @@
 
   var machine = $('#pmMachine');
   var bay = $('.pm-bay');
+  var sep = $('.pm-sep');
+  var sepT = $('.pm-sep-t');
   var box = $('.pm-box');
   var tray = $('.pm-tray');
   var paper = $('#pmPaper');
@@ -304,6 +306,11 @@
     li.classList.remove('is-active', 'is-done');
     if (mode) li.classList.add(mode);
   }
+  // the strip under the glass reads out what the machine is doing while the UI is away
+  function sepText(t) {
+    if (t) { sepT.textContent = t; sep.classList.add('is-live'); }
+    else { sepT.textContent = sepT.getAttribute('data-default'); sep.classList.remove('is-live'); }
+  }
   function shutterText(cell, t) { var n = cell.querySelector('.pm-sh-t'); if (n) n.textContent = t; }
   function work(cell, ms) {
     cell.style.setProperty('--pm-work', ms + 'ms');
@@ -319,6 +326,7 @@
     if (tb.bottom > window.innerHeight - 8) window.scrollBy({ top: tb.bottom - window.innerHeight + 28, behavior: quick ? 'auto' : 'smooth' });
     seq('sel', 'is-done'); seq('disp', 'is-active');
     shutterText(pick, 'Retrieving');
+    sepText('Retrieving \u00b7 Compartment ' + order.cell);
 
     var bw = box.offsetWidth, bh = box.offsetHeight, tw = tray.clientWidth, th = tray.clientHeight;
     var xRest = (tw - bw) / 2, yFloor = th - bh - (th > 90 ? 12 : 9), yTop = -bh - 6;
@@ -371,9 +379,11 @@
     Sound.play('chime');
     seq('disp', 'is-done'); seq('rep', 'is-active');
     say('Dispensed. Your ring is in the collection bay.');
+    sepText('Dispensed \u00b7 Please collect your ring');
     // 3. the compartment is restocked with an identical ring, in plain view
     later(function () {
       shutterText(pick, 'Restocking');
+      sepText('Restocking \u00b7 Compartment ' + order.cell);
       work(pick, 800);
       Sound.play('tick');
     }, quick ? 100 : 450, id);
@@ -383,9 +393,10 @@
       Sound.play('shutter');
       seq('rep', 'is-done');
       say('Replaced. Compartment ' + order.cell + ' holds an identical ring.');
+      sepText('Compartment ' + order.cell + ' \u00b7 Identical replacement loaded');
     }, quick ? 300 : 1350, id);
     later(function () { pick.classList.remove('is-flash'); }, quick ? 400 : 2550, id);
-    later(function () { if (go('RECEIPT')) runReceipt(id); }, quick ? 700 : 2450, id);
+    later(function () { sepText(''); if (go('RECEIPT')) runReceipt(id); }, quick ? 700 : 2450, id);
   }
 
   // ---------- Receipt ----------
@@ -449,7 +460,7 @@
     reveal.hidden = false;
     root.classList.add('is-revealed');
     say('Everything can be manufactured. Except rarity. Premier Gem.');
-    if (window.matchMedia && window.matchMedia('(max-width: 820px)').matches) {
+    if (window.matchMedia && window.matchMedia('(max-width: 980px)').matches) {
       setTimeout(function () {
         var r = reveal.getBoundingClientRect();
         if (r.top > window.innerHeight - 140) window.scrollBy({ top: r.top - window.innerHeight * 0.35, behavior: still() ? 'auto' : 'smooth' });
@@ -469,6 +480,7 @@
     root.classList.remove('is-moving', 'is-tray-lit', 'is-tray-open', 'is-printing', 'has-receipt', 'has-actions', 'is-revealed', 'is-analyzing', 'is-scanning', 'cfg-ready');
     cells().forEach(function (c) { c.classList.remove('is-scan', 'is-pick', 'is-shut', 'is-dark', 'is-working', 'is-restocked', 'is-flash'); shutterText(c, 'Retrieving'); });
     $$('.pm-seq li').forEach(function (li) { li.classList.remove('is-active', 'is-done'); });
+    sepText('');
     paper.style.height = '0px';
     actions.hidden = true;
     reveal.hidden = true;
