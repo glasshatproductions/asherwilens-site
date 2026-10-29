@@ -351,7 +351,7 @@ pass  # About page hidden
 if False: page('about.html', 'About | A. Wilens', 'Asher Wilens, Creative Director.', about, 'about')
 
 # ---------- CASE STUDIES ----------
-TRAILER_URL = 'https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/synthcity-trailer4.mp4'
+TRAILER_URL = 'https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/synthcity-trailer3.mp4'
 PLAYLIST_URL = 'https://youtube.com/playlist?list=PLzGEOC0lqaKMDMQ1OlSfnQW9dEJkE7zTB'
 
 def beat(title, line, text, content):
