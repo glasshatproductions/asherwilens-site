@@ -12,16 +12,10 @@ LASTCALL_TAG = ''
 MOMENTS_TAG = ''
 # Small rotating lines under the wordmark. Edit, add or remove freely.
 TAGLINES = [
-    '24/6. The Seventh Day Is Sacred.',
     'My Middle Name Is Creative. Legally, It Isn&#39;t.',
     'I Put the Art in Artificial.',
-    'Thinking Is My Cardio.',
-    '99% Ideas. 1% Where&#39;s My Coffee?',
     'Always On. Except Shabbos.',
-    'Artistic Intelligence. Artificial Assistance.',
-    'Intelligence: Some Artificial.',
-    'AI can do a lot. I still have opinions.',
-    'Art Director. Occasional Mad Scientist.',
+    'AI Can Do a Lot. I Still Have Opinions.',
     'Creative Director. Allegedly.',
 ]
 TAGLINES_HTML = ('<p class="taglines" aria-label="' + ' / '.join(TAGLINES) + '">'
