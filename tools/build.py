@@ -385,7 +385,7 @@ sc_end = ('<div class="endcard nowcard">'
           '<p class="endcard-mid">Celebrate what can&#39;t be replicated.</p></div>')
 
 sc_k9 = ('<div class="k9">'
-         + img('synth-signal','Across Synth City the Bureau&#39;s giant screens glitch as an unauthorized transmission from an underground tunnel breaks through, a crowd stopping to look up','The network, interrupted.')
+         + img('k9-screens','Across Synth City the Bureau&#39;s giant screens glitch as the geologist&#39;s face breaks through the broadcast, a crowd in the plaza stopping to look up','The network, interrupted.')
          + img('k9-geologist','Low-light camera feed GEO-09: a geologist in a headlamp holds up a rough natural diamond, signal unstable, status critical','The thing that wasn&#39;t supposed to exist.')
          + img('k9-scan','Synthetic Compliance Bureau scan: Natural origin detected. File K-9, unauthorized. Registry status: not found. Handling protocol: immediate seizure.','The Bureau&#39;s verdict.')
          + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv/kalahari">Follow the transmission: synthcity.tv/kalahari →</a></div>'
