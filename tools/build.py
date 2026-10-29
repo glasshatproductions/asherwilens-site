@@ -8,6 +8,11 @@ def _v(path):
     except Exception: return '1'
 ASSET_V=True
 
+# PROPOSALMATIC launch switch. False = the page is live at /proposalmatic.html but
+# unlisted: no card on Synth City and search engines are asked not to index it.
+# Set to True and rebuild to launch it publicly.
+PM_LISTED = False
+
 LASTCALL_TAG = ''
 MOMENTS_TAG = ''
 # Small rotating lines under the wordmark. Edit, add or remove freely.
@@ -368,7 +373,7 @@ sc_insight = ('<div class="editorial">'
               '<p class="ed-kicker">Everything is perfect.<br>Nothing is rare.</p></div></div>')
 
 sc_path = ('<ol class="path" aria-label="How the campaign connects">'
-           '<li>The films</li><li>synthcity.tv</li><li>Rarity Detector</li><li>Synth-Mate Lab</li><li>Proposalmatic™</li><li>The transmission</li><li>Premier Gem</li></ol>')
+           '<li>The films</li><li>synthcity.tv</li><li>Rarity Detector</li><li>Synth-Mate Lab</li>' + ('<li>Proposalmatic™</li>' if PM_LISTED else '') + '<li>The transmission</li><li>Premier Gem</li></ol>')
 
 # PROPOSALMATIC: compact card here; the working machine lives on proposalmatic.html.
 sc_pm = ('<div class="beat" id="proposalmatic"><div class="beat-head"><h3>PROPOSALMATIC™</h3><p class="beat-line">It automates the proposal.</p></div>'
@@ -439,7 +444,7 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Sof
                      + img('sm2-clonesworths-wide','A glossy 1950s couple wave beside a sign reading Meet the Clonesworths, a pink car and a mint-green house behind them','Meet the Clonesworths.')
                      + img('sm2-dinner','The synthetic couple at a candlelit dinner in a 1950s kitchen','Dinner at six. Every night.')
                      + '<div class="outlinks"><a class="text-link" href="https://syntheticbureau.com" target="_blank" rel="noopener">Enter the lab: syntheticbureau.com →</a></div>')
-              + sc_pm),
+              + (sc_pm if PM_LISTED else '')),
 
       section('04','The films','<strong>Six stories. One synthetic future.</strong> Six interconnected cinematic stories explore what happens to love, identity and meaning in a world where nothing is rare. The trailer opens the door.',
               sc_series),
@@ -776,7 +781,7 @@ pm_body = f'''<div class="pm" id="pm" data-state="WELCOME">
 page('proposalmatic.html', 'PROPOSALMATIC™ | Synth City | A. Wilens',
      'True love. Now in seconds. An interactive Synth City activation for Premier Gem: a 2187 engagement-ring vending machine that dispenses a ring identical to millions of others, then prints the receipt.',
      pm_body, 'work', og='pm-card',
-     head_extra=f'\n<link rel="stylesheet" href="css/proposalmatic.css?v={_v("css/proposalmatic.css")}">',
+     head_extra=('' if PM_LISTED else '\n<meta name="robots" content="noindex">') + f'\n<link rel="stylesheet" href="css/proposalmatic.css?v={_v("css/proposalmatic.css")}">',
      scripts_extra=f'\n<script src="js/proposalmatic.js?v={_v("js/proposalmatic.js")}" defer></script>')
 
 print('built')
