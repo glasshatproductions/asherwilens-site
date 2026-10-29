@@ -530,3 +530,12 @@ main:has(.g) .insight,main:has(.g) .endcard{margin-left:0}
 .lastcall-art.off-hook .lc-hot,.lc-hot.used{animation:none}
 .lc-hot:hover{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.lc-hot{animation:none;box-shadow:0 0 0 1px rgba(255,214,160,.6),0 0 22px 4px rgba(255,190,110,.45)}}
+/* rows rollout: interactive pieces sit on the same left edge */
+.g .lastcall-art{max-width:none;margin:0}
+.g-row.narrow{max-width:66%}
+@media (max-width:640px){.g-row.narrow{max-width:none}}
+main:has(.g) .billboard,main:has(.g) .sample-audio,main:has(.g) .now,main:has(.g) .path,main:has(.g) .series,main:has(.g) .disclaimer,main:has(.g) .editorial,main:has(.g) .films,main:has(.g) .reels{margin-left:0}
+.beat .g{margin-top:8px}
+.g>.g-row{margin-left:0;margin-right:0}
+@media (max-width:640px){.g-row.narrow{flex-direction:row;gap:12px}.g-row.narrow>.gf{flex:var(--r) 1 0;width:auto}}
+main:has(.g) .wrap.trailer,main:has(.g) .wrap.moments{margin-left:calc((100% - min(100%,var(--wrap)))/2)}

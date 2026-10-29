@@ -217,17 +217,27 @@ def gfig(src, alt, cap=''):
     return f'<figure class="gf" style="--r:{r:.4f}"><img src="images/{src}.jpg" alt="{alt}" loading="lazy">{c}</figure>'
 
 def rows(*rs):
+    """Each row is a list of (src, alt, cap). A row may instead be ('cls', [items])
+    to add a class (e.g. 'narrow' caps the row width for very tall pairs).
+    A raw HTML string is inserted as its own row (for interactive pieces)."""
     out = []
     for r in rs:
+        if isinstance(r, str):
+            out.append(r); continue
+        cls = ''
+        if isinstance(r, tuple) and len(r) == 2 and isinstance(r[0], str) and isinstance(r[1], list):
+            cls, r = ' ' + r[0], r[1]
         figs = ''.join(gfig(*it) for it in r)
         solo = ' solo' if len(r) == 1 and _ratio(r[0][0]) < 1.2 else ''
-        out.append(f'<div class="g-row{solo}">{figs}</div>')
+        out.append(f'<div class="g-row{solo}{cls}">{figs}</div>')
     return '<div class="g">' + ''.join(out) + '</div>'
 
 # A second image shown directly under a case-study hero (a reveal).
 HERO_ROWS = {
     'fage-blank': [('fage-blank', 'A huge, almost entirely blank billboard over a New York street, with only a small ingredients label: milk, live active cultures', 'The billboard.'),
                    ('fage-closeup', 'Close-up of the billboard&#39;s small label: Ingredients: milk, live active cultures. Honestly crafted. Nothing to hide. FAGE.', 'Read the fine print.')],
+    'dd-hero': [('dd-hero', 'A photographer disguised as a lizard watches a woman wearing a diamond ring', '')],
+    'ub-receipt': [('ub-receipt', 'An itemized bar receipt from the Tipsy Oak: two Old Fashioneds, fries, four OK one more, I&#39;m not even tired, we should start a business, I love you guys. Total: time to go. Close your tab. Open your app. Signed off with the Uber logo.', '')],
 }
 HERO_FOLLOW = {
     'fage-blank': ('fage-closeup', 'Close-up of the billboard&#39;s small label: Ingredients: milk, live active cultures. Honestly crafted. Nothing to hide. FAGE.', 'Read the fine print.'),
@@ -259,7 +269,7 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
         src, poster = hero[6:].split('|')
         hero_html = f'<div class="wrap cs-hero"><div class="video-embed"><video controls playsinline preload="metadata" poster="images/{poster}.jpg" aria-label="{hero_alt}"><source src="{src}" type="video/mp4">Your browser does not support video.</video></div></div>'
     elif hero in HERO_ROWS:
-        hero_html = '<div class="wrap cs-hero">' + rows(HERO_ROWS[hero]) + '</div>'
+        hero_html = '<div class="wrap cs-hero">' + rows(HERO_ROWS[hero]).replace(' loading="lazy"', ' fetchpriority="high"', 1) + '</div>'
     else:
         hero_html = f'<div class="wrap cs-hero"><img src="images/{hero}.jpg" alt="{hero_alt}"></div>'
         if hero in HERO_FOLLOW:
@@ -415,9 +425,9 @@ sc_end = ('<div class="endcard nowcard">'
           '<p class="endcard-mid">Celebrate what can&#39;t be replicated.</p></div>')
 
 sc_k9 = ('<div class="k9">'
-         + img('k9-screens','Across Synth City the Bureau&#39;s giant screens glitch as the geologist&#39;s face breaks through the broadcast, a crowd in the plaza stopping to look up','The network, interrupted.')
-         + img('k9-geologist','Low-light camera feed GEO-09: a geologist in a headlamp holds up a rough natural diamond, signal unstable, status critical','The thing that wasn&#39;t supposed to exist.')
-         + img('k9-scan','Synthetic Compliance Bureau scan: Natural origin detected. File K-9, unauthorized. Registry status: not found. Handling protocol: immediate seizure.','The Bureau&#39;s verdict.')
+         + rows([('k9-screens','Across Synth City the Bureau&#39;s giant screens glitch as the geologist&#39;s face breaks through the broadcast, a crowd in the plaza stopping to look up','The network, interrupted.')],
+                [('k9-geologist','Low-light camera feed GEO-09: a geologist in a headlamp holds up a rough natural diamond, signal unstable, status critical','The thing that wasn&#39;t supposed to exist.'),
+                 ('k9-scan','Synthetic Compliance Bureau scan: Natural origin detected. File K-9, unauthorized. Registry status: not found. Handling protocol: immediate seizure.','The Bureau&#39;s verdict.')])
          + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv/kalahari">Follow the transmission: synthcity.tv/kalahari →</a></div>'
          + '<div class="intercept"><p class="eyebrow">Optional · intercepted from 2187</p>'
          + '<p class="intercept-title">Answer the transmission</p>'
@@ -431,33 +441,33 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Sof
      [section('01','The insight','', sc_insight),
 
       section('02','The world','<strong>Welcome to the perfect future.</strong> In 2187, diamonds are unlimited, happiness is optimized and authenticity has become an inconvenience.',
-              '<div class="stack">' + img('synth-aerial','Aerial view of Synth City at night: flying cars, neon towers and a Welcome to Synth City sign','Cycle 2187.')
-              + '<div class="pair">' + img('synth-factory-line','Robotic nozzles drop cut diamonds by the hundreds onto a factory conveyor','Diamonds, by the ton.')
-              + img('synth-vending','A proposal kit vending machine in a 2187 airport terminal','Proposals, to go.') + '</div>'
-              + '<div class="narrow">' + img('synth-protocol','Bureau poster of a smiling couple in gloves showing matching rings: Love is a protocol. Bureau approved compatibility.','Love, pre-approved.') + '</div></div>'),
+              rows([('synth-aerial','Aerial view of Synth City at night: flying cars, neon towers and a Welcome to Synth City sign','Cycle 2187.')],
+                   [('synth-factory-line','Robotic nozzles drop cut diamonds by the hundreds onto a factory conveyor','Diamonds, by the ton.'),
+                    ('synth-vending','A proposal kit vending machine in a 2187 airport terminal','Proposals, to go.')],
+                   [('synth-protocol','Bureau poster of a smiling couple in gloves showing matching rings: Love is a protocol. Bureau approved compatibility.','Love, pre-approved.')])),
 
       section('03','The campaign','Every piece hands off to the next. A viewer can enter anywhere; the path always ends with something real.',
               sc_path
               + beat('The Synthetic Bureau','It controls the story.',
                      'The machinery of a society devoted to manufactured perfection: a news network, public broadcasts and one message repeated until it sticks. Synthetic is better.',
-                     img('synth-hq','The Synthetic Bureau headquarters, a brutalist monolith with a wireframe-head seal, citizens queuing beneath drones','The Bureau.')
-                     + img('synth-broadcast','The SCB7 news network site: Bureau classifies global synthetic diamond oversupply as economic success','The network, live at synthcity.tv.')
-                     + img('scfn-newsroom','A financial news anchor in front of a market wall: natural diamond values surpass Manhattan real estate per gram','Natural, now priced per gram.')
-                     + img('scfn-street','The same market update on a giant screen over a rainy Fifth Avenue in 2187','The story everyone stops for.')
+                     rows([('synth-hq','The Synthetic Bureau headquarters, a brutalist monolith with a wireframe-head seal, citizens queuing beneath drones','The Bureau.'),
+                           ('synth-broadcast','The SCB7 news network site: Bureau classifies global synthetic diamond oversupply as economic success','The network, live at synthcity.tv.')],
+                          [('scfn-newsroom','A financial news anchor in front of a market wall: natural diamond values surpass Manhattan real estate per gram','Natural, now priced per gram.'),
+                           ('scfn-street','The same market update on a giant screen over a rainy Fifth Avenue in 2187','The story everyone stops for.')])
                      + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv">Watch the broadcasts: synthcity.tv →</a></div>')
               + beat('The Rarity Detector','It erases the original.',
                      'A working, AI-powered classification tool inside the campaign universe. Upload anything and the Bureau rates how rare it will be in 2187. Natural stones come back flagged as anomalies.',
-                     img('synth-detector','Four screens of the Rarity Detector: load a specimen, analyzing material, scan complete, signal detected')
-                     + img('det-dollar','Detector result: a dollar bill classified as obsolete physical tender','A visitor&#39;s dollar bill: obsolete.')
-                     + img('det-mouse','Detector result: a wireless mouse classified as an obsolete peripheral','A visitor&#39;s mouse: obsolete.')
+                     rows([('synth-detector','Four screens of the Rarity Detector: load a specimen, analyzing material, scan complete, signal detected','')],
+                          ('narrow', [('det-dollar','Detector result: a dollar bill classified as obsolete physical tender','A visitor&#39;s dollar bill: obsolete.'),
+                                      ('det-mouse','Detector result: a wireless mouse classified as an obsolete peripheral','A visitor&#39;s mouse: obsolete.')]))
                      + '<p class="disclaimer">A fictional classification for the story, not a scientific method of verifying a diamond&#39;s origin.</p>'
                      + '<div class="outlinks"><a class="text-link" href="https://raritydetector.com">Try it: raritydetector.com →</a></div>')
               + beat('Synth-Mates','It replaces love.',
                      'If diamonds can be manufactured, why stop there? The Bureau now manufactures the people we fall in love with, then sells them like a 1950s dream.',
-                     img('sm-chambers-1950s','A 1950s couple in pink and tan, glossy and doll-like, stand in two glass growth chambers in an endless hall of chambers','Grown to order.')
-                     + img('sm-showroom','A smiling salesman presents rows of glass chambers holding synthetic bodies','The showroom.')
-                     + img('sm2-clonesworths-wide','A glossy 1950s couple wave beside a sign reading Meet the Clonesworths, a pink car and a mint-green house behind them','Meet the Clonesworths.')
-                     + img('sm2-dinner','The synthetic couple at a candlelit dinner in a 1950s kitchen','Dinner at six. Every night.')
+                     rows([('sm-chambers-1950s','A 1950s couple in pink and tan, glossy and doll-like, stand in two glass growth chambers in an endless hall of chambers','Grown to order.'),
+                           ('sm-showroom','A smiling salesman presents rows of glass chambers holding synthetic bodies','The showroom.')],
+                          [('sm2-clonesworths-wide','A glossy 1950s couple wave beside a sign reading Meet the Clonesworths, a pink car and a mint-green house behind them','Meet the Clonesworths.'),
+                           ('sm2-dinner','The synthetic couple at a candlelit dinner in a 1950s kitchen','Dinner at six. Every night.')])
                      + '<div class="outlinks"><a class="text-link" href="https://syntheticbureau.com" target="_blank" rel="noopener">Enter the lab: syntheticbureau.com →</a></div>')),
 
       section('04','The films','<strong>Six stories. One synthetic future.</strong> Six interconnected cinematic stories explore what happens to love, identity and meaning in a world where nothing is rare. The trailer opens the door.',
@@ -467,7 +477,7 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Sof
               sc_k9).replace('<section class="cs-section">','<section class="cs-section cs-dark">',1),
 
       section('06','Back to now','',
-              '<div class="now">' + img('synth-now','Present day: a woman&#39;s hand with a natural diamond engagement ring resting on a sunlit kitchen table beside a coffee cup') + sc_end + '</div>')],
+              '<div class="now">' + rows([('synth-now','Present day: a woman&#39;s hand with a natural diamond engagement ring resting on a sunlit kitchen table beside a coffee cup','')]) + sc_end + '</div>')],
      'desert-diamonds.html', 'Desert Diamonds', 'Synth City: the future didn&#39;t run out of diamonds. It ran out of rarity. An integrated campaign for Premier Gem.')
 
 
@@ -515,15 +525,15 @@ case('brown-co.html', 'Brown &amp; Co.', ['Pitch','Integrated campaign','Concept
       section('02','The Lighting Bar','A diamond isn&#39;t just chosen for the moment you buy it. It&#39;s chosen for every moment that follows.',
               '<p class="body-copy section-more">The Lighting Bar brings those moments into the store through the Moments Lamp, a proposed lighting experience inspired by candlelit dinners, quiet mornings, nights out, and celebrations.</p>'
               '<p class="body-copy section-more"><em>One diamond. A lifetime of different lights.</em></p>'
-              + img('bc-lamp-instore','A woman studies the round solitaire on her hand beside a brass Moments Lamp on a marble counter; its base is labeled Candlelight, Sunday morning, City lights and Celebration.')),
+              + rows([('bc-lamp-instore','A woman studies the round solitaire on her hand beside a brass Moments Lamp on a marble counter; its base is labeled Candlelight, Sunday morning, City lights and Celebration.','')])),
 
       section('03','Every light of the season','The season is full of lights that come and go. Some things stay with us long after they&#39;ve been taken down.',
-              img('bc-strings','Brown &amp; Co. billboard: String lights come down in January. This doesn&#39;t.')),
+              rows([('bc-strings','Brown &amp; Co. billboard: String lights come down in January. This doesn&#39;t.','')])),
 
       section('04','Your name in lights','Some moments deserve more than candlelight. For the biggest question of all, Brown &amp; Co. takes the experience beyond the showroom and into the Atlanta skyline.',
-              '<div class="stack sequence">' + img('bc-reserved','Night billboard, almost entirely empty black, reading This space reserved for her name, with a gold line where a name would go','The invitation.')
-              + img('bc-proposal-night','On a Buckhead rooftop at dusk, a man kneels with a ring as a Brown &amp; Co. billboard over the highway reads Sarah, will you marry me?','The moment.')
-              + '</div>' + bc_mechanics + bc_end)],
+              rows([('bc-reserved','Night billboard, almost entirely empty black, reading This space reserved for her name, with a gold line where a name would go','The invitation.'),
+                    ('bc-proposal-night','On a Buckhead rooftop at dusk, a man kneels with a ring as a Brown &amp; Co. billboard over the highway reads Sarah, will you marry me?','The moment.')])
+              + bc_mechanics + bc_end)],
      'fage.html', 'Fage', 'Brown & Co.: Love looks different in every light. A pitch built on the Moments Lamp, ending with her name in lights.')
 
 
@@ -568,19 +578,22 @@ case('desert-diamonds.html', 'Desert Diamonds', ['Premier Gem','Campaign · Film
      'dd-hero', 'A photographer disguised as a lizard watches a woman wearing a diamond ring',
      [section('01','The insight','', insight_box('People will go to absurd lengths to glimpse something truly rare. A natural diamond deserves that kind of attention.', 'A natural diamond is a rare sighting.')),
       section('02','The campaign','Print and social executions that cast natural diamonds as a rare species and the people hunting them as obsessive field photographers.',
-              '<div class="stack">' + img('dd-1','A photographer hides in a hedge while a woman with a diamond bracelet sits on a desert terrace') + '<div class="pair">' + img('dd-3-photo','A photographer hides inside a saguaro cactus as a woman adjusts her sunglasses, showing a yellow diamond ring','The cactus.') + img('dd-4-photo','A photographer floats in a flamingo pool float, lens aimed at a yellow diamond ring','The pool float.') + '</div>' + '<div class="pair">' + img('dd-5-photo','A man at breakfast watches through binoculars beside a woman wearing a diamond pendant','The binoculars.') + img('dd-2-photo','Grainy night-vision shot of a woman in a gown, her diamond flaring in a hotel corridor','Night vision.') + '</div></div>'),
+              rows([('dd-1','A photographer hides in a hedge while a woman with a diamond bracelet sits on a desert terrace','The hedge.')],
+                   [('dd-3-photo','A photographer hides inside a saguaro cactus as a woman adjusts her sunglasses, showing a yellow diamond ring','The cactus.'), ('dd-4-photo','A photographer floats in a flamingo pool float, lens aimed at a yellow diamond ring','The pool float.')],
+                   [('dd-5-photo','A man at breakfast watches through binoculars beside a woman wearing a diamond pendant','The binoculars.'), ('dd-2-photo','Grainy night-vision shot of a woman in a gown, her diamond flaring in a hotel corridor','Night vision.')])),
       section('03','Social: built for the feed','The same series recut for Instagram and mobile: 4:5 frames, the line set large enough to read in a scroll, and the photographer right in the middle of the shot.',
-              '<div class="feed">' + img('dd-social-lizard','4:5 social ad: A natural diamond is a rare sighting, the lizard','The lizard.') + img('dd-social-hedge','4:5 social ad: A natural diamond is a rare sighting, the hedge','The hedge.') + img('dd-social-cactus','4:5 social ad: A natural diamond is a rare sighting, the cactus','The cactus.') + img('dd-social-pool','4:5 social ad: A natural diamond is a rare sighting, the pool float','The pool float.') + img('dd-social-binoculars','4:5 social ad: A natural diamond is a rare sighting, the binoculars','The binoculars.') + img('dd-social-nightvision','4:5 social ad: A natural diamond is a rare sighting, night vision','Night vision.') + '</div>'),
+              rows([('dd-social-lizard','4:5 social ad: A natural diamond is a rare sighting, the lizard','The lizard.'), ('dd-social-hedge','4:5 social ad: A natural diamond is a rare sighting, the hedge','The hedge.'), ('dd-social-cactus','4:5 social ad: A natural diamond is a rare sighting, the cactus','The cactus.')],
+                   [('dd-social-pool','4:5 social ad: A natural diamond is a rare sighting, the pool float','The pool float.'), ('dd-social-binoculars','4:5 social ad: A natural diamond is a rare sighting, the binoculars','The binoculars.'), ('dd-social-nightvision','4:5 social ad: A natural diamond is a rare sighting, night vision','Night vision.')])),
       section('04','The films','Short films that play the stakeout for laughs: the long lens, the binoculars, the paparazzo who will go anywhere, even underwater, for one glimpse of the real thing.',
               '<div class="films">' + film('TheBinoculars.mp4','The Binoculars','dd-film-binoculars') + film('ThePool_DesertRing.mp4','The Pool','dd-film-pool') + film('TheSubmarine_DesertPendant.mp4','The Submarine','') + '</div>'),
       section('05','The microsite: Rare Sightings','The campaign lands on a field expedition. The researcher has left; the notes, maps and binoculars are waiting for you.',
-              img('dd-site-hero','Rare Sightings homepage: a field desk with binoculars and a note reading Departed on a field expedition to document rare sightings')),
+              rows([('dd-site-hero','Rare Sightings homepage: a field desk with binoculars and a note reading Departed on a field expedition to document rare sightings','')])),
       section('06','The archive','Every ring becomes a numbered field entry, logged by location and date and classified by species: the round, the pear, the oval, the halo. Each one confirmed.',
-              img('dd-site-sightings','Recent Sightings archive cards')),
+              rows([('dd-site-sightings','Recent Sightings archive cards','')])),
       section('07','The field reporter program','Owners upload a photo or video of their own ring, name it and say where it was spotted. They get an official field report back, and the best sightings are featured in the archive and on Instagram. The audience becomes the content engine.',
-              img('dd-site-reporter','Become a Field Reporter upload section')),
+              rows([('dd-site-reporter','Become a Field Reporter upload section','')])),
       section('08','The full experience','From expedition to field guide to available stones: one page that moves from story to shopping without breaking character.',
-              '<div style="max-width:620px;margin:0 auto">' + img('dd-site-full','Full Rare Sightings microsite design') + '</div>' + '<div class="outlinks"><a class="text-link" href="https://premiergem.com/rare-sightings" target="_blank" rel="noopener">Visit Rare Sightings: premiergem.com/rare-sightings →</a></div>')],
+              rows([('dd-site-full','Full Rare Sightings microsite design','')]) + '<div class="outlinks"><a class="text-link" href="https://premiergem.com/rare-sightings" target="_blank" rel="noopener">Visit Rare Sightings: premiergem.com/rare-sightings →</a></div>')],
      'brown-co.html', 'Brown &amp; Co', 'Desert Diamonds: A natural diamond is a rare sighting. Campaign, films and UGC microsite.')
 
 case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],
@@ -591,21 +604,21 @@ case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Dir
       section('01','The insight','', insight_box('Everyone knows the night is over before they admit it. You can hear it.', 'The things you say before it&#39;s time to go.')),
 
       section('02','On-premise: the coasters','A coaster series built from the lines everyone has heard at last call. Each one ends the same way.',
-              ''.join(img(f, alt, cap) for f, alt, cap in UB_COASTERS)),
+              rows(UB_COASTERS[:2], UB_COASTERS[2:])),
 
       (section('03','Experiential: The Last Call Department','An old payphone appears in neighborhood bars, offering a second opinion on those brilliant ideas that only seem brilliant after midnight. Pick up the receiver and a deadpan AI operator answers. Every conversation is different. Every case has one thing in common: knowing when it&#39;s time to go.',
-              (img('ub-payphone','A vintage payphone on a dark wood bar wall under a brass plaque: The Last Call Department. For great ideas after midnight. Pick up. Share your brilliant idea. We&#39;ll decide if it&#39;s time to go. Uber.','The installation.') if has_img('ub-payphone') else '')
-              + lastcall_panel()) if UB_LASTCALL else ''),
+              '<div class="g"><div class="g-row lc-row">'
+              + (gfig('ub-payphone','A vintage payphone on a dark wood bar wall under a brass plaque: The Last Call Department. For great ideas after midnight. Pick up. Share your brilliant idea. We&#39;ll decide if it&#39;s time to go. Uber.','The installation.') if has_img('ub-payphone') else '')
+              + f'<figure class="gf" style="--r:{_ratio("ub-payphone-closeup"):.4f}">' + lastcall_panel() + '<figcaption>Pick up the phone. Tap the glowing key.</figcaption></figure>'
+              + '</div></div>') if UB_LASTCALL else ''),
 
       section('04' if UB_LASTCALL else '03','Out-of-home: on the way out','The last word, placed between the bar door and the curb.',
-              ('<div class="feed tall9">' if not has_img('ub-billboard-clean') else '<div class="feed tall9 two">')
-              + img('ub-sign','A lit sidewalk sign on a rainy nightlife street as a couple walks past, one checking her phone: Last call is a suggestion. Closing time isn&#39;t. When it&#39;s time to go. Uber.','Sidewalk sign.')
-              + (img('ub-shelter-goodbye','Bus shelter at night on a wet city street. The poster reads: You&#39;ve been saying goodbye for 45 minutes. When it&#39;s time to go. Uber.','Bus shelter.') if has_img('ub-shelter-goodbye') else img('ub-shelter','Bus shelter: Your tab closed at 1:52. Your ride&#39;s here at 1:55.','Bus shelter.'))
-              + (billboard_html() if not has_img('ub-billboard-clean') else '') + '</div>'
-              + (billboard_html() if has_img('ub-billboard-clean') else '')),
+              rows([('ub-sign','A lit sidewalk sign on a rainy nightlife street as a couple walks past, one checking her phone: Last call is a suggestion. Closing time isn&#39;t. When it&#39;s time to go. Uber.','Sidewalk sign.'),
+                    ('ub-shelter-goodbye','Bus shelter at night on a wet city street. The poster reads: You&#39;ve been saying goodbye for 45 minutes. When it&#39;s time to go. Uber.','Bus shelter.')])
+              + billboard_html()),
 
       (section('05','The morning after','<span class="proposed">Proposed extension</span> Some brilliant ideas sound different in daylight. Callers who opt in could hear their late-night pitch again the next morning. The Last Call Department keeps the receipts.',
-              (img('ub-morning','Morning light on a nightstand: a glass of water, keys and a phone on the lock screen showing an Uber notification: Your brilliant idea from last night is ready for review.','The next morning.') if has_img('ub-morning') else '')
+              (rows([('ub-morning','Morning light on a nightstand: a glass of water, keys and a phone on the lock screen showing an Uber notification: Your brilliant idea from last night is ready for review.','The next morning.')]) if has_img('ub-morning') else '')
               + (sample_audio('audio/ub-morning-after.mp3','Sample: a morning-after follow-up') if has_file('audio/ub-morning-after.mp3') else '')) if UB_LASTCALL else ''),
       ] if s_],
      'turbochef.html', 'Turbochef', 'Uber: When it&#39;s time to go. A spec campaign built on the things you say before it&#39;s time to go.')
@@ -619,17 +632,17 @@ case('turbochef.html', 'Turbochef', ['Spec','Integrated campaign','Concept · Cr
      [section('01','The insight','', tc_insight),
 
       section('02','Out-of-home: new restaurants in the neighborhood','Billboards that make you look twice: real homes with restaurant neon on the roof. Every family that owns a TurboChef gets a name in lights.',
-              img('tc-hendersons','A white colonial home at blue hour with a red neon restaurant sign on the roof: The Hendersons, steak, chops, Sunday roast, open','The Hendersons. Steak, chops, Sunday roast.')
-              + img('tc-dave','A brick ranch house with a giant orange neon sign: Dave Kowalski, est. last Tuesday','Dave Kowalski. Est. last Tuesday.')
-              + img('tc-garcia','A Spanish-style home with a red neon sign: Casa Garcia, now seating','Casa Garcia. Now seating.')
-              + img('tc-barry','A farmhouse with a teal neon sign on the porch: Barry&#39;s Kitchen, reservations recommended','Barry&#39;s Kitchen. Reservations recommended.')),
+              rows([('tc-hendersons','A white colonial home at blue hour with a red neon restaurant sign on the roof: The Hendersons, steak, chops, Sunday roast, open','The Hendersons. Steak, chops, Sunday roast.'),
+                    ('tc-dave','A brick ranch house with a giant orange neon sign: Dave Kowalski, est. last Tuesday','Dave Kowalski. Est. last Tuesday.')],
+                   [('tc-garcia','A Spanish-style home with a red neon sign: Casa Garcia, now seating','Casa Garcia. Now seating.'),
+                    ('tc-barry','A farmhouse with a teal neon sign on the porch: Barry&#39;s Kitchen, reservations recommended','Barry&#39;s Kitchen. Reservations recommended.')])),
 
       section('03','Social: dinner service at home','Six-second loops for Reels and TikTok, built to land with the sound off. Each one ends on the payoff with the TurboChef lockup over the final frame.',
               '<div class="reels">' + '<figure class="film reel"><button class="reel-btn" aria-label="Play Passed inspection with sound"><video muted loop playsinline autoplay preload="metadata" poster="images/tc-grandma.jpg"><source src="https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/inspection.mp4" type="video/mp4"></video></button><figcaption>Passed inspection.</figcaption></figure>' + '<figure class="film reel"><button class="reel-btn" aria-label="Play Order up with sound"><video muted loop playsinline autoplay preload="metadata" poster="images/tc-tickets.jpg"><source src="https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/orderup.mp4" type="video/mp4"></video></button><figcaption>Order up.</figcaption></figure>' + '<figure class="film reel"><button class="reel-btn" aria-label="Play Service charge not included with sound"><video muted loop playsinline autoplay preload="metadata" poster="images/tc-check.jpg"><source src="https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/service.mp4" type="video/mp4"></video></button><figcaption>Service charge not included.</figcaption></figure>' + '</div>'),
 
       section('04','In the box: the sign comes with the oven','Every oven ships with a welcome card and a &quot;Now Serving&quot; lawn sign. Buyers put it in the yard, neighbors stop and ask, and the campaign spreads street by street.',
-              img('tc-unbox','A woman unboxes a TurboChef oven and lifts out an orange Now Serving, reservations recommended lawn sign from the lid; a card reads Congratulations on your new restaurant','Congratulations on your new restaurant.')
-              + img('tc-sign','A Now Serving, reservations recommended lawn sign in front of a home at dusk as a woman walking her dog stops to look','In the yard.'))],
+              rows([('tc-unbox','A woman unboxes a TurboChef oven and lifts out an orange Now Serving, reservations recommended lawn sign from the lid; a card reads Congratulations on your new restaurant','Congratulations on your new restaurant.'),
+                    ('tc-sign','A Now Serving, reservations recommended lawn sign in front of a home at dusk as a woman walking her dog stops to look','In the yard.')]))],
      'synth-city.html', 'Synth City', 'TurboChef: Compliments to the chef. A spec campaign that turns homes into the best restaurants on the block.')
 
 print('built')
