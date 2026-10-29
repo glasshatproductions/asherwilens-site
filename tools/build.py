@@ -10,6 +10,16 @@ ASSET_V=True
 
 LASTCALL_TAG = ''
 MOMENTS_TAG = ''
+# Small rotating lines under the wordmark. Edit, add or remove freely.
+TAGLINES = [
+    '24/6. The seventh day is sacred.',
+    'The best ads don&#39;t feel like ads.',
+    'Some ideas need a headline. Others need a patent.',
+    'My mom says I&#39;m creative.',
+]
+TAGLINES_HTML = ('<p class="taglines" aria-label="' + ' / '.join(TAGLINES) + '">'
+                 + ''.join(f'<span class="tl{" on" if i == 0 else ""}" aria-hidden="true">{t}</span>' for i, t in enumerate(TAGLINES)) + '</p>')
+
 def page(fname, title, desc, body, current=''):
     def nav(href, label, key):
         cur = ' aria-current="page"' if key == current else ''
@@ -33,7 +43,7 @@ def page(fname, title, desc, body, current=''):
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
 <div class="wrap">
-<a class="wordmark" href="index.html">A. WILENS</a>
+<div class="brandline"><a class="wordmark" href="index.html">A. WILENS</a>{TAGLINES_HTML}</div>
 <nav class="site-nav" aria-label="Main">
 {nav("index.html#work","Work","work")}
 {nav("lab.html","Lab","lab")}

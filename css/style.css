@@ -435,3 +435,12 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 @media (prefers-reduced-motion:reduce){.ml-btn,.ml-btn::before{transition:none}}
 .cs-hero-follow{margin-top:-8px}.cs-hero-follow img{max-height:min(80vh,900px)}
 .cs-hero-follow{margin-top:12px}.cs-hero-follow img{max-height:min(56vh,560px)}@media (max-width:640px){.cs-hero-follow img{max-height:none;width:78%;margin:0 auto}}
+
+/* Rotating lines under the wordmark */
+.brandline{display:flex;flex-direction:column;gap:7px}
+.taglines{position:relative;margin:0;height:1.3em;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7a756c;overflow:hidden;min-width:0}
+.taglines .tl{position:absolute;left:0;top:0;white-space:nowrap;opacity:0;transform:translateY(55%);transition:opacity .6s ease,transform .6s ease}
+.taglines .tl.on{opacity:1;transform:none}
+.taglines .tl.out{opacity:0;transform:translateY(-55%)}
+@media (max-width:640px){.taglines{font-size:10px;letter-spacing:.1em}}
+@media (prefers-reduced-motion:reduce){.taglines .tl{transition:opacity .2s;transform:none}}

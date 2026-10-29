@@ -42,3 +42,29 @@
   fit(); window.addEventListener('resize', fit);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
 })();
+
+/* Rotate the lines under the wordmark (pauses when the tab is hidden). */
+(function () {
+  document.querySelectorAll('.taglines').forEach(function (box) {
+    var lines = Array.prototype.slice.call(box.querySelectorAll('.tl'));
+    if (lines.length < 2) return;
+    var i = 0;
+    function fit() {
+      box.style.fontSize = ''; box.style.width = '';
+      var wrap = box.closest('.wrap'), cs = getComputedStyle(wrap);
+      var avail = wrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      var f = parseFloat(getComputedStyle(box).fontSize), w;
+      do { box.style.fontSize = f + 'px'; w = 0; lines.forEach(function (l) { w = Math.max(w, l.scrollWidth); }); f -= 0.25; } while (w > avail && f > 7.5);
+      box.style.width = Math.min(w, avail) + 'px';
+    }
+    fit(); window.addEventListener('resize', fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    setInterval(function () {
+      if (document.hidden) return;
+      var cur = lines[i]; i = (i + 1) % lines.length; var nxt = lines[i];
+      cur.classList.remove('on'); cur.classList.add('out');
+      nxt.classList.remove('out'); nxt.classList.add('on');
+      setTimeout(function () { cur.classList.remove('out'); }, 650);
+    }, 3800);
+  });
+})();
