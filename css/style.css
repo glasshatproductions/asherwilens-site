@@ -556,12 +556,23 @@ main:has(.g) .wrap.trailer,main:has(.g) .wrap.moments{margin-left:calc((100% - m
   box-shadow:inset 34px 0 0 -20px transparent}
 .g-row.browser>.gf::before{background-image:radial-gradient(circle at 12px 50%,#cfc6b6 3.5px,transparent 4px),radial-gradient(circle at 26px 50%,#cfc6b6 3.5px,transparent 4px),radial-gradient(circle at 40px 50%,#cfc6b6 3.5px,transparent 4px);background-size:auto;background-position:0 0}
 /* hero: a quiet focus pull inside viewfinder corners */
-.cs-hero .gf:has(img[src*="dd-hero"]){position:relative}
-.cs-hero .gf:has(img[src*="dd-hero"])::after{content:"";position:absolute;inset:14px;pointer-events:none;
-  background:linear-gradient(#f4efe4,#f4efe4) 0 0/22px 1.5px,linear-gradient(#f4efe4,#f4efe4) 0 0/1.5px 22px,
-  linear-gradient(#f4efe4,#f4efe4) 100% 0/22px 1.5px,linear-gradient(#f4efe4,#f4efe4) 100% 0/1.5px 22px,
-  linear-gradient(#f4efe4,#f4efe4) 0 100%/22px 1.5px,linear-gradient(#f4efe4,#f4efe4) 0 100%/1.5px 22px,
-  linear-gradient(#f4efe4,#f4efe4) 100% 100%/22px 1.5px,linear-gradient(#f4efe4,#f4efe4) 100% 100%/1.5px 22px;background-repeat:no-repeat;opacity:.85;mix-blend-mode:difference}
+/* viewfinder corners on the campaign imagery. They frame the photograph only,
+   never the copy panel or logo: print ads start the photo 46.2% across, the 4:5
+   social posts start it 27.4% down. Drawn on the zoom button so captions stay clear. */
+.g figure .zoom:has(img[src*="images/dd-"]:not([src*="dd-site"])){position:relative;--vf-in:14px;--vf-arm:22px}
+.g figure .zoom:has(img[src*="images/dd-"]:not([src*="dd-site"]))::after{content:"";position:absolute;inset:var(--vf-in);pointer-events:none;
+  --vf:linear-gradient(#f4efe4,#f4efe4);
+  background:var(--vf) 0 0/var(--vf-arm) 1.5px,var(--vf) 0 0/1.5px var(--vf-arm),
+    var(--vf) 100% 0/var(--vf-arm) 1.5px,var(--vf) 100% 0/1.5px var(--vf-arm),
+    var(--vf) 0 100%/var(--vf-arm) 1.5px,var(--vf) 0 100%/1.5px var(--vf-arm),
+    var(--vf) 100% 100%/var(--vf-arm) 1.5px,var(--vf) 100% 100%/1.5px var(--vf-arm);
+  background-repeat:no-repeat;opacity:.85;mix-blend-mode:difference}
+.g figure .zoom:has(img[src*="dd-hero"]:not([src*="dd-site"]))::after,.g figure .zoom:has(img[src*="dd-2."]:not([src*="dd-site"]))::after{left:calc(46.2% + var(--vf-in))}
+.g figure .zoom:has(img[src*="dd-social"]:not([src*="dd-site"]))::after{top:calc(27.4% + var(--vf-in))}
+/* smaller images get a tighter frame */
+.g-row.small figure .zoom:has(img[src*="images/dd-"]:not([src*="dd-site"])){--vf-in:8px;--vf-arm:14px}
+@media (max-width:640px){.g figure .zoom:has(img[src*="images/dd-"]:not([src*="dd-site"])){--vf-in:7px;--vf-arm:12px}
+  .g-row.small figure .zoom:has(img[src*="images/dd-"]:not([src*="dd-site"])){--vf-in:5px;--vf-arm:9px}}
 .cs-hero img[src*="dd-hero"]{animation:ddFocus 1.4s cubic-bezier(.2,.7,.2,1) both}
 @keyframes ddFocus{from{filter:blur(7px);transform:scale(1.015)}to{filter:none;transform:none}}
 @media (prefers-reduced-motion:reduce){.cs-hero img[src*="dd-hero"]{animation:none}}
