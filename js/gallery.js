@@ -67,7 +67,7 @@
   groups.forEach(function (figs) {
     if (!figs.length) return;
     // hand-arranged layouts keep their order; images still open in the viewer
-    if (figs[0].closest('.k9, .sequence, .now')) { figs.forEach(function (f, i) { makeOpenable(f, figs, i); }); return; }
+    if (figs[0].closest('.k9, .sequence, .now, .g')) { figs.forEach(function (f, i) { makeOpenable(f, figs, i); }); return; }
     if (figs.length === 2 && !figs[0].parentNode.classList.contains('pair') && !figs[0].closest('.sequence')) {
       var pair = document.createElement('div'); pair.className = 'pair';
       figs[0].parentNode.insertBefore(pair, figs[0]);

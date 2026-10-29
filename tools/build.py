@@ -200,7 +200,35 @@ def lastcall_panel():
 def sample_audio(src, label):
     return f'<div class="sample-audio"><p class="lc-label">{label}</p><audio controls preload="none" src="{src}"></audio></div>'
 
+# ---------- Layout system (left-aligned rows, nothing cropped) ----------
+# rows(...) takes explicit rows of images; images in a row share one height,
+# widths follow each image's own shape, captions sit under their own image.
+from PIL import Image as _PILImage
+def _ratio(src):
+    try:
+        w, h = _PILImage.open(_o.path.join(_ROOT, 'images', src + '.jpg')).size
+        return w / h
+    except Exception:
+        return 1.5
+
+def gfig(src, alt, cap=''):
+    r = _ratio(src)
+    c = f'<figcaption>{cap}</figcaption>' if cap else ''
+    return f'<figure class="gf" style="--r:{r:.4f}"><img src="images/{src}.jpg" alt="{alt}" loading="lazy">{c}</figure>'
+
+def rows(*rs):
+    out = []
+    for r in rs:
+        figs = ''.join(gfig(*it) for it in r)
+        solo = ' solo' if len(r) == 1 and _ratio(r[0][0]) < 1.2 else ''
+        out.append(f'<div class="g-row{solo}">{figs}</div>')
+    return '<div class="g">' + ''.join(out) + '</div>'
+
 # A second image shown directly under a case-study hero (a reveal).
+HERO_ROWS = {
+    'fage-blank': [('fage-blank', 'A huge, almost entirely blank billboard over a New York street, with only a small ingredients label: milk, live active cultures', 'The billboard.'),
+                   ('fage-closeup', 'Close-up of the billboard&#39;s small label: Ingredients: milk, live active cultures. Honestly crafted. Nothing to hide. FAGE.', 'Read the fine print.')],
+}
 HERO_FOLLOW = {
     'fage-blank': ('fage-closeup', 'Close-up of the billboard&#39;s small label: Ingredients: milk, live active cultures. Honestly crafted. Nothing to hide. FAGE.', 'Read the fine print.'),
 }
@@ -230,6 +258,8 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
     elif hero.startswith('video:'):
         src, poster = hero[6:].split('|')
         hero_html = f'<div class="wrap cs-hero"><div class="video-embed"><video controls playsinline preload="metadata" poster="images/{poster}.jpg" aria-label="{hero_alt}"><source src="{src}" type="video/mp4">Your browser does not support video.</video></div></div>'
+    elif hero in HERO_ROWS:
+        hero_html = '<div class="wrap cs-hero">' + rows(HERO_ROWS[hero]) + '</div>'
     else:
         hero_html = f'<div class="wrap cs-hero"><img src="images/{hero}.jpg" alt="{hero_alt}"></div>'
         if hero in HERO_FOLLOW:
@@ -267,7 +297,7 @@ work = [
     ('turbochef.html','thumb-turbochef','Turbochef','Spec','Compliments to the chef: the house becomes the restaurant.'),
 ]
 cards = ''.join(f'''<a class="card" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n} campaign" loading="lazy"></div>
-<div class="card-title"><h3>{n}</h3><span class="tag">{t}</span></div><p>{d}</p></a>''' for h, im, n, t, d in work if h != 'synth-city.html')
+<div class="card-title"><h3>{n}</h3><span class="tag">{t}</span></div><p>{d}</p></a>''' for h, im, n, t, d in work + [('lab.html','thumb-lab','The Lab','Inventions','Ideas that didn&#39;t fit in a brief: an AI creative studio, projected AR and more.')] if h != 'synth-city.html')
 home = f'''<section class="intro"><div class="wrap">
 <p class="eyebrow">Asher Wilens · Creative Director</p>
 <p class="lede">The best ads don&#39;t feel like ads.</p>
@@ -281,7 +311,7 @@ home = f'''<section class="intro"><div class="wrap">
 </div>
 <section class="section" id="work"><div class="wrap">
 <div class="section-head"><h2 class="display">Work</h2><p class="eyebrow">Spec = self-initiated concept</p></div>
-<div class="grid">{cards}</div>
+<div class="grid g3">{cards}</div>
 </div></section>
 <section class="section lab-teaser"><div class="wrap">
 <div class="section-head"><div><p class="eyebrow">Lab</p><h2 class="display">Ideas that didn't fit in a brief.</h2></div><a class="btn" href="lab.html">Visit the Lab</a></div>
@@ -506,29 +536,29 @@ case('fage.html', 'Fage', ['Spec','Integrated campaign','Concept · Creative Dir
      [section('01','The insight','', fage_insight),
 
       section('02','Out-of-home: the label is the ad','Where other brands fill every inch, FAGE leaves the space empty. The fine print is the whole message.',
-              img('fage-transparency','Bus shelter with clear glass and the line Full transparency, footnoted: that&#39;s the fine print, milk and live active cultures','Full transparency.*')
-              + img('fage-legal','A newspaper legal notice: Notice of full disclosure. FAGE hereby discloses the complete contents of its yogurt.','Print: a legal notice with nothing to declare.')),
+              rows([('fage-transparency','Bus shelter with clear glass and the line Full transparency, footnoted: that&#39;s the fine print, milk and live active cultures','Full transparency.*'),
+                    ('fage-legal','A newspaper legal notice: Notice of full disclosure. FAGE hereby discloses the complete contents of its yogurt.','Print: a legal notice with nothing to declare.')])),
 
       section('03','The people behind it','If the yogurt has nothing to hide, neither do the people who make it. Real roles, real standards, named on the poster.',
-              img('fage-helen','Poster: Produced in a facility with Helen. She&#39;s tasted every batch since 2012 and sent back 412.')
-              + img('fage-dave','Poster: Strained until Dave says stop. Dave has never said stop early.')
-              + img('fage-mike','Poster: Keep refrigerated. Keep Mike happy. He&#39;s rejected 96 batches for being a little thin.')),
+              rows([('fage-helen','Poster: Produced in a facility with Helen. She&#39;s tasted every batch since 2012 and sent back 412.','Helen.'),
+                    ('fage-dave','Poster: Strained until Dave says stop. Dave has never said stop early.','Dave.'),
+                    ('fage-mike','Poster: Keep refrigerated. Keep Mike happy. He&#39;s rejected 96 batches for being a little thin.','Mike.')])),
 
       section('04','Corp-Cam','Live cameras inside the factory, the lab and the break room at fagelivecam.com. Nine feeds, around the clock. Subway posters show what the cameras catch.',
-              img('fage-corpcam','The Corp-Cam page on a desktop monitor: nine live feeds from milk reception to the loading dock, beside the line Watch us make it. Nothing to hide.')
-              + img('fage-caught','Subway poster: a security-cam still of a worker sneaking yogurt in the cold room. Caught on Corp-Cam.','Caught on Corp-Cam.')),
+              rows([('fage-corpcam','The Corp-Cam page on a desktop monitor: nine live feeds from milk reception to the loading dock, beside the line Watch us make it. Nothing to hide.','The site.'),
+                    ('fage-caught','Subway poster: a security-cam still of a worker sneaking yogurt in the cold room. Caught on Corp-Cam.','Caught on Corp-Cam.')])),
 
       section('05','Experiential: the confession booth','Then the brand turns the honesty back on the public. Step into the booth, confess a yogurt secret, walk out with free FAGE.',
-              img('fage-booth','A woman laughs as she leaves the Nothing to Hide confession booth on a New York sidewalk, free yogurt in hand')
-              + img('fage-card','A confession card: Ingredients: milk, live active cultures, and a blank line for your secret','The confession card.')),
+              rows([('fage-booth','A woman laughs as she leaves the Nothing to Hide confession booth on a New York sidewalk, free yogurt in hand','The booth.'),
+                    ('fage-card','A confession card: Ingredients: milk, live active cultures, and a blank line for your secret','The confession card.')])),
 
       section('06','Packaging and social','The confessions keep going at home. Every lid lists one more ingredient, and #NothingToHide collects the rest.',
-              img('fage-lids','Three FAGE cups with lids reading Contains: eaten in bed, twice. Double-dipping, no regrets. Straight from the tub at 2am.','Lids: one more ingredient.')
-              + img('fage-social','#NothingToHide on Instagram and Reels: eating it on the fire escape at 2am, not a diet, a lifestyle','#NothingToHide.')),
+              rows([('fage-lids','Three FAGE cups with lids reading Contains: eaten in bed, twice. Double-dipping, no regrets. Straight from the tub at 2am.','Lids: one more ingredient.'),
+                    ('fage-social','#NothingToHide on Instagram and Reels: eating it on the fire escape at 2am, not a diet, a lifestyle','#NothingToHide.')])),
 
       section('07','Experiential: buzz for the truth','A FAGE-branded intercom on a New York brownstone invites passersby to buzz a neighbor and hear their yogurt confession, live. Every conversation ends the same way: &quot;I&#39;ll send some down.&quot;',
-              img('fage-buzz','A woman presses a buzzer on a brass intercom under a sign reading Buzz for the truth. Everyone here has a yogurt secret. Go on. Buzz someone.','Buzz for the truth.')
-              + img('fage-basket','A neighbor smiles from a brownstone window, lowering a basket of FAGE Total yogurt on a rope to the woman below','A little something from upstairs.'))],
+              rows([('fage-buzz','A woman presses a buzzer on a brass intercom under a sign reading Buzz for the truth. Everyone here has a yogurt secret. Go on. Buzz someone.','Buzz for the truth.'),
+                    ('fage-basket','A neighbor smiles from a brownstone window, lowering a basket of FAGE Total yogurt on a rope to the woman below','A little something from upstairs.')]))],
      'uber.html', 'Uber', 'Fage: Honestly crafted. Nothing to hide. A spec campaign that makes the ingredient list the ad.')
 
 

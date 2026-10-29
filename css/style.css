@@ -503,3 +503,21 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 .nowcard{margin-top:clamp(48px,7vw,96px)}
 .series{margin-bottom:clamp(24px,4vw,56px)}
 .k9 figure+figure{margin-top:40px}
+
+/* ---------- Layout system: left-aligned rows, equal heights, no cropping ---------- */
+.g{max-width:var(--media-w);margin:0;display:flex;flex-direction:column;gap:36px}
+.cs-hero .g{margin:0}
+.g-row{display:flex;gap:20px;align-items:flex-start}
+.g-row>.gf{flex:var(--r) 1 0;min-width:0;max-width:none;margin:0}
+.g-row.solo>.gf{flex:0 0 calc(50% - 10px)}
+.cs-section .g figure,.cs-hero .g figure{max-width:none;margin:0}
+.cs-section .g figure img,.cs-hero .g figure img,.g figure .zoom img{display:block;width:100%;height:auto;max-width:none;max-height:none;margin:0;aspect-ratio:auto;object-fit:contain}
+.g figcaption{margin-top:10px;font-size:14px;text-align:left}
+@media (max-width:640px){.g{gap:28px}.g-row{flex-direction:column;gap:28px}.g-row>.gf,.g-row.solo>.gf{flex:none;width:100%}}
+
+/* Home: three across on desktop */
+@media (min-width:821px){.grid.g3{grid-template-columns:repeat(3,minmax(0,1fr));gap:56px 32px}
+.grid.g3 > .card:last-child:nth-child(odd){grid-column:auto}
+.grid.g3 > .card:last-child:nth-child(odd) img{aspect-ratio:4/3}
+.grid.g3 .card h3{font-size:clamp(22px,2vw,28px)}}
+main:has(.g) .insight,main:has(.g) .endcard{margin-left:0}
