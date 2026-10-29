@@ -706,7 +706,7 @@ pm_body = f'''<div class="pm" id="pm" data-state="WELCOME">
 <div class="pm-bay" aria-hidden="true">
 <div class="pm-display">
 <div class="pm-chute"><span class="pm-chute-leds"></span><span class="pm-port" data-row="0"></span><span class="pm-port" data-row="1"></span><span class="pm-port" data-row="2"></span><span class="pm-lift"></span><span class="pm-chute-glass"></span></div>
-<div class="pm-window"><img src="images/pm-display.jpg" alt="" width="452" height="552"><div class="pm-cells">{pm_cells}</div><span class="pm-scanline"></span><span class="pm-dim"></span><span class="pm-glass"></span></div>
+<div class="pm-window"><img src="images/pm-display.jpg" alt="" width="801" height="952"><div class="pm-cells">{pm_cells}</div><span class="pm-scanline"></span><span class="pm-dim"></span><span class="pm-glass"></span></div>
 </div>
 <div class="pm-sep"><span>Synthetic Bureau · Certified dispenser · SB-2187-0451</span></div>
 <div class="pm-tray"><span class="pm-tray-in"></span><span class="pm-tray-light"></span><span class="pm-tray-flap"><span class="pm-tray-label">Collect your ring</span></span></div>
