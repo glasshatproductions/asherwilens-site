@@ -502,3 +502,4 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 .now figure{margin:24px 0 0}
 .nowcard{margin-top:clamp(48px,7vw,96px)}
 .series{margin-bottom:clamp(24px,4vw,56px)}
+.k9 figure+figure{margin-top:40px}

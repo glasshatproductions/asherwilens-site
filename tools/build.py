@@ -386,10 +386,8 @@ sc_end = ('<div class="endcard nowcard">'
 
 sc_k9 = ('<div class="k9">'
          + img('synth-signal','Across Synth City the Bureau&#39;s giant screens glitch as an unauthorized transmission from an underground tunnel breaks through, a crowd stopping to look up','The network, interrupted.')
-         + '<div class="pair">'
-         + img('synth-transmission-live','The Last Known Transmission page: a geologist with a headlamp, origin Kalahari Basin, signal weak','Origin: Kalahari Basin.')
-         + img('synth-proof','A dirt-covered hand opens in a dark tunnel to reveal a glowing rough natural diamond','The thing that wasn&#39;t supposed to exist.')
-         + '</div>'
+         + img('k9-geologist','Low-light camera feed GEO-09: a geologist in a headlamp holds up a rough natural diamond, signal unstable, status critical','The thing that wasn&#39;t supposed to exist.')
+         + img('k9-scan','Synthetic Compliance Bureau scan: Natural origin detected. File K-9, unauthorized. Registry status: not found. Handling protocol: immediate seizure.','The Bureau&#39;s verdict.')
          + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv/kalahari">Follow the transmission: synthcity.tv/kalahari →</a></div>'
          + '<div class="intercept"><p class="eyebrow">Optional · intercepted from 2187</p>'
          + '<p class="intercept-title">Answer the transmission</p>'
@@ -399,12 +397,12 @@ sc_k9 = ('<div class="k9">'
 case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Soft launch 2026','Creative Direction · Concept · Art Direction'],
      'The future didn&#39;t run out of diamonds. It ran out of rarity.',
      'An alternate-future campaign for Premier Gem. Six cinematic films, a government-controlled broadcast network and interactive experiences exploring a world where everything can be manufactured. Except rarity. <span class="fine">Soft-launched in 2026; the full rollout is in development.</span>',
-     'trailer:' + TRAILER_URL + '|synth-hero', 'Synth City campaign trailer',
+     'trailer:' + TRAILER_URL + '|synth-poster', 'Synth City campaign trailer',
      [section('01','The insight','', sc_insight),
 
       section('02','The world','<strong>Welcome to the perfect future.</strong> In 2187, diamonds are unlimited, happiness is optimized and authenticity has become an inconvenience.',
               '<div class="stack">' + img('synth-aerial','Aerial view of Synth City at night: flying cars, neon towers and a Welcome to Synth City sign','Cycle 2187.')
-              + '<div class="pair">' + img('synth-factory','A vast night factory complex of glowing carbon pressure chambers growing diamonds','Diamonds, by the ton.')
+              + '<div class="pair">' + img('synth-factory-line','Robotic nozzles drop cut diamonds by the hundreds onto a factory conveyor','Diamonds, by the ton.')
               + img('synth-vending','A proposal kit vending machine in a 2187 airport terminal','Proposals, to go.') + '</div>'
               + '<div class="narrow">' + img('synth-protocol','Bureau poster of a smiling couple in gloves showing matching rings: Love is a protocol. Bureau approved compatibility.','Love, pre-approved.') + '</div></div>'),
 
@@ -426,10 +424,10 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Sof
                      + '<div class="outlinks"><a class="text-link" href="https://raritydetector.com">Try it: raritydetector.com →</a></div>')
               + beat('Synth-Mates','It replaces love.',
                      'If diamonds can be manufactured, why stop there? The Bureau now manufactures the people we fall in love with, then sells them like a 1950s dream.',
-                     img('sm-assembly','Two half-assembled porcelain androids in growth chambers, the terminal reading Assembly 87%, calibrating devotion','Calibrating devotion.')
-                     + img('sm2-clonesworths','A porcelain-skinned 1950s couple wave in front of a pastel house under a sign: Meet the Clonesworths.','Meet the Clonesworths.')
+                     img('sm-chambers-1950s','A 1950s couple in pink and tan, glossy and doll-like, stand in two glass growth chambers in an endless hall of chambers','Grown to order.')
+                     + img('sm-showroom','A smiling salesman presents rows of glass chambers holding synthetic bodies','The showroom.')
+                     + img('sm2-clonesworths-wide','A glossy 1950s couple wave beside a sign reading Meet the Clonesworths, a pink car and a mint-green house behind them','Meet the Clonesworths.')
                      + img('sm2-dinner','The synthetic couple at a candlelit dinner in a 1950s kitchen','Dinner at six. Every night.')
-                     + img('sm-beach','An android couple at a candlelit beach table at sunset, staring at each other with mechanical hands','Never a missed sunset.')
                      + '<div class="outlinks"><a class="text-link" href="https://syntheticbureau.com" target="_blank" rel="noopener">Enter the lab: syntheticbureau.com →</a></div>')),
 
       section('04','The films','<strong>Six stories. One synthetic future.</strong> Six interconnected cinematic stories explore what happens to love, identity and meaning in a world where nothing is rare. The trailer opens the door.',
