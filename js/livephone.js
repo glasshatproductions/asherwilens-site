@@ -83,6 +83,7 @@
     v.addEventListener('play', function () { fr.classList.add('started'); v.controls = true; });
     v.addEventListener('error', fail, true);
     var src = v.querySelector('source'); if (src) src.addEventListener('error', fail);
-    if (v.error || v.networkState === 3) fail();
+    if (v.error) fail();
+    v.addEventListener('loadedmetadata', function () { fr.classList.remove('failed'); fr.style.backgroundImage = ''; });
   });
 })();
