@@ -21,7 +21,7 @@ TAGLINES = [
 TAGLINES_HTML = ('<p class="taglines" aria-label="' + ' / '.join(TAGLINES) + '">'
                  + ''.join(f'<span class="tl{" on" if i == 0 else ""}" aria-hidden="true">{t}</span>' for i, t in enumerate(TAGLINES)) + '</p>')
 
-def page(fname, title, desc, body, current=''):
+def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra='', scripts_extra=''):
     def nav(href, label, key):
         cur = ' aria-current="page"' if key == current else ''
         return f'<a href="{href}"{cur}>{label}</a>'
@@ -34,11 +34,11 @@ def page(fname, title, desc, body, current=''):
 <meta name="description" content="{desc}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
-<meta property="og:image" content="images/thumb-synth-city.jpg">
+<meta property="og:image" content="images/{og}.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/style.css?v={_v('css/style.css')}">
+<link rel="stylesheet" href="css/style.css?v={_v('css/style.css')}">{head_extra}
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -69,7 +69,7 @@ def page(fname, title, desc, body, current=''):
 </div>
 </footer>
 <script src="js/gallery.js?v={_v('js/gallery.js')}"></script>
-<script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>{LASTCALL_TAG if fname == 'uber.html' else ''}{MOMENTS_TAG if fname == 'brown-co.html' else ''}
+<script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>{LASTCALL_TAG if fname == 'uber.html' else ''}{MOMENTS_TAG if fname == 'brown-co.html' else ''}{scripts_extra}
 </body>
 </html>
 '''
@@ -368,7 +368,17 @@ sc_insight = ('<div class="editorial">'
               '<p class="ed-kicker">Everything is perfect.<br>Nothing is rare.</p></div></div>')
 
 sc_path = ('<ol class="path" aria-label="How the campaign connects">'
-           '<li>The films</li><li>synthcity.tv</li><li>Rarity Detector</li><li>Synth-Mate Lab</li><li>The transmission</li><li>Premier Gem</li></ol>')
+           '<li>The films</li><li>synthcity.tv</li><li>Rarity Detector</li><li>Synth-Mate Lab</li><li>Proposalmatic™</li><li>The transmission</li><li>Premier Gem</li></ol>')
+
+# PROPOSALMATIC: compact card here; the working machine lives on proposalmatic.html.
+sc_pm = ('<div class="beat" id="proposalmatic"><div class="beat-head"><h3>PROPOSALMATIC™</h3><p class="beat-line">It automates the proposal.</p></div>'
+         '<p class="body-copy">In Synth City, the perfect engagement ring is available in seconds. Choose your commitment, optimize the emotional response and receive a ring identical to millions of others.</p>'
+         '<a class="series pm-card" href="proposalmatic.html">'
+         '<span class="series-img"><img src="images/pm-card.jpg" alt="The Proposal Kits vending machine in a 2187 airport terminal: lit compartments of engagement rings, numbered 101 to 404, beside a slim touchscreen" loading="lazy"></span>'
+         '<span class="series-meta"><span class="eyebrow">Interactive · about 30 seconds</span>'
+         '<span class="series-title">True love. Now in seconds.</span>'
+         '<span class="series-note">A working engagement-ring vending machine from 2187. Pick a package, set the emotional response and keep the receipt.</span>'
+         '<span class="btn">Try Proposalmatic™</span></span></a></div>')
 
 sc_series = ('<a class="series" href="' + PLAYLIST_URL + '" target="_blank" rel="noopener">'
              '<span class="series-img"><img src="images/synth-world.jpg" alt="Bureau Approved billboards selling lab-grown happiness over a crowded plaza at night" loading="lazy">'
@@ -428,7 +438,8 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Sof
                      + img('sm-showroom','A smiling salesman presents rows of glass chambers holding synthetic bodies','The showroom.')
                      + img('sm2-clonesworths-wide','A glossy 1950s couple wave beside a sign reading Meet the Clonesworths, a pink car and a mint-green house behind them','Meet the Clonesworths.')
                      + img('sm2-dinner','The synthetic couple at a candlelit dinner in a 1950s kitchen','Dinner at six. Every night.')
-                     + '<div class="outlinks"><a class="text-link" href="https://syntheticbureau.com" target="_blank" rel="noopener">Enter the lab: syntheticbureau.com →</a></div>')),
+                     + '<div class="outlinks"><a class="text-link" href="https://syntheticbureau.com" target="_blank" rel="noopener">Enter the lab: syntheticbureau.com →</a></div>')
+              + sc_pm),
 
       section('04','The films','<strong>Six stories. One synthetic future.</strong> Six interconnected cinematic stories explore what happens to love, identity and meaning in a world where nothing is rare. The trailer opens the door.',
               sc_series),
@@ -601,5 +612,168 @@ case('turbochef.html', 'Turbochef', ['Spec','Integrated campaign','Concept · Cr
               img('tc-unbox','A woman unboxes a TurboChef oven and lifts out an orange Now Serving, reservations recommended lawn sign from the lid; a card reads Congratulations on your new restaurant','Congratulations on your new restaurant.')
               + img('tc-sign','A Now Serving, reservations recommended lawn sign in front of a home at dusk as a woman walking her dog stops to look','In the yard.'))],
      'synth-city.html', 'Synth City', 'TurboChef: Compliments to the chef. A spec campaign that turns homes into the best restaurants on the block.')
+
+# ---------- PROPOSALMATIC (interactive Synth City activation) ----------
+# A working engagement-ring vending machine from 2187. Markup only; the machine's
+# behaviour lives in js/proposalmatic.js and its look in css/proposalmatic.css.
+# The ring compartments are a crop of images/synth-vending.jpg (images/pm-display.jpg).
+PM_RINGS = {
+    'STANDARD': '<circle cx="24" cy="31" r="10.5"/><path d="M19 15.5 24 10l5 5.5-5 6.5z"/><path d="M19 15.5h10"/>',
+    'PREMIUM': '<circle cx="24" cy="31" r="10.5"/><path d="M20.6 15.6 24 12l3.4 3.6L24 20z"/><path d="M20.6 15.6h6.8"/><circle cx="24" cy="16" r="7.4" stroke-dasharray="1.1 2.1"/>',
+    'FOREVER+': '<circle cx="24" cy="31" r="10.5"/><path d="M20.4 15.2 24 11l3.6 4.2L24 20.4z"/><path d="M20.4 15.2h7.2"/><path d="M12.6 18.6 15 16l2.4 2.6L15 21.6z"/><path d="M30.6 18.6 33 16l2.4 2.6L33 21.6z"/>',
+}
+PM_PACKAGES = [('STANDARD', 'Standard', 'Approved for everyday commitment.'),
+               ('PREMIUM', 'Premium', 'Enhanced emotional signaling.'),
+               ('FOREVER+', 'Forever+', 'Auto-renewable devotion.')]
+PM_TIMES = [('IMMEDIATELY', 'Immediately'), ('WITHIN 24 HOURS', 'Within 24 hours'), ('WHEN CONVENIENT', 'When convenient')]
+PM_RESPONSES = [('ROMANTIC', 'Romantic'), ('ENTHUSIASTIC', 'Enthusiastic'), ('GUARANTEED ACCEPTANCE', 'Guaranteed acceptance')]
+
+def pm_pkg(v, name, line):
+    return (f'<label class="pm-pkg"><input type="radio" name="pmPkg" value="{v}">'
+            f'<span class="pm-pkg-ring" aria-hidden="true"><svg viewBox="8 6 32 38">{PM_RINGS[v]}</svg></span>'
+            f'<span class="pm-pkg-t"><b>{name}</b><span>{line}</span></span><span class="pm-led" aria-hidden="true"></span></label>')
+
+def pm_seg(group, v, label):
+    return (f'<label class="pm-seg"><input type="radio" name="{group}" value="{v}">'
+            f'<span class="pm-led" aria-hidden="true"></span><span class="pm-seg-t">{label}</span></label>')
+
+pm_cells = ''.join(f'<span class="pm-cell" data-row="{r}" data-col="{c}"><span class="pm-shutter"><span>Restocking</span></span></span>'
+                   for r in range(3) for c in range(4))
+
+pm_body = f'''<div class="pm" id="pm" data-state="WELCOME">
+<section class="pm-stage" aria-labelledby="pmTitle">
+<div class="pm-bg" aria-hidden="true"></div>
+<div class="wrap pm-top">
+<a class="text-link pm-back" href="synth-city.html#proposalmatic">← Synth City</a>
+<p class="pm-fiction">Fictional interactive campaign · Synth City, 2187 · Nothing is sold</p>
+</div>
+<h1 id="pmTitle" class="pm-sr">PROPOSALMATIC™: an interactive Synth City campaign experience</h1>
+<div class="pm-rig">
+<div class="pm-machine" id="pmMachine" data-power="off">
+<div class="pm-marquee" aria-hidden="true">
+<div class="pm-mq-main"><p class="pm-mq-name">PROPOSALMATIC<sup>™</sup></p><span class="pm-mq-rule"></span><p class="pm-mq-line">True love. Now in seconds.</p></div>
+<div class="pm-mq-plate"><span class="pm-mq-year">2187</span><span class="pm-mq-unit">Unit PM-07</span></div>
+</div>
+<div class="pm-body">
+<div class="pm-bay" aria-hidden="true">
+<div class="pm-display">
+<div class="pm-chute"><span class="pm-chute-leds"></span><span class="pm-port" data-row="0"></span><span class="pm-port" data-row="1"></span><span class="pm-port" data-row="2"></span><span class="pm-lift"></span><span class="pm-chute-glass"></span></div>
+<div class="pm-window"><img src="images/pm-display.jpg" alt="" width="452" height="552"><div class="pm-cells">{pm_cells}</div><span class="pm-scanline"></span><span class="pm-dim"></span><span class="pm-glass"></span></div>
+</div>
+<div class="pm-sep"><span>Synthetic Bureau · Certified dispenser · SB-2187-0451</span></div>
+<div class="pm-tray"><span class="pm-tray-in"></span><span class="pm-tray-light"></span><span class="pm-tray-flap"><span class="pm-tray-label">Collection bay</span></span></div>
+<span class="pm-box"><span class="pm-box-lid"></span><span class="pm-box-mark"></span></span>
+</div>
+<div class="pm-screen" role="region" aria-label="PROPOSALMATIC touchscreen">
+<div class="pm-sbar"><span class="pm-sbar-id" aria-hidden="true">SB · CRD · PM-07</span><span class="pm-pips" aria-hidden="true"><i></i><i></i><i></i><i></i></span><button type="button" class="pm-sound" aria-pressed="false"><span class="pm-sound-ic" aria-hidden="true"></span><span class="pm-sound-t">Sound off</span></button></div>
+<div class="pm-views">
+<section class="pm-view pm-v-welcome" data-view="WELCOME">
+<p class="pm-k">Synthetic Bureau</p><p class="pm-k2">Consumer Relationship Division</p>
+<h2 class="pm-logo" tabindex="-1">PROPOSALMATIC<sup>™</sup></h2>
+<p class="pm-hl">Love is complicated. We&#39;ve fixed that.</p>
+<button type="button" class="pm-btn pm-primary" data-act="start">Initiate proposal</button>
+<p class="pm-fine">Average completion time: 24 seconds.</p>
+</section>
+<section class="pm-view" data-view="PACKAGE" hidden>
+<p class="pm-step">Step 1 of 2</p><h2 class="pm-h" tabindex="-1">Select your commitment package</h2>
+<fieldset class="pm-pkgs" data-group="pkg"><legend class="pm-sr">Commitment package</legend>{''.join(pm_pkg(*x) for x in PM_PACKAGES)}</fieldset>
+<div class="pm-nav"><button type="button" class="pm-btn pm-ghost" data-act="cancel">Cancel</button><button type="button" class="pm-btn pm-primary" data-act="toConfig" disabled>Continue</button></div>
+<p class="pm-fine">All packages are equally unique.</p>
+</section>
+<section class="pm-view" data-view="CONFIGURATION" hidden>
+<p class="pm-step">Step 2 of 2</p><h2 class="pm-h" tabindex="-1">Configure your proposal</h2>
+<fieldset class="pm-set" data-group="time"><legend>Desired proposal timeframe</legend><div class="pm-segs">{''.join(pm_seg('pmTime', *x) for x in PM_TIMES)}</div></fieldset>
+<fieldset class="pm-set" data-group="resp"><legend>Preferred emotional response</legend><div class="pm-segs">{''.join(pm_seg('pmResp', *x) for x in PM_RESPONSES)}</div></fieldset>
+<div class="pm-nav"><button type="button" class="pm-btn pm-ghost" data-act="back">Back</button><button type="button" class="pm-btn pm-primary" data-act="confirm" disabled>Confirm proposal</button></div>
+<p class="pm-fine pm-hint">Select one setting in each row.</p>
+</section>
+<section class="pm-view pm-v-proc" data-view="PROCESSING" hidden>
+<h2 class="pm-h" tabindex="-1">Analyzing commitment<span class="pm-ell" aria-hidden="true">...</span></h2>
+<div class="pm-bar" aria-hidden="true"><i></i></div>
+<ul class="pm-log"></ul>
+</section>
+<section class="pm-view pm-v-proc" data-view="DISPENSING" hidden>
+<p class="pm-step">Proposal approved</p><h2 class="pm-h" tabindex="-1">Dispensing your ring</h2>
+<p class="pm-sub">Compartment <span data-f="cell"></span>. Please wait for the collection bay light.</p>
+<div class="pm-bar is-run" aria-hidden="true"><i></i></div>
+</section>
+<section class="pm-view" data-view="RECEIPT" hidden>
+<p class="pm-step">Proposal complete</p><h2 class="pm-h" tabindex="-1">Please collect your ring and receipt.</h2>
+<p class="pm-sub">Compartment <span data-f="cell"></span> has been restocked.</p>
+<button type="button" class="pm-btn pm-ghost" data-act="viewReceipt">View receipt</button>
+</section>
+<section class="pm-view" data-view="REVEAL" hidden>
+<p class="pm-step">Transaction closed</p><h2 class="pm-h" tabindex="-1">Thank you for choosing efficiency.</h2>
+<p class="pm-sub">Ready for the next customer.</p>
+<button type="button" class="pm-btn pm-primary" data-act="restart">New proposal</button>
+</section>
+</div>
+<p class="pm-sr" aria-live="polite" id="pmLive"></p>
+</div>
+<div class="pm-ctrl" aria-hidden="true">
+<span class="pm-grille"></span>
+<span class="pm-plate">Love is a protocol</span>
+<span class="pm-sticker">Inspected<br>Cycle 2187 ✓</span>
+<span class="pm-plate pm-plate-sm">Do not rock or tilt</span>
+</div>
+<div class="pm-printer" aria-hidden="true"><span class="pm-printer-label">Receipt</span><span class="pm-printer-led"></span><span class="pm-slot"></span></div>
+</div>
+<div class="pm-plinth" aria-hidden="true"></div>
+</div>
+<div class="pm-below">
+<div class="pm-out">
+<div class="pm-paper" id="pmPaper">
+<article class="pm-receipt" id="pmReceipt" tabindex="-1" aria-label="Your PROPOSALMATIC receipt">
+<p class="r-c r-b">Synthetic Bureau</p>
+<p class="r-c r-big">PROPOSALMATIC™</p>
+<p class="r-c">Cycle 2187</p>
+<p class="r-rule"></p>
+<p class="r-kv"><span>Order</span><span data-f="no"></span></p>
+<p class="r-kv"><span>Issued</span><span data-f="issued"></span></p>
+<p class="r-kv"><span>Unit / compartment</span><span>PM-07 / <span data-f="cell"></span></span></p>
+<p class="r-rule"></p>
+<p class="r-c r-b r-gap">Proposal complete</p>
+<p class="r-kv"><span>Package:</span><span data-f="pkg"></span></p>
+<p class="r-kv"><span>Emotional response:</span><span data-f="resp"></span></p>
+<p class="r-kv"><span>Deployment:</span><span data-f="time"></span></p>
+<p class="r-kv"><span>Love:</span><span>Approved</span></p>
+<p class="r-kv"><span>Compatibility:</span><span>Optimized</span></p>
+<p class="r-kv"><span>Originality:</span><span>0%</span></p>
+<p class="r-rule"></p>
+<p class="r-c r-pun">Congratulations.</p>
+<p class="r-c r-pun">Your ring is identical to 8,492,611 others.</p>
+<p class="r-c r-pun r-last">The ring of your dreams. And everyone else&#39;s.</p>
+<p class="r-rule"></p>
+<p class="r-c">Thank you for choosing efficiency.</p>
+<svg class="r-code" data-f="bars" viewBox="0 0 200 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+<p class="r-c r-fine">Fictional receipt · No purchase made</p>
+</article>
+</div>
+<div class="pm-actions" hidden>
+<button type="button" class="pm-act" data-act="save">Save PNG</button>
+<button type="button" class="pm-act" data-act="copy">Copy text</button>
+<button type="button" class="pm-act" data-act="share">Share</button>
+<button type="button" class="pm-act pm-act-ghost" data-act="restart">Start over</button>
+</div>
+<p class="pm-status" aria-live="polite"></p>
+</div>
+<div class="pm-reveal" id="pmReveal" hidden>
+<p class="pm-rv-a">Everything can be manufactured.</p>
+<p class="pm-rv-b">Except rarity.</p>
+<p class="pm-rv-brand">Premier Gem</p>
+<p class="pm-rv-line">The future didn&#39;t run out of diamonds.<br>It ran out of rarity.</p>
+<a class="text-link pm-rv-link" href="synth-city.html">Explore the Synth City campaign →</a>
+</div>
+</div>
+</div>
+</section>
+<noscript><p class="wrap pm-noscript">PROPOSALMATIC™ needs JavaScript to run. <a href="synth-city.html">Back to Synth City</a>.</p></noscript>
+</div>'''
+
+page('proposalmatic.html', 'PROPOSALMATIC™ | Synth City | A. Wilens',
+     'True love. Now in seconds. An interactive Synth City activation for Premier Gem: a 2187 engagement-ring vending machine that dispenses a ring identical to millions of others, then prints the receipt.',
+     pm_body, 'work', og='pm-card',
+     head_extra=f'\n<link rel="stylesheet" href="css/proposalmatic.css?v={_v("css/proposalmatic.css")}">',
+     scripts_extra=f'\n<script src="js/proposalmatic.js?v={_v("js/proposalmatic.js")}" defer></script>')
 
 print('built')
