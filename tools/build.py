@@ -525,14 +525,14 @@ case('brown-co.html', 'Brown &amp; Co.', ['Pitch','Integrated campaign','Concept
       section('02','The Lighting Bar','A diamond isn&#39;t just chosen for the moment you buy it. It&#39;s chosen for every moment that follows.',
               '<p class="body-copy section-more">The Lighting Bar brings those moments into the store through the Moments Lamp, a proposed lighting experience inspired by candlelit dinners, quiet mornings, nights out, and celebrations.</p>'
               '<p class="body-copy section-more"><em>One diamond. A lifetime of different lights.</em></p>'
-              + rows([('bc-lamp-instore','A woman studies the round solitaire on her hand beside a brass Moments Lamp on a marble counter; its base is labeled Candlelight, Sunday morning, City lights and Celebration.','')])),
+              + rows(('small', [('bc-lamp-instore','A woman studies the round solitaire on her hand beside a brass Moments Lamp on a marble counter; its base is labeled Candlelight, Sunday morning, City lights and Celebration.','')]))),
 
       section('03','Every light of the season','The season is full of lights that come and go. Some things stay with us long after they&#39;ve been taken down.',
-              rows([('bc-strings','Brown &amp; Co. billboard: String lights come down in January. This doesn&#39;t.','')])),
+              rows(('small', [('bc-strings','Brown &amp; Co. billboard: String lights come down in January. This doesn&#39;t.','')]))),
 
       section('04','Your name in lights','Some moments deserve more than candlelight. For the biggest question of all, Brown &amp; Co. takes the experience beyond the showroom and into the Atlanta skyline.',
-              rows([('bc-reserved','Night billboard, almost entirely empty black, reading This space reserved for her name, with a gold line where a name would go','The invitation.'),
-                    ('bc-proposal-night','On a Buckhead rooftop at dusk, a man kneels with a ring as a Brown &amp; Co. billboard over the highway reads Sarah, will you marry me?','The moment.')])
+              rows(('small pair-s', [('bc-reserved','Night billboard, almost entirely empty black, reading This space reserved for her name, with a gold line where a name would go','The invitation.'),
+                    ('bc-proposal-night','On a Buckhead rooftop at dusk, a man kneels with a ring as a Brown &amp; Co. billboard over the highway reads Sarah, will you marry me?','The moment.')]))
               + bc_mechanics + bc_end)],
      'fage.html', 'Fage', 'Brown & Co.: Love looks different in every light. A pitch built on the Moments Lamp, ending with her name in lights.')
 
@@ -591,9 +591,8 @@ case('desert-diamonds.html', 'Desert Diamonds', ['Premier Gem','Campaign · Film
       section('06','The archive','Every ring becomes a numbered field entry, logged by location and date and classified by species: the round, the pear, the oval, the halo. Each one confirmed.',
               rows([('dd-site-sightings','Recent Sightings archive cards','')])),
       section('07','The field reporter program','Owners upload a photo or video of their own ring, name it and say where it was spotted. They get an official field report back, and the best sightings are featured in the archive and on Instagram. The audience becomes the content engine.',
-              rows([('dd-site-reporter','Become a Field Reporter upload section','')])),
-      section('08','The full experience','From expedition to field guide to available stones: one page that moves from story to shopping without breaking character.',
-              rows([('dd-site-full','Full Rare Sightings microsite design','')]) + '<div class="outlinks"><a class="text-link" href="https://premiergem.com/rare-sightings" target="_blank" rel="noopener">Visit Rare Sightings: premiergem.com/rare-sightings →</a></div>')],
+              rows([('dd-site-reporter','Become a Field Reporter upload section','')])
+              + '<div class="outlinks"><a class="text-link" href="https://premiergem.com/rare-sightings" target="_blank" rel="noopener">Visit Rare Sightings: premiergem.com/rare-sightings →</a></div>')],
      'brown-co.html', 'Brown &amp; Co', 'Desert Diamonds: A natural diamond is a rare sighting. Campaign, films and UGC microsite.')
 
 case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],

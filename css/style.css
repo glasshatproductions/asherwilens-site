@@ -539,3 +539,8 @@ main:has(.g) .billboard,main:has(.g) .sample-audio,main:has(.g) .now,main:has(.g
 .g>.g-row{margin-left:0;margin-right:0}
 @media (max-width:640px){.g-row.narrow{flex-direction:row;gap:12px}.g-row.narrow>.gf{flex:var(--r) 1 0;width:auto}}
 main:has(.g) .wrap.trailer,main:has(.g) .wrap.moments{margin-left:calc((100% - min(100%,var(--wrap)))/2)}
+/* Brown & Co.: smaller imagery */
+.g-row.small{max-width:640px}
+.wrap.moments{max-width:calc(640px + 48px)}
+.g-row.small.pair-s{max-width:820px}
+@media (min-width:641px){.moments .ml-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
