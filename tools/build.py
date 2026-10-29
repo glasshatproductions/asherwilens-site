@@ -106,7 +106,7 @@ def live_phone(src):
     return ('<div class="live-phone-wrap"><div class="live-phone" data-src="' + src + '">'
             '<div class="live-phone-screen"><iframe title="synthcity.tv, live" allow="autoplay; fullscreen" loading="lazy"></iframe>'
             '<button class="live-phone-start" type="button">Load the live call</button></div></div>'
-            '<p class="live-phone-note">Live, not a recording. Tap Accept, sound on. <button class="live-phone-reload" type="button">Restart ↻</button></p></div>')
+            '<p class="live-phone-note">Tap Accept, sound on. <button class="live-phone-reload" type="button">Restart ↻</button></p></div>')
 
 # Phone-width versions of the category line, short enough to stay on one line.
 SHORT_TAGS = {
@@ -210,6 +210,16 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
     phone_open = ''
     if hero == 'moments:':
         hero_html = moments_hero()
+    elif hero.startswith('trailer:'):
+        src, poster = hero[8:].split('|')
+        hero_html = ('<div class="wrap trailer"><p class="trailer-label">Watch the campaign trailer</p>'
+                     '<div class="trailer-frame">'
+                     f'<video class="trailer-video" playsinline preload="metadata" poster="images/{poster}.jpg" aria-label="{hero_alt}">'
+                     f'<source src="{src}" type="video/mp4">'
+                     f'<a href="{src}">Watch the Synth City trailer (MP4)</a></video>'
+                     '<button type="button" class="trailer-play" aria-label="Play the Synth City trailer with sound"><span aria-hidden="true"></span></button>'
+                     '<p class="trailer-soon" role="status">Trailer coming soon.</p></div>'
+                     f'<p class="trailer-fallback">Trouble playing it? <a class="text-link" href="{src}" target="_blank" rel="noopener">Open the trailer video →</a></p></div>')
     elif hero.startswith('phone:'):
         src, himg, hcap = hero[6:].split('|')
         hero_html = (f'<div class="wrap cs-hero"><figure><img src="images/{himg}.jpg" alt="{hero_alt}"><figcaption>{hcap}</figcaption></figure></div>'
@@ -341,77 +351,96 @@ pass  # About page hidden
 if False: page('about.html', 'About | A. Wilens', 'Asher Wilens, Creative Director.', about, 'about')
 
 # ---------- CASE STUDIES ----------
-films = [('Episode 1','The Coat Pocket'),('Episode 2','The Keepsake'),('Episode 3','[Title]'),('Episode 4','The Friendly Visit'),('Episode 5','The Signal'),('Episode 6','[Title]')]
-film_html = '<div class="callout"><p>Watch all six episodes of Synth City.</p><a class="btn" href="https://youtube.com/playlist?list=PLzGEOC0lqaKMDMQ1OlSfnQW9dEJkE7zTB" target="_blank" rel="noopener">Watch the series on YouTube</a></div>'
+TRAILER_URL = 'https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/synthcity-trailer4.mp4'
+PLAYLIST_URL = 'https://youtube.com/playlist?list=PLzGEOC0lqaKMDMQ1OlSfnQW9dEJkE7zTB'
+
 def beat(title, line, text, content):
     return (f'<div class="beat"><div class="beat-head"><h3>{title}</h3><p class="beat-line">{line}</p></div>'
             f'<p class="body-copy">{text}</p>{content}</div>')
 
-insight_card = insight_box('Lab-grown made diamonds abundant. Rarity only matters when you imagine losing it.', 'Natural diamonds are beyond fiction.')
+sc_insight = ('<div class="editorial">'
+              '<div class="ed-col"><p class="eyebrow">The insight</p>'
+              '<p class="ed-lead">We can manufacture more diamonds than ever.</p>'
+              '<p class="ed-body">But what happens to the meaning of something special when everything can be made again?</p></div>'
+              '<div class="ed-col"><p class="eyebrow">The idea</p>'
+              '<p class="ed-lead">Welcome to 2187.</p>'
+              '<p class="ed-body">Diamonds are produced by the ton. Engagement rings come from vending machines. Even love is available on demand.</p>'
+              '<p class="ed-kicker">Everything is perfect.<br>Nothing is rare.</p></div></div>')
 
-final_card = ('<div class="endcard"><p class="endcard-small">Synthetic diamonds. Synthetic love. Synthetic everything.</p>'
-              '<p class="endcard-mid">Hold something the future can&#39;t make.</p>'
-              '<p class="endcard-big">Natural diamonds are beyond fiction.</p>'
-              '<p class="endcard-small brand">Premier Gem</p></div>')
+sc_path = ('<ol class="path" aria-label="How the campaign connects">'
+           '<li>The films</li><li>synthcity.tv</li><li>Rarity Detector</li><li>Synth-Mate Lab</li><li>The transmission</li><li>Premier Gem</li></ol>')
 
-case('synth-city.html', 'Synth City', ['Premier Gem','In development · Soft launch 2026','Creative Direction · Concept · Art Direction'],
-     'The future made everything available. Except one thing: rarity.',
-     'A brand world for Premier Gem: six films, a live broadcast network and working AI tools.',
-     'phone:https://synthcity.tv/|synth-hero|The last natural diamond on display, before the Bureau shut it down for good.', 'A crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor',
-     [section('01','The insight','', insight_card),
+sc_series = ('<a class="series" href="' + PLAYLIST_URL + '" target="_blank" rel="noopener">'
+             '<span class="series-img"><img src="images/synth-world.jpg" alt="Bureau Approved billboards selling lab-grown happiness over a crowded plaza at night" loading="lazy">'
+             '<span class="series-play" aria-hidden="true"></span></span>'
+             '<span class="series-meta"><span class="eyebrow">The series</span>'
+             '<span class="series-title">Six episodes. One world.</span>'
+             '<span class="series-note">Episodes are released on YouTube as the campaign rolls out.</span>'
+             '<span class="btn">Watch the series on YouTube</span></span></a>')
 
-      section('02','The journey','Every piece hands off to the next. A viewer can enter anywhere, but the path always ends with something real.',
-              '<ol class="journey"><li><span class="j-n">01</span><strong>The film</strong><span>Each episode plants a QR code inside the world.</span></li><li><span class="j-n">02</span><strong>synthcity.tv</strong><span>A call from 2187 patches you into the Bureau&#39;s broadcast, live.</span></li><li><span class="j-n">03</span><strong>Rarity Detector</strong><span>Scan any stone. The Bureau decides what&#39;s real.</span></li><li><span class="j-n">04</span><strong>Synth-Mate Lab</strong><span>Order a partner. Meet the system&#39;s endgame.</span></li><li><span class="j-n">05</span><strong>The transmission</strong><span>The last geologist breaks through.</span></li><li><span class="j-n">06</span><strong>Premier Gem</strong><span>Hold something the future can&#39;t make.</span></li></ol>'),
+sc_end = ('<div class="endcard nowcard">'
+          '<p class="endcard-small">Synthetic diamonds. Synthetic love. Synthetic everything.</p>'
+          '<p class="endcard-big">The future didn&#39;t run out of diamonds.<br>It ran out of rarity.</p>'
+          '<p class="endcard-small brand">Premier Gem</p>'
+          '<p class="endcard-mid">Celebrate what can&#39;t be replicated.</p></div>')
 
-      section('03','The world','In 2187, synthetic won. Diamonds are infinite, identical and Bureau approved. Even a proposal is something you grab on the way to your gate.',
-              '<div class="stack">' + img('synth-aerial','Aerial view of Synth City at night: flying cars, neon towers and a Welcome to Synth City sign','Welcome to Synth City, Cycle 2187.') + img('synth-world','Bureau Approved billboards selling lab-grown happiness over a crowded plaza at night')
-              + img('synth-factory','A vast night factory complex of glowing carbon pressure chambers growing diamonds','Carbon Pressure Chamber 07. Diamonds, grown by the ton.')
-              + img('synth-vending','A proposal kit vending machine in a 2187 airport terminal','In 2187, a proposal ring comes out of a vending machine.')
-              + '<div class="narrow">' + img('synth-protocol','Bureau poster of a smiling couple in gloves showing matching rings: Love is a protocol. Bureau approved compatibility.','Even marriage comes pre-approved.') + '</div></div>'),
+sc_k9 = ('<div class="k9">'
+         + img('synth-signal','Across Synth City the Bureau&#39;s giant screens glitch as an unauthorized transmission from an underground tunnel breaks through, a crowd stopping to look up','The network, interrupted.')
+         + '<div class="pair">'
+         + img('synth-transmission-live','The Last Known Transmission page: a geologist with a headlamp, origin Kalahari Basin, signal weak','Origin: Kalahari Basin.')
+         + img('synth-proof','A dirt-covered hand opens in a dark tunnel to reveal a glowing rough natural diamond','The thing that wasn&#39;t supposed to exist.')
+         + '</div>'
+         + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv/kalahari">Follow the transmission: synthcity.tv/kalahari →</a></div>'
+         + '<div class="intercept"><p class="eyebrow">Optional · intercepted from 2187</p>'
+         + '<p class="intercept-title">Answer the transmission</p>'
+         + '<p class="intercept-note">The campaign&#39;s live site opens on an incoming call. A recorded voice, not a live person. Answer it if you like.</p>'
+         + live_phone('https://synthcity.tv/') + '</div></div>')
 
-      section('04','The system','A world this perfect needs enforcing. The Synthetic Bureau controls what people see, what counts as real and, finally, who they love. Each of its tools is a live piece of the campaign.',
-              img('synth-hq','The Synthetic Bureau headquarters, a brutalist monolith with a wireframe-head seal, citizens queuing beneath drones')
-              + beat('The Broadcasts','It controls the story.',
-                     'A Bureau news network and public announcements, one message repeated until it sticks: synthetic is better.',
-                     '<div class="stack">' + img('synth-broadcast','The SCB7 news network site: Bureau classifies global synthetic diamond oversupply as economic success') + img('scfn-newsroom','A financial news anchor in front of a market wall: natural diamond values surpass Manhattan real estate per gram','SCFN: natural diamonds overtake Manhattan real estate, per gram.') + img('scfn-street','The same market update on a giant screen over a rainy Fifth Avenue in 2187','The story everyone stops for.') + '<div class="pair">' + img('synth-relay','The broadcast received on a relay station screen beside a battered deep-space probe','How it reaches us: a deep-space relay picks up the feed from 2187.') + img('synth-relay-live','The live synthcity.tv broadcast inside the relay station frame','The live site.') + '</div>' + '<div class="pair">' + img('sbcn-cubes','A reporter holds out a palm of raw cube-shaped diamonds','Tonight on SBCN: cubic diamonds, the Bureau&#39;s newest luxury standard.') + img('sbcn-rings','Cube-diamond rings held up to the camera','Unpolished. Unfiltered. The future is cubic.') + '</div>' + '<div class="pair">' + img('sbcn-socialite','A socialite in sunglasses shows off cube-diamond jewelry on camera','The red carpet goes cubic.') + img('scb-internal','Bureau internal surveillance still of cube-diamond rings on display','Bureau internal feed: the Cubic Diamond Index.') + '</div></div>' + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv">Watch the broadcasts: synthcity.tv →</a></div>')
-              + beat('The Rarity Detector','It erases the real.',
-                     'A working AI tool. Upload any diamond and the Bureau classifies it. Natural stones are flagged as origin anomalies: non-compliant, removed from the record.',
-                     img('synth-detector','Four screens of the Rarity Detector: load a specimen, analyzing material, scan complete, signal detected') + '<p class="body-copy" style="margin:28px 0 20px">And people really use it. Real scans from real visitors: in 2187, almost everything is obsolete.</p>' + '<div class="trio">' + img('det-dollar','Detector result: a dollar bill classified as obsolete physical tender','A dollar bill: obsolete physical tender.') + img('det-mouse','Detector result: a wireless mouse classified as an obsolete peripheral','A mouse: obsolete peripheral.') + img('det-earbuds','Detector result: wireless earbuds classified as a pre-2100 artifact','Earbuds: pre-2100 artifact.') + '</div>' + '<div class="outlinks"><a class="text-link" href="https://raritydetector.com">Try it: raritydetector.com →</a></div>')
-              + beat('The Synth-Mate Lab','It replaces love.',
-                     'The system&#39;s final step. Visitors ride up to the Synthesis Division, upload a face scan and watch the lab grow a partner engineered for perfect compatibility: flawless, loyal and programmed never to leave. If love can be manufactured, what is it worth?',
-                     '<div class="stack">' + img('sm-lobby','The Bureau lobby, a marble hall with the wireframe-head seal and a terminal reading Accessing Synthesis Division')
-                     + '<div class="pair">' + img('sm-forming','Two growth chambers filled with vapor, figures taking shape inside','Production: a subject takes shape.')
-                     + img('sm-assembly','Two half-assembled porcelain androids in the chambers, the terminal reading Assembly 87%, calibrating devotion','Assembly: calibrating devotion.') + '</div>'
-                     + img('sm-beach','An android couple at a candlelit beach table at sunset, staring at each other with mechanical hands','Every sunset. Never missed. The perfect relationship, minus anything real.')
-                     + '</div><div class="outlinks"><a class="text-link" href="https://syntheticbureau.com" target="_blank" rel="noopener">Enter the lab: syntheticbureau.com →</a></div>')
-              + beat('Meet the Clonesworths','The Synth-Mates commercial.',
-                     'Inside the world, the Bureau sells it like a 1950s dream. Real love is messy. Synth-Mates come home perfect: always smiling, always on time, always in the right light.',
-                     img('sm2-clonesworths','A porcelain-skinned 1950s couple wave in front of a pastel house under a sign: Meet the Clonesworths.')
-                     + img('sm2-reality','A tired real couple on a cluttered couch, one on a phone and one on a laptop','Before: real love, real mess.')
-                     + img('sm2-sallybob','Two retro synthetic people in glass chambers holding name cards: Sally and Bob','Order your match: Sally and Bob, ready for pickup.')
-                     + img('sm2-dinner','The synthetic couple at a candlelit dinner in a 1950s kitchen','Dinner, every night at six.')
-                     + img('sm2-shopping','The synthetic couple strolling with shopping bags and an ice cream cone','Never a bad day.')
-                     + img('sm2-amalfi','The synthetic couple walking arm in arm by the sea at sunset','Never a missed sunset.')
-                     + img('sm2-toast','The synthetic couple toasting with red wine on a rooftop at dusk','Never anything real.'))
-              + '<div class="callout"><p>The Detector and the Lab started as &quot;what ifs.&quot;</p><a class="btn" href="lab.html">See what else I&#39;ve built</a></div>'),
+case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Soft launch 2026','Creative Direction · Concept · Art Direction'],
+     'The future didn&#39;t run out of diamonds. It ran out of rarity.',
+     'An alternate-future campaign for Premier Gem. Six cinematic films, a government-controlled broadcast network and interactive experiences exploring a world where everything can be manufactured. Except rarity. <span class="fine">Soft-launched in 2026; the full rollout is in development.</span>',
+     'trailer:' + TRAILER_URL + '|synth-hero', 'Synth City campaign trailer',
+     [section('01','The insight','', sc_insight),
 
-      section('05','The signal','Then the broadcast breaks. Across the city&#39;s screens, a recovered transmission cuts through: the last geologist, deep beneath what was once the Diamond District, still searching for something real.',
-              '<div class="stack">' + img('synth-signal','The Bureau billboards glitching as a transmission from an underground tunnel breaks through, a crowd stopping to look up','The first crack in the system.')
-              + img('synth-transmission','The last transmission: a geologist with a headlamp beneath the buried 47th Street and 5th Avenue street sign','Last transmission, beneath 47th Street.') + img('synth-transmission-live','The live Last Known Transmission page with the geologist&#39;s headlamp video','The live transmission page.') + img('synth-warning','Report card: Geologists warn humanity may be losing the ability to recognize rare things. Report classified. Researcher reassigned.','The report the Bureau buried.') + '</div>'
-              + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv/kalahari">Follow the transmission: synthcity.tv/kalahari →</a></div>'),
+      section('02','The world','<strong>Welcome to the perfect future.</strong> In 2187, diamonds are unlimited, happiness is optimized and authenticity has become an inconvenience.',
+              '<div class="stack">' + img('synth-aerial','Aerial view of Synth City at night: flying cars, neon towers and a Welcome to Synth City sign','Cycle 2187.')
+              + '<div class="pair">' + img('synth-factory','A vast night factory complex of glowing carbon pressure chambers growing diamonds','Diamonds, by the ton.')
+              + img('synth-vending','A proposal kit vending machine in a 2187 airport terminal','Proposals, to go.') + '</div>'
+              + '<div class="narrow">' + img('synth-protocol','Bureau poster of a smiling couple in gloves showing matching rings: Love is a protocol. Bureau approved compatibility.','Love, pre-approved.') + '</div></div>'),
 
-      section('06','The films','The heart of the campaign. Six short films, one dystopian future and one question running through all of it: what happens to love when nothing is rare anymore? Each episode was produced like a release, with an original score, cinematic visuals and QR-connected environments that pull viewers deeper into the world.',
-              film_html),
+      section('03','The campaign','Every piece hands off to the next. A viewer can enter anywhere; the path always ends with something real.',
+              sc_path
+              + beat('The Synthetic Bureau','It controls the story.',
+                     'The machinery of a society devoted to manufactured perfection: a news network, public broadcasts and one message repeated until it sticks. Synthetic is better.',
+                     img('synth-hq','The Synthetic Bureau headquarters, a brutalist monolith with a wireframe-head seal, citizens queuing beneath drones','The Bureau.')
+                     + img('synth-broadcast','The SCB7 news network site: Bureau classifies global synthetic diamond oversupply as economic success','The network, live at synthcity.tv.')
+                     + img('scfn-newsroom','A financial news anchor in front of a market wall: natural diamond values surpass Manhattan real estate per gram','Natural, now priced per gram.')
+                     + img('scfn-street','The same market update on a giant screen over a rainy Fifth Avenue in 2187','The story everyone stops for.')
+                     + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv">Watch the broadcasts: synthcity.tv →</a></div>')
+              + beat('The Rarity Detector','It erases the original.',
+                     'A working, AI-powered classification tool inside the campaign universe. Upload anything and the Bureau rates how rare it will be in 2187. Natural stones come back flagged as anomalies.',
+                     img('synth-detector','Four screens of the Rarity Detector: load a specimen, analyzing material, scan complete, signal detected')
+                     + img('det-dollar','Detector result: a dollar bill classified as obsolete physical tender','A visitor&#39;s dollar bill: obsolete.')
+                     + img('det-mouse','Detector result: a wireless mouse classified as an obsolete peripheral','A visitor&#39;s mouse: obsolete.')
+                     + '<p class="disclaimer">A fictional classification for the story, not a scientific method of verifying a diamond&#39;s origin.</p>'
+                     + '<div class="outlinks"><a class="text-link" href="https://raritydetector.com">Try it: raritydetector.com →</a></div>')
+              + beat('Synth-Mates','It replaces love.',
+                     'If diamonds can be manufactured, why stop there? The Bureau now manufactures the people we fall in love with, then sells them like a 1950s dream.',
+                     img('sm-assembly','Two half-assembled porcelain androids in growth chambers, the terminal reading Assembly 87%, calibrating devotion','Calibrating devotion.')
+                     + img('sm2-clonesworths','A porcelain-skinned 1950s couple wave in front of a pastel house under a sign: Meet the Clonesworths.','Meet the Clonesworths.')
+                     + img('sm2-dinner','The synthetic couple at a candlelit dinner in a 1950s kitchen','Dinner at six. Every night.')
+                     + img('sm-beach','An android couple at a candlelit beach table at sunset, staring at each other with mechanical hands','Never a missed sunset.')
+                     + '<div class="outlinks"><a class="text-link" href="https://syntheticbureau.com" target="_blank" rel="noopener">Enter the lab: syntheticbureau.com →</a></div>')),
 
-      section('07','The proof','Everything leads here. One rough stone, the only warm light in a cold world, and the reason it still matters today.',
-              '<div class="stack">' + img('synth-proof','A dirt-covered hand opens in a dark tunnel to reveal a glowing rough natural diamond','Proof that something real remains.')
-              + img('synth-now','Present day: a woman&#39;s hand with a natural diamond engagement ring resting on a sunlit kitchen table beside a coffee cup','Back to now.')
-              + final_card
-              + '</div>'),
+      section('04','The films','<strong>Six stories. One synthetic future.</strong> Six interconnected cinematic stories explore what happens to love, identity and meaning in a world where nothing is rare. The trailer opens the door.',
+              sc_series),
 
-      section('08','What&#39;s next','The soft launch tested the world and its tools. The full rollout is in development.',
-              '<ol class="journey roadmap"><li><span class="j-n">01</span><strong>Full release</strong><span>All six films released on a schedule, each one unlocking the next layer of the world.</span></li><li><span class="j-n">02</span><strong>The QR journey at scale</strong><span>Every episode, broadcast and poster becomes a door into the tools.</span></li><li><span class="j-n">03</span><strong>Trade partnership</strong><span>A trade-network partnership to bring the Rarity Detector to dealers worldwide.</span></li><li><span class="j-n">04</span><strong>Retail moments</strong><span>The Detector and the transmission brought into stores, where the real stone is waiting.</span></li></ol>')],
-     'desert-diamonds.html', 'Desert Diamonds', 'Synth City, a dystopian brand world for Premier Gem: six films, a live broadcast network and working AI tools.')
+      section('05','File K-9. The last transmission.','The Bureau promised a world without rarity. Then an unauthorized transmission interrupted the network. Deep beneath the Kalahari Basin, a lone geologist had discovered something that wasn&#39;t supposed to exist.',
+              sc_k9).replace('<section class="cs-section">','<section class="cs-section cs-dark">',1),
+
+      section('06','Back to now','',
+              '<div class="now">' + img('synth-now','Present day: a woman&#39;s hand with a natural diamond engagement ring resting on a sunlit kitchen table beside a coffee cup') + sc_end + '</div>')],
+     'desert-diamonds.html', 'Desert Diamonds', 'Synth City: the future didn&#39;t run out of diamonds. It ran out of rarity. An integrated campaign for Premier Gem.')
 
 
 MOMENTS_TAG = f'\n<script src="js/moments.js?v={_v("js/moments.js")}" defer></script>'

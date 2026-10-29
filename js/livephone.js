@@ -68,3 +68,21 @@
     }, 3800);
   });
 })();
+
+/* Trailer hero: one large play control. Plays with sound on press, then hands
+   over to the native controls (progress, volume, fullscreen). */
+(function () {
+  document.querySelectorAll('.trailer-frame').forEach(function (fr) {
+    var v = fr.querySelector('video'), b = fr.querySelector('.trailer-play');
+    function fail() { fr.classList.add('failed'); fr.style.backgroundImage = 'url(' + v.getAttribute('poster') + ')'; }
+    function start() {
+      v.controls = true; v.muted = false; fr.classList.add('started');
+      var p = v.play(); if (p && p.catch) p.catch(function () { fr.classList.remove('started'); });
+    }
+    b.addEventListener('click', start);
+    v.addEventListener('play', function () { fr.classList.add('started'); v.controls = true; });
+    v.addEventListener('error', fail, true);
+    var src = v.querySelector('source'); if (src) src.addEventListener('error', fail);
+    if (v.error || v.networkState === 3) fail();
+  });
+})();
