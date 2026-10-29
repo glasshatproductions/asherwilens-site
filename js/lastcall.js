@@ -54,7 +54,7 @@
       liveOn = false; overlay.hidden = true; box.classList.remove('off-hook'); hot.setAttribute('aria-expanded', 'false');
       hot.focus();
     }
-    hot.addEventListener('click', open);
+    hot.addEventListener('click', function () { hot.classList.add('used'); open(); });
     hangup.addEventListener('click', close);
     buttons.forEach(function (b) { b.addEventListener('click', function () { play(b); }); });
     box.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !overlay.hidden) { e.preventDefault(); close(); } });

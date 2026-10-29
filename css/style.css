@@ -521,3 +521,12 @@ figure .zoom:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 .grid.g3 > .card:last-child:nth-child(odd) img{aspect-ratio:4/3}
 .grid.g3 .card h3{font-size:clamp(22px,2vw,28px)}}
 main:has(.g) .insight,main:has(.g) .endcard{margin-left:0}
+
+/* Payphone: the photographed PICK UP THE PHONE key glows and pulses until used */
+@keyframes lcPulse{
+  0%,100%{box-shadow:inset 0 0 6px 1px rgba(255,170,70,.25),0 0 0 2px rgba(255,170,60,.35),0 0 8px 2px rgba(255,150,40,.25)}
+  50%{box-shadow:inset 0 0 22px 6px rgba(255,170,70,.8),0 0 0 3px rgba(255,175,60,.95),0 0 26px 8px rgba(255,150,40,.7)}}
+.lc-hot{animation:lcPulse 1.6s ease-in-out infinite;border-radius:8%}
+.lastcall-art.off-hook .lc-hot,.lc-hot.used{animation:none}
+.lc-hot:hover{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.lc-hot{animation:none;box-shadow:0 0 0 1px rgba(255,214,160,.6),0 0 22px 4px rgba(255,190,110,.45)}}
