@@ -12,7 +12,7 @@ LASTCALL_TAG = ''
 MOMENTS_TAG = ''
 # Small rotating lines under the wordmark. Edit, add or remove freely.
 TAGLINES = [
-    'My Middle Name Is Creative. Legally, It Isn&#39;t.',
+    'Creative by Nature. Artificially Enhanced.',
     'I Put the Art in Artificial.',
     'Always On. Except Shabbos.',
     'AI Can Do a Lot. I Still Have Opinions.',
