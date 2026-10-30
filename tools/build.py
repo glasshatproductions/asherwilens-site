@@ -489,7 +489,7 @@ sc_k9 = ('<div class="k9">'
 case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Soft launch 2026','Creative Direction · Concept · Art Direction'],
      'The future didn&#39;t run out of diamonds. It ran out of rarity.',
      'An alternate-future campaign for Premier Gem. Six cinematic films, a government-controlled broadcast network and interactive experiences exploring a world where everything can be manufactured. Except rarity. <span class="fine">Soft-launched in 2026; the full rollout is in development.</span>',
-     'trailer:' + TRAILER_URL + '|synth-poster', 'Synth City campaign trailer',
+     'trailer:' + TRAILER_URL + '|synth-poster-v2', 'Synth City campaign trailer',
      [section('01','The insight','', sc_insight),
 
       section('02','The world','<strong>Welcome to the perfect future.</strong> In 2187, diamonds are unlimited, happiness is optimized and authenticity has become an inconvenience.',
