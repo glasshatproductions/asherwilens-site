@@ -511,7 +511,7 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Sof
                      'The Bureau&#39;s official classification utility, and a working AI tool. Point it at anything and it rates how rare that object will be in Cycle 2187. Legacy objects come back obsolete. Natural stones come back as anomalies.',
                      detector_demo()
                      + '<p class="disclaimer">A fictional classification for the story, not a scientific method of verifying a diamond&#39;s origin.</p>'
-                     + '<div class="outlinks"><a class="text-link" href="https://raritydetector.com">Try it: raritydetector.com →</a></div>')
+                     + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv/rarity" target="_blank" rel="noopener">Try it: synthcity.tv/rarity →</a></div>')
               + beat('Synth-Mates','It replaces love.',
                      'If diamonds can be manufactured, why stop there? The Bureau now manufactures the people we fall in love with, then sells them like a 1950s dream.',
                      rows([('sm-chambers-1950s','A 1950s couple in pink and tan, glossy and doll-like, stand in two glass growth chambers in an endless hall of chambers','Grown to order.'),
