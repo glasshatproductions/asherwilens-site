@@ -15,6 +15,7 @@ PM_LISTED = False
 
 LASTCALL_TAG = ''
 MOMENTS_TAG = ''
+DETECTOR_TAG = ''
 # Small rotating lines under the wordmark. Edit, add or remove freely.
 TAGLINES = [
     'Creative by Nature. Artificially Enhanced.',
@@ -74,7 +75,7 @@ def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra
 </div>
 </footer>
 <script src="js/gallery.js?v={_v('js/gallery.js')}"></script>
-<script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>{LASTCALL_TAG if fname == 'uber.html' else ''}{MOMENTS_TAG if fname == 'brown-co.html' else ''}{scripts_extra}
+<script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>{LASTCALL_TAG if fname == 'uber.html' else ''}{MOMENTS_TAG if fname == 'brown-co.html' else ''}{DETECTOR_TAG if fname == 'synth-city.html' else ''}{scripts_extra}
 </body>
 </html>
 '''
@@ -439,6 +440,40 @@ sc_end = ('<div class="endcard nowcard">'
           '<p class="endcard-small brand">Premier Gem</p>'
           '<p class="endcard-mid">Celebrate what can&#39;t be replicated.</p></div>')
 
+# ---------- Rarity Detector: curated screens in a phone (Synth City) ----------
+# Each example: (label, image in images/, caption, alt). Add or reorder freely;
+# js/detector.js reads whatever is rendered. Tall screens scroll inside the phone.
+DETECTOR_TAG = f'\n<script src="js/detector.js?v={_v("js/detector.js")}" defer></script>'
+RD_EXAMPLES = [
+    ('Detector idle', 'rd-idle', 'The Bureau&#39;s utility for Cycle 2187. Load any object and it rates how rare that object will be.',
+     'Rarity Detector idle screen: an icosahedron in a scanning frame, Tap to load a specimen'),
+    ('Scan: Apple mouse', 'rd-mouse-loaded', 'A visitor loads something ordinary. Specimen: one wireless mouse.',
+     'Rarity Detector with a photo of an Apple wireless mouse loaded, status Ready'),
+    ('Analysis in progress', 'rd-mouse-analyzing', 'Material is cross-referenced against the Bureau registry.',
+     'Step 2 of 4, Analyzing material: a scan line passes over the mouse, origin verifying, progress 29 percent'),
+    ('Result: Apple mouse', 'rd-mouse-result', 'Uncommon, 3 of 7. Classified obsolete: an early-era consumer peripheral.',
+     'Scan complete: Apple wireless mouse, rarity index Uncommon 3 of 7, Bureau status Obsolete, with a short history and a quote'),
+    ('Result: Sharpie', 'rd-sharpie-result', 'Fading, 2 of 7. Every result ends with a line of Bureau philosophy and a hand-off to the Synth-Mate lab.',
+     'Scan complete: Sharpie permanent marker, rarity index Fading 2 of 7, Bureau status Obsolete, ending with Meet your Synth-Mate'),
+]
+
+def detector_demo(examples=RD_EXAMPLES):
+    shots = ''.join(
+        f'<img class="rd-shot" src="images/{src}.jpg" alt="{alt}" width="780" data-i="{i}"' + ('' if i == 0 else ' hidden loading="lazy"') + '>'
+        for i, (_, src, _, alt) in enumerate(examples))
+    tabs = ''.join(
+        f'<button type="button" class="rd-tab" role="tab" id="rd-tab-{i}" aria-controls="rdScreen" aria-selected="{"true" if i == 0 else "false"}"'
+        f' tabindex="{0 if i == 0 else -1}" data-i="{i}" data-caption="{cap}"><span class="rd-n">{i + 1:02d}</span>{label}</button>'
+        for i, (label, _, cap, _) in enumerate(examples))
+    return ('<div class="rd-demo" data-rd>'
+            '<div class="rd-stage"><div class="rd-phone">'
+            f'<div class="rd-screen" id="rdScreen" role="tabpanel" tabindex="0" aria-labelledby="rd-tab-0">{shots}</div>'
+            '<span class="rd-island" aria-hidden="true"></span></div></div>'
+            '<div class="rd-side"><p class="rd-eyebrow">SCB.DETECTOR // Example scans</p>'
+            f'<div class="rd-tabs" role="tablist" aria-label="Rarity Detector examples">{tabs}</div>'
+            f'<p class="rd-caption" aria-live="polite">{examples[0][2]}</p>'
+            '<p class="rd-hint">Scroll inside the phone to read a full result.</p></div></div>')
+
 sc_k9 = ('<div class="k9">'
          + rows([('k9-screens','Across Synth City the Bureau&#39;s giant screens glitch as the geologist&#39;s face breaks through the broadcast, a crowd in the plaza stopping to look up','The network, interrupted.')],
                 [('k9-geologist','Low-light camera feed GEO-09: a geologist in a headlamp holds up a rough natural diamond, signal unstable, status critical','The thing that wasn&#39;t supposed to exist.'),
@@ -471,10 +506,8 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Sof
                            ('scfn-street','The same market update on a giant screen over a rainy Fifth Avenue in 2187','The story everyone stops for.')])
                      + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv">Watch the broadcasts: synthcity.tv →</a></div>')
               + beat('The Rarity Detector','It erases the original.',
-                     'A working, AI-powered classification tool inside the campaign universe. Upload anything and the Bureau rates how rare it will be in 2187. Natural stones come back flagged as anomalies.',
-                     rows([('synth-detector','Four screens of the Rarity Detector: load a specimen, analyzing material, scan complete, signal detected','')],
-                          ('narrow', [('det-dollar','Detector result: a dollar bill classified as obsolete physical tender','A visitor&#39;s dollar bill: obsolete.'),
-                                      ('det-mouse','Detector result: a wireless mouse classified as an obsolete peripheral','A visitor&#39;s mouse: obsolete.')]))
+                     'The Bureau&#39;s official classification utility, and a working AI tool. Point it at anything and it rates how rare that object will be in Cycle 2187. Legacy objects come back obsolete. Natural stones come back as anomalies.',
+                     detector_demo()
                      + '<p class="disclaimer">A fictional classification for the story, not a scientific method of verifying a diamond&#39;s origin.</p>'
                      + '<div class="outlinks"><a class="text-link" href="https://raritydetector.com">Try it: raritydetector.com →</a></div>')
               + beat('Synth-Mates','It replaces love.',
