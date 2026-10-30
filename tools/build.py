@@ -609,25 +609,54 @@ MOMENTS_TAG = f'\n<script src="js/moments.js?v={_v("js/moments.js")}" defer></sc
 bc_insight = insight_box('Jewelry is chosen under showroom lights. It&#39;s worn under every other kind.', 'Bring the lights of real life into the showroom.')
 
 # The Moments Lamp hero: four matching photographs, one shown at a time.
+# The Moments Lamp hero: four matching photographs of the lamp, one per light.
+# (key, label, copy, alt, hotspot box over the engraved icon on the base as
+#  left/top/width/height in % of the photo, ring centre y within that box %)
 BC_MODES = [
-    ('candlelight', 'Candlelight', 'The intimacy of two.', 'Under the Moments Lamp set to candlelight, a round solitaire glows warm gold on a dark velvet stand.'),
-    ('sunday', 'Sunday morning', 'The quiet beauty of an ordinary morning.', 'Under the Moments Lamp set to Sunday morning, the same solitaire reads crisp and soft-white in pale daylight.'),
-    ('city', 'City lights', 'A night out, somewhere unforgettable.', 'Under the Moments Lamp set to city lights, the solitaire flashes cool blue against a night-blue background.'),
-    ('celebration', 'Celebration', 'The moments worth raising a glass to.', 'Under the Moments Lamp set to celebration, the solitaire throws warm sparks against pink and violet party lights.'),
+    ('candlelight', 'Candlelight', 'The intimacy of two.',
+     'The Moments Lamp set to candlelight: warm amber light falls on a solitaire in a velvet box; the candlelight icon on the brass base is lit.',
+     (23.1, 75.7, 11.4, 14.1, 34.6)),
+    ('sunday', 'Sunday morning', 'The quiet beauty of an ordinary morning.',
+     'The Moments Lamp set to Sunday morning: soft dappled daylight behind the same solitaire; the sun icon on the base is lit.',
+     (37.2, 76.2, 11.3, 15.4, 34.0)),
+    ('city', 'City lights', 'A night out, somewhere unforgettable.',
+     'The Moments Lamp set to city lights: a blue night skyline glows behind the solitaire; the city icon on the base is lit blue.',
+     (51.4, 76.2, 11.4, 15.4, 36.0)),
+    ('celebration', 'Celebration', 'The moments worth raising a glass to.',
+     'The Moments Lamp set to celebration: pink and violet sparkle surrounds the solitaire; the champagne icon on the base is lit pink.',
+     (65.3, 75.0, 11.5, 14.3, 35.5)),
 ]
+BC_LAMP_IMG = 'bc-pedestal-{}'       # images/bc-pedestal-<key>.jpg, 1448 x 1086
+BC_LAMP_W, BC_LAMP_H = 1448, 1086
+
+# Small line icons for the pill row (same motifs as the lamp base).
+ML_ICONS = {
+    'candlelight': '<rect x="9" y="11" width="6" height="9" rx="1"/><path d="M12 8c-1.2-1.2-1-2.6 0-4 1 1.4 1.2 2.8 0 4z"/>',
+    'sunday': '<circle cx="12" cy="12" r="3.6"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/>',
+    'city': '<path d="M5 20V10h4v10M10 20V5h4v15M15 20v-7h4v7M4 20h16"/>',
+    'celebration': '<path d="M7 4h4l-.6 5a1.4 1.4 0 0 1-2.8 0zM13 4h4l-.6 5a1.4 1.4 0 0 1-2.8 0zM9 10.5V19M15 10.5V19M7 19.5h4M13 19.5h4"/>',
+}
+def ml_icon(k):
+    return f'<svg class="ml-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">{ML_ICONS[k]}</svg>'
 
 def moments_hero():
     imgs = ''.join(
-        f'<img src="images/bc-lamp-{k}.jpg" alt="{alt}" width="1532" height="1020" class="ml-img{" on" if i == 0 else ""}" data-mode="{k}"'
+        f'<img src="images/{BC_LAMP_IMG.format(k)}.jpg" alt="{alt}" width="{BC_LAMP_W}" height="{BC_LAMP_H}" class="ml-img{" on" if i == 0 else ""}" data-mode="{k}"'
         + (' fetchpriority="high"' if i == 0 else ' loading="eager" fetchpriority="low" decoding="async"') + (' aria-hidden="true"' if i else '') + '>'
-        for i, (k, _, _, alt) in enumerate(BC_MODES))
+        for i, (k, _, _, alt, _) in enumerate(BC_MODES))
+    # Tap targets over the engraved icons. Pointer-only; the pills below are the
+    # keyboard / screen-reader controls, so these stay out of the tab order.
+    hots = ''.join(
+        f'<button type="button" class="ml-hot" data-mode="{k}" tabindex="-1" aria-hidden="true" title="{label}"'
+        f' style="left:{l}%;top:{t}%;width:{w}%;height:{h}%;--ring-y:{ry}%"><span class="ml-ring"></span></button>'
+        for k, label, _, _, (l, t, w, h, ry) in BC_MODES)
     btns = ''.join(
-        f'<button type="button" class="ml-btn" data-mode="{k}" data-copy="{copy}" aria-pressed="{"true" if i == 0 else "false"}">{label}</button>'
-        for i, (k, label, copy, _) in enumerate(BC_MODES))
-    return ('<div class="wrap moments"><div class="ml-frame">' + imgs + '</div>'
+        f'<button type="button" class="ml-btn" data-mode="{k}" data-copy="{copy}" aria-pressed="{"true" if i == 0 else "false"}">{ml_icon(k)}<span>{label}</span></button>'
+        for i, (k, label, copy, _, _) in enumerate(BC_MODES))
+    return ('<div class="wrap moments"><div class="ml-frame ml-hint" style="aspect-ratio:' + f'{BC_LAMP_W}/{BC_LAMP_H}' + '">' + imgs + hots + '</div>'
             f'<div class="ml-controls" role="group" aria-label="Moments Lamp lighting">{btns}</div>'
             f'<p class="ml-copy" aria-live="polite">{BC_MODES[0][2]}</p>'
-            '<p class="ml-note">The Moments Lamp: a proposed in-store lighting experience. Choose a light.</p></div>')
+            '<p class="ml-note">The Moments Lamp: a proposed in-store lighting experience. Tap a light on the lamp.</p></div>')
 
 bc_mechanics = ('<p class="body-copy mech-first">As a proposed holiday promotion, Brown &amp; Co. would invite engagement-ring customers to reserve a personal moment on a digital billboard above Buckhead.</p>'
                 '<p class="body-copy">A name. A question. A moment they&#39;ll remember every time they see the city lights.</p>'
