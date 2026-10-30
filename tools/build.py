@@ -29,7 +29,7 @@ TAGLINES_HTML = ('<p class="taglines" aria-label="' + ' / '.join(TAGLINES) + '">
 
 # Absolute base for social previews (crawlers ignore relative image paths).
 # Change this one line if the site moves to its own domain.
-SITE_URL = 'https://glasshatproductions.github.io/asherwilens-site/'
+SITE_URL = 'https://asherwilens.com/'
 
 def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra='', scripts_extra=''):
     def nav(href, label, key):
@@ -383,7 +383,7 @@ LAB = [
          copy='A collectible cap with synth keys built into the brim. Wearable music for artist collaborations, limited drops and fan merch.',
          src='https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/hh_promo2.png', w=1672, h=941,
          alt='A hand pressing the piano keys built into the brim of the Harmony Hat',
-         fit='contain', bg='#ececee',
+         fit='contain', bg='#f1f1f3',
          status='On Kickstarter', link=('https://www.kickstarter.com/projects/harmonyhat/435543195', 'View the campaign')),
     dict(slug='slickster', eyebrow='05 · Product design', name='SLICKSTER',
          head='Less planning. More living.',
