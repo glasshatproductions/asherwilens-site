@@ -581,7 +581,7 @@ case('brown-co.html', 'Brown &amp; Co.', ['Pitch','Integrated campaign','Concept
       section('02','The Lighting Bar','A diamond isn&#39;t just chosen for the moment you buy it. It&#39;s chosen for every moment that follows.',
               '<p class="body-copy section-more">The Lighting Bar brings those moments into the store through the Moments Lamp, a proposed lighting experience inspired by candlelit dinners, quiet mornings, nights out, and celebrations.</p>'
               '<p class="body-copy section-more"><em>One diamond. A lifetime of different lights.</em></p>'
-              + rows(('small', [('bc-lamp-instore','A woman studies the round solitaire on her hand beside a brass Moments Lamp on a marble counter; its base is labeled Candlelight, Sunday morning, City lights and Celebration.','')]))),
+              + rows(('small', [('bc-lamp-instore-v2','A woman studies the round solitaire on her hand beside a brass Moments Lamp on a marble counter; its base is labeled Candlelight, Sunday morning, City lights and Celebration.','')]))),
 
       section('03','Every light of the season','The season is full of lights that come and go. Some things stay with us long after they&#39;ve been taken down.',
               rows(('small', [('bc-strings','Brown &amp; Co. billboard: String lights come down in January. This doesn&#39;t.','')]))),
