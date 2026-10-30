@@ -636,3 +636,11 @@ main:has(.g) .wrap.trailer,main:has(.g) .wrap.moments{margin-left:calc((100% - m
   .rd-caption{margin-top:24px;padding:0 20px}
   .rd-hint{padding:0 20px}
 }
+/* Rarity Detector: light stage (phone stays dark, page stays white) */
+.rd-demo{--rd-ink:#111;--rd-mute:#6b6b6b;--rd-cyan:#0b8e9b;background:transparent;color:var(--rd-ink);padding-left:0;padding-right:0}
+.rd-phone{box-shadow:inset 0 0 0 2px #3a4046,0 30px 70px rgba(0,0,0,.22),0 0 0 1px rgba(0,0,0,.4)}
+.rd-tabs,.rd-tab{border-color:#e4e0d8}
+.rd-n{color:#a8a39a}
+.rd-tab[aria-selected="true"]::after{box-shadow:none}
+@media (max-width:760px){.rd-demo{margin-left:0;margin-right:0;padding:28px 0 8px}.rd-side{padding:0}.rd-eyebrow,.rd-caption,.rd-hint{padding-left:0;padding-right:0}.rd-tabs{margin:0 -24px 26px;padding:0 24px 4px}
+  .rd-tab{border-color:#d9d4cb}.rd-tab[aria-selected="true"]{background:rgba(11,142,155,.07)}}
