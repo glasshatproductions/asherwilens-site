@@ -447,14 +447,16 @@ DETECTOR_TAG = f'\n<script src="js/detector.js?v={_v("js/detector.js")}" defer><
 RD_EXAMPLES = [
     ('Detector idle', 'rd-idle', 'The Bureau&#39;s utility for Cycle 2187. Load any object and it rates how rare that object will be.',
      'Rarity Detector idle screen: an icosahedron in a scanning frame, Tap to load a specimen'),
-    ('Scan: Apple mouse', 'rd-mouse-loaded', 'A visitor loads something ordinary. Specimen: one wireless mouse.',
-     'Rarity Detector with a photo of an Apple wireless mouse loaded, status Ready'),
-    ('Analysis in progress', 'rd-mouse-analyzing', 'Material is cross-referenced against the Bureau registry.',
-     'Step 2 of 4, Analyzing material: a scan line passes over the mouse, origin verifying, progress 29 percent'),
-    ('Result: Apple mouse', 'rd-mouse-result', 'Uncommon, 3 of 7. Classified obsolete: an early-era consumer peripheral.',
+    ('Result: Apple mouse', 'rd-mouse-result', 'Uncommon, 3 of 7. Ordinary objects come back obsolete. This one: an early-era consumer peripheral.',
      'Scan complete: Apple wireless mouse, rarity index Uncommon 3 of 7, Bureau status Obsolete, with a short history and a quote'),
     ('Result: Sharpie', 'rd-sharpie-result', 'Fading, 2 of 7. Every result ends with a line of Bureau philosophy and a hand-off to the Synth-Mate lab.',
      'Scan complete: Sharpie permanent marker, rarity index Fading 2 of 7, Bureau status Obsolete, ending with Meet your Synth-Mate'),
+    ('Scan: eternity band', 'rd-ring-analyzing', 'Then a visitor loads a natural diamond eternity band. The registry search begins.',
+     'Step 2 of 4, Analyzing material: a scan line passes over a diamond eternity band, origin verifying'),
+    ('Result: Erased', 'rd-ring-result', 'Erased, 7 of 7. Status: suppressed. The Bureau has no record of this specimen in our time.',
+     'Scan complete in gold: diamond eternity band, rarity index Erased 7 of 7, tier 7 critically rare beyond 2187, Bureau status Suppressed, ending with an Incoming signal button'),
+    ('Signal detected', 'rd-signal', 'Only natural stones reach step four: an incoming transmission from someone who does have a record.',
+     'Step 4 of 4 in pink: Signal detected, incoming transmission, decrypting stream 92 percent. A natural stone. The Bureau has no record of it. Someone else does.'),
 ]
 
 def detector_demo(examples=RD_EXAMPLES):
