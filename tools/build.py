@@ -27,6 +27,10 @@ TAGLINES = [
 TAGLINES_HTML = ('<p class="taglines" aria-label="' + ' / '.join(TAGLINES) + '">'
                  + ''.join(f'<span class="tl{" on" if i == 0 else ""}" aria-hidden="true">{t}</span>' for i, t in enumerate(TAGLINES)) + '</p>')
 
+# Absolute base for social previews (crawlers ignore relative image paths).
+# Change this one line if the site moves to its own domain.
+SITE_URL = 'https://glasshatproductions.github.io/asherwilens-site/'
+
 def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra='', scripts_extra=''):
     def nav(href, label, key):
         cur = ' aria-current="page"' if key == current else ''
@@ -40,7 +44,8 @@ def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra
 <meta name="description" content="{desc}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
-<meta property="og:image" content="images/{og}.jpg">
+<meta property="og:image" content="{SITE_URL}images/{og}.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;500;600&display=swap">
@@ -341,36 +346,98 @@ page('index.html', 'A. Wilens | Creative Director',
      'Asher Wilens, Creative Director. The best ads don&#39;t feel like ads.', home)
 
 # ---------- LAB ----------
-projects = [
-    ('images/lab-draiped.jpg','A plain uploaded ring photo beside the Draiped on-model result of the same ring','01 · AI creative studio','DRAIPED',
-     'AI creative studio for jewelers. Upload a product photo and get campaign-ready assets in minutes: on-model shots, Instagram carousels with copy, web banners for desktop and mobile, and listing images for 1stdibs and Shopify. One product shot becomes a full launch, built by someone who\'s spent years art-directing fine jewelry.',
-     '<span>Live</span><a class="text-link" href="https://draiped.com">draiped.com →</a>'),
-    ('https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/po_9.png','The Project Orion projector device in a living room','02 · Experiential technology','PROJECT ORION',
-     'Projected AR with no headset and no phone. Digital experiences cast directly into physical space, built for retail floors, live events and brand activations where the room itself becomes the medium.',
-     '<span>Patented</span><a class="text-link" href="https://patents.google.com/patent/US11127212B1/en">US 11,127,212 →</a>'),
-    ('images/lab-pinverse.jpg','The prompt haunted diner on Saturn becoming a playable pinball table on a phone','03 · AI game platform','PINVERSE ARCADE',
-     'Type a world, play it as pinball. Pinverse Arcade uses AI to turn any prompt or photo into a playable pinball table in seconds, then lets players share, remix and compete on each other\'s creations. It\'s a game, but it\'s also a creative engine: everyone gets to design the machine.',
-     '<span>Live</span><a class="text-link" href="https://pinversearcade.com">pinversearcade.com →</a>'),
-    ('https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/hh_promo2.png','A hand pressing the piano keys built into the brim of the Harmony Hat','04 · Wearable music','HARMONY HAT',
-     'A collectible hat that plays real synth sounds. Wearable music meets limited-drop culture, built for artist collabs, merch and fan experiences.',
-     '<span>On Kickstarter</span><a class="text-link" href="https://www.kickstarter.com/projects/harmonyhat/435543195">View the campaign →</a>'),
-    ('https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/slickster_promoneon.png','Slickster day-plan screens on a phone and tablet over a city at night','05 · Product design','SLICKSTER',
-     'An automated planning app that turns the chaos of scheduling into a single tap. Product design, UX and brand by A. Wilens.',
-     '<span>Live</span><a class="text-link" href="https://slickster.app">slickster.app →</a>'),
+# Each invention is one dict. Media is framed 3:2 everywhere; per image:
+#   fit: 'cover' (crop) or 'contain' (whole image on a matching ground, for
+#        artwork with type running to the edges), pos: object-position for
+#        the crop, bg: the ground colour behind 'contain'.
+#   video: optional short muted loop (mp4) that replaces the still later; the
+#          still stays as its poster.
+#   compare: optional {'before': src, 'after': src, 'before_alt', 'after_alt'}
+#          reserved for a future before/after reveal (Draiped). Rendered as a
+#          static 'after' image until the interaction is built.
+LAB = [
+    dict(slug='orion', eyebrow='01 · Experiential technology', name='PROJECT ORION',
+         head='The room is the screen.',
+         copy='Orion projects digital imagery straight onto the objects and surfaces around you. No headset, no phone, nothing to download. A table, a wall or a shop window becomes part of the story, so retail floors, live events and brand activations become places people step into, not screens they look at.',
+         src='https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/po_9.png', w=2826, h=1584,
+         alt='The Project Orion projector, a small rounded device with three lenses, on a coffee table in a living room',
+         fit='cover', pos='50% 50%',
+         status='Patented',
+         patent=('U.S. Patent No. 11,127,212', 'Method of projecting virtual reality imagery for augmenting real world objects and surfaces', 'https://patents.google.com/patent/US11127212B1/en')),
+    dict(slug='draiped', eyebrow='02 · AI creative studio', name='DRAIPED',
+         head='One product shot. A whole launch.',
+         copy='An AI studio for jewelers. Upload a single photo and get on-model images, Instagram carousels with copy, web banners and marketplace listings in minutes. Built by someone who spent years art-directing fine jewelry the slow way.',
+         src='images/lab-draiped.jpg', w=1672, h=941,
+         alt='A plain uploaded ring photo beside the Draiped on-model result of the same ring',
+         fit='cover', pos='50% 50%', compare=None,
+         status='Live', link=('https://draiped.com', 'draiped.com')),
+    dict(slug='pinverse', eyebrow='03 · AI game platform', name='PINVERSE ARCADE',
+         head='Type a world. Play it as pinball.',
+         copy='Pinverse turns any prompt or photo into a playable pinball table in seconds. Players share, remix and compete on each other&#39;s machines, so everyone gets to be the designer.',
+         src='images/lab-pinverse.jpg', w=1672, h=941,
+         alt='The prompt haunted diner on Saturn becoming a playable pinball table on a phone',
+         fit='cover', pos='58% 50%',
+         status='Live', link=('https://pinversearcade.com', 'pinversearcade.com')),
+    dict(slug='harmony', eyebrow='04 · Wearable music', name='HARMONY HAT',
+         head='A hat you can play.',
+         copy='A collectible cap with synth keys built into the brim. Wearable music for artist collaborations, limited drops and fan merch.',
+         src='https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/hh_promo2.png', w=1672, h=941,
+         alt='A hand pressing the piano keys built into the brim of the Harmony Hat',
+         fit='contain', bg='#ececee',
+         status='On Kickstarter', link=('https://www.kickstarter.com/projects/harmonyhat/435543195', 'View the campaign')),
+    dict(slug='slickster', eyebrow='05 · Product design', name='SLICKSTER',
+         head='Less planning. More living.',
+         copy='An automated planning app that turns the chaos of scheduling into a single tap. Product design, UX and brand by A. Wilens.',
+         src='https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/slickster_promoneon.png', w=1672, h=941,
+         alt='Slickster day-plan screens on a phone and tablet over a city at night',
+         fit='contain', bg='#031227',
+         status='Live', link=('https://slickster.app', 'slickster.app')),
 ]
-proj_html = ''.join(f'''<article class="project">
-<div class="media"><img src="{src}" alt="{alt}" loading="lazy"></div>
-<div class="text"><p class="eyebrow">{eb}</p><h2 class="display">{name}</h2><p class="body-copy">{d}</p><div class="status">{st}</div></div>
-</article>''' for src, alt, eb, name, d, st in projects)
+
+def lab_media(p, first=False):
+    load = '' if first else ' loading="lazy" decoding="async"'
+    style = f'--fit:{p.get("fit","cover")};--pos:{p.get("pos","50% 50%")};--ground:{p.get("bg","var(--soft)")}'
+    if p.get('compare'):
+        c = p['compare']   # future reveal: both layers present, 'after' shown
+        inner = (f'<img class="lab-after" src="{c["after"]}" alt="{c["after_alt"]}" width="{p["w"]}" height="{p["h"]}"{load}>'
+                 f'<img class="lab-before" src="{c["before"]}" alt="{c["before_alt"]}" width="{p["w"]}" height="{p["h"]}" loading="lazy" hidden>')
+        kind = 'compare'
+    elif p.get('video'):
+        inner = (f'<video src="{p["video"]}" poster="{p["src"]}" muted loop playsinline autoplay preload="none" aria-label="{p["alt"]}"></video>')
+        kind = 'video'
+    else:
+        inner = f'<img src="{p["src"]}" alt="{p["alt"]}" width="{p["w"]}" height="{p["h"]}"{load}>'
+        kind = 'image'
+    href = p['link'][0] if p.get('link') else (p['patent'][2] if p.get('patent') else '')
+    tag_open = f'<a class="lab-frame" href="{href}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"' if href and kind != 'video' else '<div class="lab-frame"'
+    tag_close = '</a>' if href and kind != 'video' else '</div>'
+    return f'{tag_open} data-media="{kind}" data-slug="{p["slug"]}" style="{style}">{inner}{tag_close}'
+
+def lab_entry(p, i):
+    st = f'<span class="lab-state">{p["status"]}</span>'
+    if p.get('link'):
+        st += f'<a class="lab-link" href="{p["link"][0]}" target="_blank" rel="noopener">{p["link"][1]} <span aria-hidden="true">→</span></a>'
+    patent = ''
+    if p.get('patent'):
+        num, title, url = p['patent']
+        patent = (f'<a class="lab-patent" href="{url}" target="_blank" rel="noopener">'
+                  f'<span class="lab-patent-no">{p["status"]} · {num}</span>'
+                  f'<span class="lab-patent-title">{title}</span>'
+                  f'<span class="lab-patent-cta">Read the patent <span aria-hidden="true">→</span></span></a>')
+    return (f'<article class="lab-item" id="{p["slug"]}">'
+            f'<div class="lab-media">{lab_media(p, i == 0)}</div>'
+            f'<div class="lab-text"><p class="eyebrow">{p["eyebrow"]}</p><h2 class="display">{p["name"]}</h2>'
+            f'<p class="lab-head">{p["head"]}</p><p class="body-copy">{p["copy"]}</p>'
+            + (patent if patent else f'<div class="lab-status">{st}</div>') + '</div></article>')
+
 lab = f'''<div class="wrap">
 <section class="lab-hero">
 <div><p class="eyebrow">Inventions, products &amp; platforms</p><h1 class="display">LAB</h1><p class="lede">Ideas that didn't fit in a brief.</p></div>
-<p>Some ideas are too big for a campaign, so I build them. These are inventions, products and platforms I've developed on my own. They come from the same instinct that drives my agency work: find the human truth, then make something people want to touch.</p>
+<p>Some ideas become campaigns. Others become products, platforms, and the occasional patent. This is where I follow the idea wherever it goes.</p>
 </section>
-<div>{proj_html}</div>
-<div class="callout"><p>Interested in partnering, licensing or building something together?</p><a class="btn" href="mailto:{EMAIL}">Start a conversation</a></div>
+<div class="lab-list-full">{''.join(lab_entry(p, i) for i, p in enumerate(LAB))}</div>
 </div>'''
-page('lab.html', 'Lab | A. Wilens', 'Inventions, products and platforms by Asher Wilens.', lab, 'lab')
+page('lab.html', 'Lab | A. Wilens', 'Inventions, products and platforms by Asher Wilens: projected AR, an AI studio for jewelers, AI pinball, a playable hat and a planning app.', lab, 'lab', og='thumb-lab')
 
 # ---------- ABOUT ----------
 about = f'''<div class="wrap about">
