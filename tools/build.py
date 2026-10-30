@@ -527,6 +527,11 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Sof
       section('05','File K-9. The last transmission.','The Bureau promised a world without rarity. Then an unauthorized transmission interrupted the network. Deep beneath the Kalahari Basin, a lone geologist had discovered something that wasn&#39;t supposed to exist.',
               sc_k9).replace('<section class="cs-section">','<section class="cs-section cs-dark">',1),
 
+      ('<section class="sc-culmination" aria-label="One diamond worth stopping for">'
+       '<div class="wrap"><p class="sc-cul-line">In a world with billions of diamonds, one was worth stopping for.</p></div>'
+       '<img src="images/synth-hero.jpg" alt="Synth City: a crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor" loading="lazy" width="1672" height="941">'
+       '</section>'),
+
       section('06','Back to now','',
               '<div class="now">' + rows([('synth-now','Present day: a woman&#39;s hand with a natural diamond engagement ring resting on a sunlit kitchen table beside a coffee cup','')]) + sc_end + '</div>')],
      'desert-diamonds.html', 'Desert Diamonds', 'Synth City: the future didn&#39;t run out of diamonds. It ran out of rarity. An integrated campaign for Premier Gem.')
