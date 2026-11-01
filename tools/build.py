@@ -363,6 +363,12 @@ LAB = [
          alt='The Project Orion projector, a small rounded device with three lenses, on a coffee table in a living room',
          fit='cover', pos='50% 50%',
          status='Patented',
+         story=dict(w=1392, h=676, frames=[
+             ('orion-01', 'An ordinary living room at night: a grey sofa, a floor lamp, two people looking at their phones, and the white spherical Orion projector on a round coffee table.', 'An ordinary room.'),
+             ('orion-02', 'The same room as thin cyan projected lines trace the edges of the walls, ceiling and hallway.', 'The room is recognized.'),
+             ('orion-03', 'Projected light now outlines the sofa, its cushions and the coffee table, mapping the furniture.', 'Every surface understood.'),
+             ('orion-04', 'The projector casts a glowing blue portal on the wall and spiders that crawl across the wall and sofa, turning the room into a game.', 'The room is the screen.'),
+         ]),
          patent=('U.S. Patent No. 11,127,212', 'Method of projecting virtual reality imagery for augmenting real world objects and surfaces', 'https://patents.google.com/patent/US11127212B1/en')),
     dict(slug='draiped', eyebrow='02 · AI creative studio', name='DRAIPED',
          head='One product shot. A whole launch.',
@@ -413,6 +419,30 @@ def lab_media(p, first=False):
     tag_close = '</a>' if href and kind != 'video' else '</div>'
     return f'{tag_open} data-media="{kind}" data-slug="{p["slug"]}" style="{style}">{inner}{tag_close}'
 
+# ---------- Scroll story: a pinned image that evolves as you scroll ----------
+# Reusable: give any Lab entry story=dict(w, h, frames=[(img, alt, caption)])
+# with frames as images/<img>.webp (+ .jpg fallback), all the same size and
+# aligned. js/scrollstory.js drives opacity from scroll; without JS or with
+# reduced motion the frames show as a simple static sequence.
+STORY_TAG = f'\n<script src="js/scrollstory.js?v={_v("js/scrollstory.js")}" defer></script>'
+
+def story_frames(st, slug):
+    n = len(st['frames'])
+    out = []
+    for k, (img, alt, cap) in enumerate(st['frames']):
+        load = ' fetchpriority="high"' if k == 0 else ' loading="lazy"'
+        out.append(f'<figure class="sq-f" data-k="{k}"><picture><source srcset="images/{img}.webp" type="image/webp">'
+                   f'<img src="images/{img}.jpg" alt="{alt}" width="{st["w"]}" height="{st["h"]}" decoding="async"{load}></picture>'
+                   f'<figcaption><span class="sq-n">{k + 1:02d} / {n:02d}</span> {cap}</figcaption></figure>')
+    return (f'<div class="sq-frame" style="--sq-ar:{st["w"]}/{st["h"]}">' + ''.join(out) + '</div>')
+
+def story_readout(st):
+    n = len(st['frames'])
+    first = st['frames'][0][2]
+    caps = '|'.join(c for _, _, c in st['frames'])
+    return (f'<p class="sq-readout" data-caps="{caps}"><span class="sq-step">01 / {n:02d}</span>'
+            f'<span class="sq-cap">{first}</span></p>')
+
 def lab_entry(p, i):
     st = f'<span class="lab-state">{p["status"]}</span>'
     if p.get('link'):
@@ -424,6 +454,15 @@ def lab_entry(p, i):
                   f'<span class="lab-patent-no">{p["status"]} · {num}</span>'
                   f'<span class="lab-patent-title">{title}</span>'
                   f'<span class="lab-patent-cta">Read the patent <span aria-hidden="true">→</span></span></a>')
+    if p.get('story'):
+        st_ = p['story']
+        return (f'<article class="lab-item lab-story" id="{p["slug"]}" data-sq style="--sq-steps:{len(st_["frames"])}">'
+                f'<div class="sq-track"><div class="sq-sticky">'
+                f'<div class="lab-media sq-media">{story_frames(st_, p["slug"])}<div class="sq-mobile-readout" aria-hidden="true"></div></div>'
+                f'<div class="lab-text"><p class="eyebrow">{p["eyebrow"]}</p><h2 class="display">{p["name"]}</h2>'
+                f'<p class="lab-head">{p["head"]}</p><p class="body-copy">{p["copy"]}</p>'
+                + story_readout(st_) + (patent if patent else f'<div class="lab-status">{st}</div>')
+                + '</div></div></div></article>')
     return (f'<article class="lab-item" id="{p["slug"]}">'
             f'<div class="lab-media">{lab_media(p, i == 0)}</div>'
             f'<div class="lab-text"><p class="eyebrow">{p["eyebrow"]}</p><h2 class="display">{p["name"]}</h2>'
@@ -437,7 +476,8 @@ lab = f'''<div class="wrap">
 </section>
 <div class="lab-list-full">{''.join(lab_entry(p, i) for i, p in enumerate(LAB))}</div>
 </div>'''
-page('lab.html', 'Lab | A. Wilens', 'Inventions, products and platforms by Asher Wilens: projected AR, an AI studio for jewelers, AI pinball, a playable hat and a planning app.', lab, 'lab', og='thumb-lab')
+page('lab.html', 'Lab | A. Wilens', 'Inventions, products and platforms by Asher Wilens: projected AR, an AI studio for jewelers, AI pinball, a playable hat and a planning app.', lab, 'lab', og='thumb-lab',
+     head_extra='\n<link rel="preload" as="image" href="images/orion-01.webp" type="image/webp">', scripts_extra=STORY_TAG)
 
 # ---------- ABOUT ----------
 about = f'''<div class="wrap about">
