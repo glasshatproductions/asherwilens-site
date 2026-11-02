@@ -7,7 +7,6 @@
   var mq = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : null;
   if (mq && mq.matches) return;
 
-  var FADE = 0.13;               // share of the scroll range spent on each dissolve
   var header = document.querySelector('.site-header');
 
   function ease(t) { return t * t * (3 - 2 * t); }
@@ -26,6 +25,8 @@
     var n = frames.length;
     if (n < 2 || !track) return;
 
+    // each dissolve's share of the scroll; longer stories get shorter dissolves, holds stay
+    var FADE = Math.min(0.13, 0.55 / (n - 1));
     var hold = (1 - (n - 1) * FADE) / n;
     var active = false, ticking = false, shown = -1;
     var mobile = false, stickTop = 0, natural = 0;

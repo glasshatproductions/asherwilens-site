@@ -378,6 +378,10 @@ LAB = [
              ('orion-v-02', 'The same room as a cyan projected grid maps the walls and ceiling.', 'The room is recognized.'),
              ('orion-v-03', 'The projected grid now wraps the sofa and its cushions, mapping the furniture.', 'Every surface understood.'),
              ('orion-v-04', 'The projector casts a glowing blue portal on the wall and spiders that crawl across the wall and sofa, turning the room into a game.', 'The room is the screen.'),
+             ('orion-v-05', 'The projected spiders spread across the wall and sofa as one emerges from the glowing portal.', 'The game wakes up.'),
+             ('orion-v-06', 'More spiders crawl out of the portal on the wall, the sofa still covered in the projected grid.', 'More keep coming.'),
+             ('orion-v-07', 'A glowing ball of projected energy flies across the sofa toward a spider.', 'Take aim.'),
+             ('orion-v-08', 'A burst of blue light explodes on the sofa cushion where the spider was hit.', 'Direct hit.'),
          ]),
          patent=('U.S. Patent No. 11,127,212', 'Method of projecting virtual reality imagery for augmenting real world objects and surfaces', 'https://patents.google.com/patent/US11127212B1/en')),
     dict(slug='draiped', eyebrow='02 · AI creative studio', name='DRAIPED',
@@ -475,7 +479,9 @@ def lab_entry(p, i):
                   f'<span class="lab-patent-cta">Read the patent <span aria-hidden="true">→</span></span></a>')
     if p.get('story'):
         st_ = p['story']
-        return (f'<article class="lab-item lab-story" id="{p["slug"]}" data-sq style="--sq-steps:{len(st_["frames"])}">'
+        n_ = len(st_["frames"])
+        per, per_m = (45, 32) if n_ <= 4 else (round(120 / n_ + 15), round(190 / n_))   # scroll per stage, vh
+        return (f'<article class="lab-item lab-story" id="{p["slug"]}" data-sq style="--sq-steps:{n_};--sq-per:{per}vh;--sq-per-m:{per_m}vh">'
                 f'<div class="sq-track"><div class="sq-sticky">'
                 f'<div class="lab-media sq-media">{story_frames(st_, p["slug"])}<div class="sq-mobile-readout" aria-hidden="true"></div></div>'
                 f'<div class="lab-text"><p class="eyebrow">{p["eyebrow"]}</p><h2 class="display">{p["name"]}</h2>'
