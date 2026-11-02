@@ -11,6 +11,15 @@
 
   function ease(t) { return t * t * (3 - 2 * t); }
 
+  // Phones: while any story is pinned, the site header slides away so the
+  // image owns the whole screen; it returns as soon as the story releases.
+  var pinned = [];
+  function setPinned(root, on) {
+    var i = pinned.indexOf(root);
+    if (on && i < 0) pinned.push(root); else if (!on && i >= 0) pinned.splice(i, 1);
+    document.documentElement.classList.toggle('sq-full', pinned.length > 0);
+  }
+
   document.querySelectorAll('[data-sq]').forEach(function (root) {
     var track = root.querySelector('.sq-track');
     var sticky = root.querySelector('.sq-sticky');
@@ -36,7 +45,7 @@
       mobile = window.matchMedia('(max-width: 820px)').matches;
       if (window.innerHeight < 520) { root.classList.remove('sq-on'); return false; }
       root.classList.add('sq-on');
-      stickTop = (header ? header.getBoundingClientRect().height : 0) + (mobile ? 12 : 24);
+      stickTop = mobile ? 0 : (header ? header.getBoundingClientRect().height : 0) + 24;   // phones: full screen, header steps aside
       root.style.setProperty('--sq-top', stickTop + 'px');
       natural = mobile && text ? text.getBoundingClientRect().height + parseFloat(getComputedStyle(track).rowGap || 0) : 0;
       return true;
@@ -59,6 +68,7 @@
       var r = track.getBoundingClientRect();
       var range = track.offsetHeight - natural - el.offsetHeight;
       var p = range > 0 ? (stickTop - (r.top + natural)) / range : 0;
+      if (mobile) setPinned(root, p > -0.02 && p < 1);
       p = Math.max(0, Math.min(1, p));
       var current = 0;
       for (var k = 1; k < n; k++) {
@@ -79,6 +89,7 @@
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         active = e.isIntersecting;
+        if (!active) setPinned(root, false);
         if (active) {
           frames.forEach(function (f) {
             var img = f.querySelector('img');
@@ -91,7 +102,7 @@
     io.observe(root);
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', function () { measure(); onScroll(); }, { passive: true });
+    window.addEventListener('resize', function () { measure(); if (!mobile) setPinned(root, false); onScroll(); }, { passive: true });
     if (mq && mq.addEventListener) mq.addEventListener('change', function () { location.reload(); });
     render();
   });

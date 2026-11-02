@@ -807,3 +807,17 @@ main:has(.g) .wrap.trailer,main:has(.g) .wrap.moments{margin-left:calc((100% - m
 .sq-on .sq-frame>.sq-readout.is-card{background:none}
 .sq-on .sq-frame>.sq-readout.is-card .sq-cap{font-family:var(--body);font-size:13px;letter-spacing:.14em;text-transform:uppercase;text-shadow:none;opacity:.75}
 .sq-on .sq-frame>.sq-readout.is-card .sq-cap,.sq-on .sq-frame>.sq-readout.is-card .sq-step{color:inherit}
+/* Phones: the pinned story fills the screen below the header, edge to edge */
+@media (max-width:820px){
+  .sq-on .sq-media{margin:0 -24px;padding:0;background:#000}
+  .sq-on .sq-frame,.sq-on .sq-frame.sq-portrait{width:100%;max-width:none;height:calc(100svh - var(--sq-top,90px));aspect-ratio:auto;margin:0}
+  .sq-on .sq-f img{object-fit:cover}
+  .sq-on .sq-card{aspect-ratio:auto}
+  .sq-on .sq-frame>.sq-readout{padding-bottom:calc(22px + env(safe-area-inset-bottom))}
+}
+@media (max-width:820px){
+  .site-header{transition:transform .35s ease}
+  .sq-full .site-header{transform:translateY(-100%);box-shadow:none}
+  .sq-on .sq-frame,.sq-on .sq-frame.sq-portrait{height:100svh}
+}
+@media (max-width:820px) and (prefers-reduced-motion:reduce){.site-header{transition:none}}
