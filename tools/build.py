@@ -401,6 +401,11 @@ LAB = [
          src='images/lab-pinverse.jpg', w=1672, h=941,
          alt='The prompt haunted diner on Saturn becoming a playable pinball table on a phone',
          fit='cover', pos='58% 50%',
+         story=dict(w=768, h=1376, portrait=True, frames=[
+             ('pinverse-v-01', 'Pinverse Arcade on a phone: Create your pinball world, with the prompt A volcano island typed in and a Generate World button.', 'Type a world.'),
+             ('pinverse-v-02', 'The generated volcano island pinball table: lava ramps, a stone idol, an erupting volcano and glowing score targets.', 'The table builds itself.'),
+             ('pinverse-v-03', 'The same volcano table in play, a steel ball blazing off the lava bumper in a burst of fire.', 'Play it.'),
+         ]),
          status='Live', link=('https://pinversearcade.com', 'pinversearcade.com')),
     dict(slug='harmony', eyebrow='04 · Wearable music', name='HARMONY HAT',
          head='A hat you can play.',
