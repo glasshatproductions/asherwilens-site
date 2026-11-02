@@ -373,11 +373,11 @@ LAB = [
          alt='The Project Orion projector, a small rounded device with three lenses, on a coffee table in a living room',
          fit='cover', pos='50% 50%',
          status='Patented',
-         story=dict(w=1392, h=676, mobile=dict(prefix='orion-v-', w=752, h=1392), frames=[
-             ('orion-01', 'An ordinary living room at night: a grey sofa, a floor lamp, two people looking at their phones, and the white spherical Orion projector on a round coffee table.', 'An ordinary room.'),
-             ('orion-02', 'The same room as a cyan projected grid maps the walls and ceiling.', 'The room is recognized.'),
-             ('orion-03', 'The projected grid now wraps the sofa and its cushions, mapping the furniture.', 'Every surface understood.'),
-             ('orion-04', 'The projector casts a glowing blue portal on the wall and spiders that crawl across the wall and sofa, turning the room into a game.', 'The room is the screen.'),
+         story=dict(w=752, h=1392, portrait=True, frames=[
+             ('orion-v-01', 'An ordinary living room at night: a grey sofa, a floor lamp, two people looking at their phones, and the white spherical Orion projector on a round coffee table.', 'An ordinary room.'),
+             ('orion-v-02', 'The same room as a cyan projected grid maps the walls and ceiling.', 'The room is recognized.'),
+             ('orion-v-03', 'The projected grid now wraps the sofa and its cushions, mapping the furniture.', 'Every surface understood.'),
+             ('orion-v-04', 'The projector casts a glowing blue portal on the wall and spiders that crawl across the wall and sofa, turning the room into a game.', 'The room is the screen.'),
          ]),
          patent=('U.S. Patent No. 11,127,212', 'Method of projecting virtual reality imagery for augmenting real world objects and surfaces', 'https://patents.google.com/patent/US11127212B1/en')),
     dict(slug='draiped', eyebrow='02 · AI creative studio', name='DRAIPED',
@@ -452,7 +452,8 @@ def story_frames(st, slug):
                    f'<figcaption><span class="sq-n">{k + 1:02d} / {n:02d}</span> {cap}</figcaption></figure>')
     m = st.get('mobile')
     mar = f';--sq-ar-m:{m["w"]}/{m["h"]};--sq-r-m:{m["w"]/m["h"]:.4f}' if m else ''
-    return (f'<div class="sq-frame" style="--sq-ar:{st["w"]}/{st["h"]}{mar}">' + ''.join(out) + '</div>')
+    cls = ' sq-portrait' if st.get('portrait') else ''
+    return (f'<div class="sq-frame{cls}" style="--sq-ar:{st["w"]}/{st["h"]};--sq-r:{st["w"]/st["h"]:.4f}{mar}">' + ''.join(out) + '</div>')
 
 def story_readout(st):
     n = len(st['frames'])
@@ -495,7 +496,7 @@ lab = f'''<div class="wrap">
 <div class="lab-list-full">{''.join(lab_entry(p, i) for i, p in enumerate(LAB))}</div>
 </div>'''
 page('lab.html', 'Lab | A. Wilens', 'Inventions, products and platforms by Asher Wilens: projected AR, an AI studio for jewelers, AI pinball, a playable hat and a planning app.', lab, 'lab', og='thumb-lab',
-     head_extra='\n<link rel="preload" as="image" href="images/orion-01.webp" type="image/webp" media="(min-width:821px)">\n<link rel="preload" as="image" href="images/orion-v-01.webp" type="image/webp" media="(max-width:820px)">', scripts_extra=STORY_TAG)
+     head_extra='\n<link rel="preload" as="image" href="images/orion-v-01.webp" type="image/webp">', scripts_extra=STORY_TAG)
 
 # ---------- ABOUT ----------
 about = f'''<div class="wrap about">
