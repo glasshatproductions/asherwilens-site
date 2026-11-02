@@ -22,6 +22,7 @@
     var cap = readout && readout.querySelector('.sq-cap');
     var mobileOut = root.querySelector('.sq-mobile-readout');
     var caps = readout ? readout.getAttribute('data-caps').split('|') : [];
+    var cards = readout && readout.getAttribute('data-cards') ? readout.getAttribute('data-cards').split(',') : [];
     var n = frames.length;
     if (n < 2 || !track) return;
 
@@ -44,7 +45,7 @@
     var swapT = null;
     function label(k, instant) {
       var s = (k + 1 < 10 ? '0' : '') + (k + 1) + ' / ' + (n < 10 ? '0' : '') + n;
-      var put = function () { if (step) step.textContent = s; if (cap) cap.textContent = caps[k] || ''; if (readout) readout.classList.remove('is-out'); };
+      var put = function () { if (step) step.textContent = s; if (cap) cap.textContent = caps[k] || ''; if (readout) { readout.classList.toggle('is-card', cards[k] === '1'); readout.style.color = cards[k] === '1' ? frames[k].style.getPropertyValue('--card-fg') : ''; readout.classList.remove('is-out'); } };
       clearTimeout(swapT);
       if (instant || !readout) { put(); return; }
       readout.classList.add('is-out');          // fade the line out, swap, fade back in

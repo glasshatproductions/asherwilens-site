@@ -425,6 +425,12 @@ LAB = [
          src='https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/slickster_promoneon.png', w=1672, h=941,
          alt='Slickster day-plan screens on a phone and tablet over a city at night',
          fit='contain', bg='#031227',
+         story=dict(w=768, h=1376, portrait=True, frames=[
+             ('slickster-v-01', 'A phone on a sunlit stone table showing the Slickster logo on its launch screen.', 'Open Slickster.'),
+             ('slickster-v-02', 'The Slickster map view of Manhattan, a single cyan pin and a Pick a plan tab at the bottom.', 'Drop a pin.'),
+             ('slickster-v-03', 'The slycons screen: mood-based activity icons such as Casual, Romantic, Foodie, Music and Night Out, with Romantic selected and a Generate My Plan button.', 'Pick a mood.'),
+             ('slickster-v-04', 'Generating your plan: a timeline with dinner at 7:30 PM, a rooftop bar at 9:00 PM and a third stop still being analyzed.', 'The night plans itself.'),
+         ]),
          status='Live', link=('https://slickster.app', 'slickster.app')),
 ]
 
@@ -454,11 +460,41 @@ def lab_media(p, first=False):
 # reduced motion the frames show as a simple static sequence.
 STORY_TAG = f'\n<script src="js/scrollstory.js?v={_v("js/scrollstory.js")}" defer></script>'
 
+# Brand title cards: the first frame of every Lab story. A shared composition,
+# each brand's own colour. Swap in a logo later with logo='images/<file>.png'
+# (or .svg); until then the brand name is set in type.
+TITLE_CARDS = {
+    'orion':     dict(bg='#121a21', fg='#7fd0f4', name='PROJECT ORION',   line='Spatial technology'),
+    'draiped':   dict(bg='#f0ece6', fg='#24211d', name='DRAIPED',         line='Creative intelligence'),
+    'pinverse':  dict(bg='#12101c', fg='#b79cf3', name='PINVERSE ARCADE', line='Play and creation'),
+    'harmony':   dict(bg='#232323', fg='#f1f1f1', name='HARMONY HAT',     line='Wearable music'),
+    'slickster': dict(bg='#10172a', fg='#5fe0d2', name='SLICKSTER',       line='Experience planning'),
+}
+
+def story_items(st, slug):
+    """[(kind, data, caption)] with the brand card first when one exists."""
+    items = []
+    card = TITLE_CARDS.get(slug)
+    if card:
+        items.append(('card', card, card['line']))
+    items += [('img', (img, alt), cap) for img, alt, cap in st['frames']]
+    return items
+
 def story_frames(st, slug, overlay='', first=True):
-    n = len(st['frames'])
+    items = story_items(st, slug)
+    n = len(items)
     out = []
-    for k, (img, alt, cap) in enumerate(st['frames']):
-        load = ' fetchpriority="high"' if (k == 0 and first) else ' loading="lazy"'
+    first_img = next((k for k, it in enumerate(items) if it[0] == 'img'), 0)
+    for k, (kind, data, cap) in enumerate(items):
+        if kind == 'card':
+            mark = (f'<img class="sq-logo" src="{data["logo"]}" alt="{data["name"].title()}">' if data.get('logo')
+                    else f'<span class="sq-brand">{data["name"]}</span>')
+            out.append(f'<figure class="sq-f sq-card" data-k="{k}" data-card style="--card-bg:{data["bg"]};--card-fg:{data["fg"]}">'
+                       f'<div class="sq-card-in">{mark}</div>'
+                       f'<figcaption><span class="sq-n">{k + 1:02d} / {n:02d}</span> {cap}</figcaption></figure>')
+            continue
+        img, alt = data
+        load = ' fetchpriority="high"' if (k == first_img and first) else ' loading="lazy"'
         mob = st.get('mobile')
         msrc = ''
         if mob:   # portrait art-directed frames for phones (same stages, same order)
@@ -473,11 +509,15 @@ def story_frames(st, slug, overlay='', first=True):
     cls = ' sq-portrait' if st.get('portrait') else ''
     return (f'<div class="sq-frame{cls}" style="--sq-ar:{st["w"]}/{st["h"]};--sq-r:{st["w"]/st["h"]:.4f}{mar}">' + ''.join(out) + overlay + '</div>')
 
-def story_readout(st):
-    n = len(st['frames'])
-    first = st['frames'][0][2]
-    caps = '|'.join(c for _, _, c in st['frames'])
-    return (f'<p class="sq-readout" aria-live="polite" data-caps="{caps}"><span class="sq-step">01 / {n:02d}</span>'
+def story_readout(st, slug=''):
+    items = story_items(st, slug)
+    n = len(items)
+    caps = '|'.join(c for _, _, c in items)
+    cards = ','.join('1' if k == 'card' else '0' for k, _, _ in items)
+    first = items[0][2]
+    cls = ' is-card' if items[0][0] == 'card' else ''
+    sty = f' style="color:{items[0][1]["fg"]}"' if items[0][0] == 'card' else ''
+    return (f'<p class="sq-readout{cls}"{sty} aria-live="polite" data-caps="{caps}" data-cards="{cards}"><span class="sq-step">01 / {n:02d}</span>'
             f'<span class="sq-cap">{first}</span></p>')
 
 def lab_entry(p, i):
@@ -493,11 +533,11 @@ def lab_entry(p, i):
                   f'<span class="lab-patent-cta">Read the patent <span aria-hidden="true">→</span></span></a>')
     if p.get('story'):
         st_ = p['story']
-        n_ = len(st_["frames"])
+        n_ = len(story_items(st_, p["slug"]))
         per, per_m = (55, 40) if n_ <= 4 else (round(160 / n_ + 20), round(250 / n_))   # scroll per stage, vh
         return (f'<article class="lab-item lab-story" id="{p["slug"]}" data-sq style="--sq-steps:{n_};--sq-per:{per}vh;--sq-per-m:{per_m}vh">'
                 f'<div class="sq-track"><div class="sq-sticky">'
-                f'<div class="lab-media sq-media">{story_frames(st_, p["slug"], story_readout(st_), i == 0)}</div>'
+                f'<div class="lab-media sq-media">{story_frames(st_, p["slug"], story_readout(st_, p["slug"]), i == 0)}</div>'
                 f'<div class="lab-text"><p class="eyebrow">{p["eyebrow"]}</p><h2 class="display">{p["name"]}</h2>'
                 f'<p class="lab-head">{p["head"]}</p><p class="body-copy">{p["copy"]}</p>'
                 + (patent if patent else f'<div class="lab-status">{st}</div>')
