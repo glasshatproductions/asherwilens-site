@@ -787,3 +787,12 @@ main:has(.g) .wrap.trailer,main:has(.g) .wrap.moments{margin-left:calc((100% - m
 .sq-on .sq-frame>.sq-readout .sq-step{color:rgba(255,255,255,.72)}
 .sq-on .sq-frame>.sq-readout .sq-cap{font-family:var(--display);font-size:clamp(20px,2vw,26px);line-height:1.25;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.35)}
 @media (prefers-reduced-motion:reduce){.sq-on .sq-frame>.sq-readout{transition:none}}
+/* Alternate stories put the image on the right, like the other Lab entries */
+@media (min-width:821px){
+  .lab-story:nth-child(even):has(.sq-portrait) .sq-sticky{grid-template-columns:minmax(0,440px) auto;justify-content:space-between}
+  .lab-story:nth-child(even) .sq-media{order:2}
+}
+.lab-story:nth-child(even){border-top:1px solid var(--line)}
+.sq-on .sq-frame>.sq-readout{padding-top:clamp(90px,22%,160px);background:linear-gradient(to top,rgba(10,8,6,.88) 0%,rgba(10,8,6,.7) 40%,rgba(10,8,6,0) 100%)}
+.sq-on .sq-frame>.sq-readout{flex-direction:row-reverse;justify-content:space-between;align-items:baseline;gap:16px}
+.sq-on .sq-frame>.sq-readout .sq-step{margin:0;flex:none}

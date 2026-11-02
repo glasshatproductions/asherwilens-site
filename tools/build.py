@@ -389,6 +389,11 @@ LAB = [
          src='images/lab-draiped.jpg', w=1672, h=941,
          alt='A plain uploaded ring photo beside the Draiped on-model result of the same ring',
          fit='cover', pos='50% 50%', compare=None,
+         story=dict(w=768, h=1376, portrait=True, frames=[
+             ('draiped-v-01', 'The uploaded product shot: an emerald-cut diamond solitaire on a plain cream background.', 'One product shot.'),
+             ('draiped-v-02', 'Draiped&#39;s on-model image of the same ring on a hand resting on a camel wool coat, a gold chain bracelet at the wrist and a brass candlestick behind.', 'On model, in minutes.'),
+             ('draiped-v-03', 'The full launch generated from that one photo: Aurora web banners, an Instagram post, a story and a product listing with Add to Bag, in warm camel, cream and brass.', 'A whole launch.'),
+         ]),
          status='Live', link=('https://draiped.com', 'draiped.com')),
     dict(slug='pinverse', eyebrow='03 · AI game platform', name='PINVERSE ARCADE',
          head='Type a world. Play it as pinball.',
@@ -439,11 +444,11 @@ def lab_media(p, first=False):
 # reduced motion the frames show as a simple static sequence.
 STORY_TAG = f'\n<script src="js/scrollstory.js?v={_v("js/scrollstory.js")}" defer></script>'
 
-def story_frames(st, slug, overlay=''):
+def story_frames(st, slug, overlay='', first=True):
     n = len(st['frames'])
     out = []
     for k, (img, alt, cap) in enumerate(st['frames']):
-        load = ' fetchpriority="high"' if k == 0 else ' loading="lazy"'
+        load = ' fetchpriority="high"' if (k == 0 and first) else ' loading="lazy"'
         mob = st.get('mobile')
         msrc = ''
         if mob:   # portrait art-directed frames for phones (same stages, same order)
@@ -482,7 +487,7 @@ def lab_entry(p, i):
         per, per_m = (55, 40) if n_ <= 4 else (round(160 / n_ + 20), round(250 / n_))   # scroll per stage, vh
         return (f'<article class="lab-item lab-story" id="{p["slug"]}" data-sq style="--sq-steps:{n_};--sq-per:{per}vh;--sq-per-m:{per_m}vh">'
                 f'<div class="sq-track"><div class="sq-sticky">'
-                f'<div class="lab-media sq-media">{story_frames(st_, p["slug"], story_readout(st_))}</div>'
+                f'<div class="lab-media sq-media">{story_frames(st_, p["slug"], story_readout(st_), i == 0)}</div>'
                 f'<div class="lab-text"><p class="eyebrow">{p["eyebrow"]}</p><h2 class="display">{p["name"]}</h2>'
                 f'<p class="lab-head">{p["head"]}</p><p class="body-copy">{p["copy"]}</p>'
                 + (patent if patent else f'<div class="lab-status">{st}</div>')
