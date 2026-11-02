@@ -613,7 +613,7 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Sof
               rows([('synth-aerial','Aerial view of Synth City at night: flying cars, neon towers and a Welcome to Synth City sign','Cycle 2187.')],
                    [('synth-factory-line','Robotic nozzles drop cut diamonds by the hundreds onto a factory conveyor','Diamonds, by the ton.'),
                     ('synth-vending','A proposal kit vending machine in a 2187 airport terminal','Proposals, to go.')],
-                   [('synth-protocol','Bureau poster of a smiling couple in gloves showing matching rings: Love is a protocol. Bureau approved compatibility.','Love, pre-approved.')])),
+                   [('synth-protocol-v2','A giant rain-streaked billboard in Synth City: a smiling couple in gloves raise their ring hands under the line Love is a protocol. Bureau approved compatibility. Synthetic. Flying cars and neon towers fill the night beyond.','Love, pre-approved.')])),
 
       section('03','The campaign','Every piece hands off to the next. A viewer can enter anywhere; the path always ends with something real.',
               sc_path
