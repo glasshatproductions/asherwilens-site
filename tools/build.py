@@ -222,6 +222,16 @@ def _ratio(src):
     except Exception:
         return 1.5
 
+# A Mac browser window around a screen grab (shared component).
+def browser_fig(src, alt, cap='', url='synthcity.tv'):
+    r = _ratio(src)
+    c = f'<figcaption>{cap}</figcaption>' if cap else ''
+    lock = '<svg viewBox="0 0 12 14" aria-hidden="true" focusable="false"><rect x="1.5" y="6" width="9" height="7" rx="1.5"/><path d="M3.5 6V4.2a2.5 2.5 0 0 1 5 0V6" fill="none"/></svg>'
+    return (f'<div class="g-row bw-row"><figure class="gf bwf" style="--r:{r:.4f}"><div class="bw">'
+            f'<div class="bw-bar" aria-hidden="true"><span class="bw-lights"><i></i><i></i><i></i></span>'
+            f'<span class="bw-url">{lock}{url}</span><span class="bw-end"></span></div>'
+            f'<img src="images/{src}.jpg" alt="{alt}" loading="lazy" decoding="async"></div>{c}</figure></div>')
+
 def gfig(src, alt, cap=''):
     r = _ratio(src)
     c = f'<figcaption>{cap}</figcaption>' if cap else ''
@@ -609,10 +619,10 @@ case('synth-city.html', 'Synth City', ['Premier Gem','Integrated campaign · Sof
               sc_path
               + beat('The Synthetic Bureau','It controls the story.',
                      'The machinery of a society devoted to manufactured perfection: a news network, public broadcasts and one message repeated until it sticks. Synthetic is better.',
-                     rows([('synth-hq','The Synthetic Bureau headquarters, a brutalist monolith with a wireframe-head seal, citizens queuing beneath drones','The Bureau.'),
-                           ('synth-broadcast','The SCB7 news network site: Bureau classifies global synthetic diamond oversupply as economic success','The network, live at synthcity.tv.')],
-                          [('scfn-newsroom','A financial news anchor in front of a market wall: natural diamond values surpass Manhattan real estate per gram','Natural, now priced per gram.'),
-                           ('scfn-street','The same market update on a giant screen over a rainy Fifth Avenue in 2187','The story everyone stops for.')])
+                     rows(('small', [('synth-hq','The Synthetic Bureau headquarters, a brutalist monolith with a wireframe-head seal, citizens queuing beneath drones','The Bureau.')]),
+                          browser_fig('scfn-oversupply', 'SCB7, Synth City News Network: Breaking. Bureau classifies global synthetic diamond oversupply as economic success. Record output. Stable markets. Humanity optimized. Robotic arms drop diamonds onto a factory conveyor.', 'The network, live at synthcity.tv.'),
+                          browser_fig('scfn-per-gram', 'Market update: a news anchor at a glass desk beside a screen reading Natural diamond values surpass Manhattan real estate per gram, for the first time since records began in 2149. Manhattan real estate $15,850 per gram; natural diamonds $17,230 per gram.', 'Natural, now priced per gram.'),
+                          browser_fig('scfn-popcorn', 'A giant breaking-news billboard on a rain-soaked, rundown building in Synth City: Synthetic diamond prices drop below movie popcorn combo, beside a diamond and a striped popcorn bucket.', 'The story everyone stops for.'))
                      + '<div class="outlinks"><a class="text-link" href="https://synthcity.tv">Watch the broadcasts: synthcity.tv →</a></div>')
               + beat('The Rarity Detector','It erases the original.',
                      'The Bureau&#39;s official classification utility, and a working AI tool. Point it at anything and it rates how rare that object will be in Cycle 2187. Legacy objects come back obsolete. Natural stones come back as anomalies.',
