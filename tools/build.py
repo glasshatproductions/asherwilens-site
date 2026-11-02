@@ -380,7 +380,6 @@ LAB = [
              ('orion-v-04', 'The projector casts a glowing blue portal on the wall and spiders that crawl across the wall and sofa, turning the room into a game.', 'The room is the screen.'),
              ('orion-v-05', 'The projected spiders spread across the wall and sofa as one emerges from the glowing portal.', 'The game wakes up.'),
              ('orion-v-06', 'More spiders crawl out of the portal on the wall, the sofa still covered in the projected grid.', 'More keep coming.'),
-             ('orion-v-07', 'A glowing ball of projected energy flies across the sofa toward a spider.', 'Take aim.'),
              ('orion-v-08', 'A burst of blue light explodes on the sofa cushion where the spider was hit.', 'Direct hit.'),
          ]),
          patent=('U.S. Patent No. 11,127,212', 'Method of projecting virtual reality imagery for augmenting real world objects and surfaces', 'https://patents.google.com/patent/US11127212B1/en')),
