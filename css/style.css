@@ -764,3 +764,8 @@ main:has(.g) .wrap.trailer,main:has(.g) .wrap.moments{margin-left:calc((100% - m
 .series-body{font-size:16px;line-height:1.6;color:var(--ink-2);max-width:380px}
 @media (max-width:760px){.series.series-poster{grid-template-columns:1fr}.series-poster .series-img{max-width:420px}}
 .series-poster .series-play{left:auto;top:auto;right:20px;bottom:20px;margin:0}
+/* Phones: portrait Orion frames, sized so the whole frame fits under the header */
+@media (max-width:820px){
+  .sq-on .sq-frame{aspect-ratio:var(--sq-ar-m,var(--sq-ar));width:min(100%,calc((100svh - var(--sq-top,90px) - 64px) * var(--sq-r-m,1)));margin:0 auto}
+  .sq-on .sq-mobile-readout{text-align:center}
+}

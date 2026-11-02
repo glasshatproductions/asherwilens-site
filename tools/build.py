@@ -373,10 +373,10 @@ LAB = [
          alt='The Project Orion projector, a small rounded device with three lenses, on a coffee table in a living room',
          fit='cover', pos='50% 50%',
          status='Patented',
-         story=dict(w=1392, h=676, frames=[
+         story=dict(w=1392, h=676, mobile=dict(prefix='orion-v-', w=752, h=1392), frames=[
              ('orion-01', 'An ordinary living room at night: a grey sofa, a floor lamp, two people looking at their phones, and the white spherical Orion projector on a round coffee table.', 'An ordinary room.'),
-             ('orion-02', 'The same room as thin cyan projected lines trace the edges of the walls, ceiling and hallway.', 'The room is recognized.'),
-             ('orion-03', 'Projected light now outlines the sofa, its cushions and the coffee table, mapping the furniture.', 'Every surface understood.'),
+             ('orion-02', 'The same room as a cyan projected grid maps the walls and ceiling.', 'The room is recognized.'),
+             ('orion-03', 'The projected grid now wraps the sofa and its cushions, mapping the furniture.', 'Every surface understood.'),
              ('orion-04', 'The projector casts a glowing blue portal on the wall and spiders that crawl across the wall and sofa, turning the room into a game.', 'The room is the screen.'),
          ]),
          patent=('U.S. Patent No. 11,127,212', 'Method of projecting virtual reality imagery for augmenting real world objects and surfaces', 'https://patents.google.com/patent/US11127212B1/en')),
@@ -441,10 +441,18 @@ def story_frames(st, slug):
     out = []
     for k, (img, alt, cap) in enumerate(st['frames']):
         load = ' fetchpriority="high"' if k == 0 else ' loading="lazy"'
-        out.append(f'<figure class="sq-f" data-k="{k}"><picture><source srcset="images/{img}.webp" type="image/webp">'
+        mob = st.get('mobile')
+        msrc = ''
+        if mob:   # portrait art-directed frames for phones (same stages, same order)
+            mi = mob['prefix'] + img.split('-')[-1]
+            msrc = (f'<source media="(max-width:820px)" srcset="images/{mi}.webp" type="image/webp" width="{mob["w"]}" height="{mob["h"]}">'
+                    f'<source media="(max-width:820px)" srcset="images/{mi}.jpg" width="{mob["w"]}" height="{mob["h"]}">')
+        out.append(f'<figure class="sq-f" data-k="{k}"><picture>{msrc}<source srcset="images/{img}.webp" type="image/webp">'
                    f'<img src="images/{img}.jpg" alt="{alt}" width="{st["w"]}" height="{st["h"]}" decoding="async"{load}></picture>'
                    f'<figcaption><span class="sq-n">{k + 1:02d} / {n:02d}</span> {cap}</figcaption></figure>')
-    return (f'<div class="sq-frame" style="--sq-ar:{st["w"]}/{st["h"]}">' + ''.join(out) + '</div>')
+    m = st.get('mobile')
+    mar = f';--sq-ar-m:{m["w"]}/{m["h"]};--sq-r-m:{m["w"]/m["h"]:.4f}' if m else ''
+    return (f'<div class="sq-frame" style="--sq-ar:{st["w"]}/{st["h"]}{mar}">' + ''.join(out) + '</div>')
 
 def story_readout(st):
     n = len(st['frames'])
@@ -487,7 +495,7 @@ lab = f'''<div class="wrap">
 <div class="lab-list-full">{''.join(lab_entry(p, i) for i, p in enumerate(LAB))}</div>
 </div>'''
 page('lab.html', 'Lab | A. Wilens', 'Inventions, products and platforms by Asher Wilens: projected AR, an AI studio for jewelers, AI pinball, a playable hat and a planning app.', lab, 'lab', og='thumb-lab',
-     head_extra='\n<link rel="preload" as="image" href="images/orion-01.webp" type="image/webp">', scripts_extra=STORY_TAG)
+     head_extra='\n<link rel="preload" as="image" href="images/orion-01.webp" type="image/webp" media="(min-width:821px)">\n<link rel="preload" as="image" href="images/orion-v-01.webp" type="image/webp" media="(max-width:820px)">', scripts_extra=STORY_TAG)
 
 # ---------- ABOUT ----------
 about = f'''<div class="wrap about">
