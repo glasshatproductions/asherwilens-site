@@ -26,7 +26,7 @@
     if (n < 2 || !track) return;
 
     // each dissolve's share of the scroll; longer stories get shorter dissolves, holds stay
-    var FADE = Math.min(0.13, 0.55 / (n - 1));
+    var FADE = Math.min(0.16, 0.66 / (n - 1));
     var hold = (1 - (n - 1) * FADE) / n;
     var active = false, ticking = false, shown = -1;
     var mobile = false, stickTop = 0, natural = 0;
@@ -41,11 +41,14 @@
       return true;
     }
 
-    function label(k) {
+    var swapT = null;
+    function label(k, instant) {
       var s = (k + 1 < 10 ? '0' : '') + (k + 1) + ' / ' + (n < 10 ? '0' : '') + n;
-      if (step) step.textContent = s;
-      if (cap) cap.textContent = caps[k] || '';
-      if (mobileOut) mobileOut.innerHTML = '<span class="sq-step">' + s + '</span> ' + (caps[k] || '');
+      var put = function () { if (step) step.textContent = s; if (cap) cap.textContent = caps[k] || ''; if (readout) readout.classList.remove('is-out'); };
+      clearTimeout(swapT);
+      if (instant || !readout) { put(); return; }
+      readout.classList.add('is-out');          // fade the line out, swap, fade back in
+      swapT = setTimeout(put, 280);
     }
 
     function render() {
@@ -69,7 +72,7 @@
     function onScroll() { if (active && !ticking) { ticking = true; requestAnimationFrame(render); } }
 
     if (!measure()) return;
-    label(0); shown = 0;
+    label(0, true); shown = 0;
 
     // Run only while the story is near the viewport; warm the later frames first.
     var io = new IntersectionObserver(function (es) {

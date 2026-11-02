@@ -439,7 +439,7 @@ def lab_media(p, first=False):
 # reduced motion the frames show as a simple static sequence.
 STORY_TAG = f'\n<script src="js/scrollstory.js?v={_v("js/scrollstory.js")}" defer></script>'
 
-def story_frames(st, slug):
+def story_frames(st, slug, overlay=''):
     n = len(st['frames'])
     out = []
     for k, (img, alt, cap) in enumerate(st['frames']):
@@ -456,13 +456,13 @@ def story_frames(st, slug):
     m = st.get('mobile')
     mar = f';--sq-ar-m:{m["w"]}/{m["h"]};--sq-r-m:{m["w"]/m["h"]:.4f}' if m else ''
     cls = ' sq-portrait' if st.get('portrait') else ''
-    return (f'<div class="sq-frame{cls}" style="--sq-ar:{st["w"]}/{st["h"]};--sq-r:{st["w"]/st["h"]:.4f}{mar}">' + ''.join(out) + '</div>')
+    return (f'<div class="sq-frame{cls}" style="--sq-ar:{st["w"]}/{st["h"]};--sq-r:{st["w"]/st["h"]:.4f}{mar}">' + ''.join(out) + overlay + '</div>')
 
 def story_readout(st):
     n = len(st['frames'])
     first = st['frames'][0][2]
     caps = '|'.join(c for _, _, c in st['frames'])
-    return (f'<p class="sq-readout" data-caps="{caps}"><span class="sq-step">01 / {n:02d}</span>'
+    return (f'<p class="sq-readout" aria-live="polite" data-caps="{caps}"><span class="sq-step">01 / {n:02d}</span>'
             f'<span class="sq-cap">{first}</span></p>')
 
 def lab_entry(p, i):
@@ -479,13 +479,13 @@ def lab_entry(p, i):
     if p.get('story'):
         st_ = p['story']
         n_ = len(st_["frames"])
-        per, per_m = (45, 32) if n_ <= 4 else (round(120 / n_ + 15), round(190 / n_))   # scroll per stage, vh
+        per, per_m = (55, 40) if n_ <= 4 else (round(160 / n_ + 20), round(250 / n_))   # scroll per stage, vh
         return (f'<article class="lab-item lab-story" id="{p["slug"]}" data-sq style="--sq-steps:{n_};--sq-per:{per}vh;--sq-per-m:{per_m}vh">'
                 f'<div class="sq-track"><div class="sq-sticky">'
-                f'<div class="lab-media sq-media">{story_frames(st_, p["slug"])}<div class="sq-mobile-readout" aria-hidden="true"></div></div>'
+                f'<div class="lab-media sq-media">{story_frames(st_, p["slug"], story_readout(st_))}</div>'
                 f'<div class="lab-text"><p class="eyebrow">{p["eyebrow"]}</p><h2 class="display">{p["name"]}</h2>'
                 f'<p class="lab-head">{p["head"]}</p><p class="body-copy">{p["copy"]}</p>'
-                + story_readout(st_) + (patent if patent else f'<div class="lab-status">{st}</div>')
+                + (patent if patent else f'<div class="lab-status">{st}</div>')
                 + '</div></div></div></article>')
     return (f'<article class="lab-item" id="{p["slug"]}">'
             f'<div class="lab-media">{lab_media(p, i == 0)}</div>'
