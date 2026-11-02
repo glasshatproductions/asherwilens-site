@@ -536,12 +536,13 @@ sc_pm = ('<div class="beat" id="proposalmatic"><div class="beat-head"><h3>PROPOS
          '<span class="series-note">A working engagement-ring vending machine from 2187. Pick a package, set the emotional response and keep the receipt.</span>'
          '<span class="btn">Try Proposalmatic™</span></span></a></div>')
 
-sc_series = ('<a class="series" href="' + PLAYLIST_URL + '" target="_blank" rel="noopener">'
-             '<span class="series-img"><img src="images/synth-world.jpg" alt="Bureau Approved billboards selling lab-grown happiness over a crowded plaza at night" loading="lazy">'
+sc_series = ('<a class="series series-poster" href="' + PLAYLIST_URL + '" target="_blank" rel="noopener">'
+             '<span class="series-img"><img src="images/synth-series-detective.jpg" alt="Series key art: a detective in a dark suit at his desk turns a diamond ring under a lamp, a rain-streaked window full of flying cars and a neon Synth City sign behind him" width="896" height="1280" loading="lazy">'
              '<span class="series-play" aria-hidden="true"></span></span>'
              '<span class="series-meta"><span class="eyebrow">The series</span>'
-             '<span class="series-title">Six episodes. One world.</span>'
-             '<span class="series-note">Episodes are released on YouTube as the campaign rolls out.</span>'
+             '<span class="series-title">Six episodes. One detective.</span>'
+             '<span class="series-body">A diamond detective works the cases the Bureau wants buried: natural stones it has officially erased. Every episode ends the same way. The story was synthetic. So was he.</span>'
+             '<span class="series-note">Episodes release on YouTube as the campaign rolls out.</span>'
              '<span class="btn">Watch the series on YouTube</span></span></a>')
 
 sc_end = ('<div class="endcard nowcard">'

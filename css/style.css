@@ -759,3 +759,8 @@ main:has(.g) .wrap.trailer,main:has(.g) .wrap.moments{margin-left:calc((100% - m
 .g .bw .zoom img{display:block;width:100%;height:auto}
 @media (max-width:640px){.bw{border-radius:7px}.bw-bar{height:26px;padding:0 9px;grid-template-columns:44px 1fr 44px}.bw-lights{gap:5px}.bw-lights i{width:8px;height:8px}
   .bw-url{height:17px;font-size:10px;padding:0 8px;border-radius:5px;min-width:0}.bw-url svg{width:8px;height:9px}}
+/* Series card with portrait key art */
+.series.series-poster{grid-template-columns:minmax(0,0.85fr) minmax(0,1fr);align-items:end}
+.series-body{font-size:16px;line-height:1.6;color:var(--ink-2);max-width:380px}
+@media (max-width:760px){.series.series-poster{grid-template-columns:1fr}.series-poster .series-img{max-width:420px}}
+.series-poster .series-play{left:auto;top:auto;right:20px;bottom:20px;margin:0}
