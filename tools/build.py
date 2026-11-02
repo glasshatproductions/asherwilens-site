@@ -534,7 +534,7 @@ def lab_entry(p, i):
     if p.get('story'):
         st_ = p['story']
         n_ = len(story_items(st_, p["slug"]))
-        per, per_m = (55, 40) if n_ <= 4 else (round(160 / n_ + 20), round(250 / n_))   # scroll per stage, vh
+        per, per_m = 80, 70   # scroll per stage (vh): roughly most of a screen for each image
         return (f'<article class="lab-item lab-story" id="{p["slug"]}" data-sq style="--sq-steps:{n_};--sq-per:{per}vh;--sq-per-m:{per_m}vh">'
                 f'<div class="sq-track"><div class="sq-sticky">'
                 f'<div class="lab-media sq-media">{story_frames(st_, p["slug"], story_readout(st_, p["slug"]), i == 0)}</div>'
