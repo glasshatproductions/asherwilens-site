@@ -413,6 +413,11 @@ LAB = [
          src='https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/hh_promo2.png', w=1672, h=941,
          alt='A hand pressing the piano keys built into the brim of the Harmony Hat',
          fit='contain', bg='#f1f1f3',
+         story=dict(w=768, h=1376, portrait=True, frames=[
+             ('harmony-v-01', 'A plain black baseball cap resting on a concrete plinth in a soft, neutral room.', 'Just a hat.'),
+             ('harmony-v-02', 'The same black cap, now with a row of glowing synth keys built into the brim.', 'Until the brim lights up.'),
+             ('harmony-v-03', 'A musician in a smoky club, headphones around his neck, plays the keys on the brim of his Harmony Hat beside a DJ mixer.', 'Now it&#39;s an instrument.'),
+         ]),
          status='On Kickstarter', link=('https://www.kickstarter.com/projects/harmonyhat/435543195', 'View the campaign')),
     dict(slug='slickster', eyebrow='05 · Product design', name='SLICKSTER',
          head='Less planning. More living.',
