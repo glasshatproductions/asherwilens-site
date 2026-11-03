@@ -321,8 +321,8 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
 # ---------- HOME ----------
 work = [
     ('synth-city.html','thumb-synth-city','Synth City','Premier Gem','Transmedia brand series: six films, a live site and a working AI tool.'),
-    ('desert-diamonds.html','thumb-desert-diamonds','Desert Diamonds','Premier Gem','A natural diamond is a rare sighting. A campaign that grew into a UGC microsite.'),
-    ('brown-co.html','thumb-brown-co','Brown &amp; Co.','Pitch','Love looks different in every light: a lamp that shows a diamond in the moments it will live in.'),
+    ('desert-diamonds.html','thumb-desert-diamonds-v2','Desert Diamonds','Premier Gem','A natural diamond is a rare sighting. A campaign that grew into a UGC microsite.'),
+    ('brown-co.html','thumb-brown-co-v2','Brown &amp; Co.','Pitch','Love looks different in every light: a lamp that shows a diamond in the moments it will live in.'),
     ('fage.html','thumb-fage','Fage','Spec','Nothing to hide: the ingredient list becomes the ad.'),
     ('uber.html','thumb-uber','Uber','Spec','The things you say before it\'s time to go.'),
     ('turbochef.html','thumb-turbochef','Turbochef','Spec','Compliments to the chef: the house becomes the restaurant.'),
