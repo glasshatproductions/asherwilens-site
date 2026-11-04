@@ -474,10 +474,15 @@ LAB = [
          src='images/lab-pinverse.jpg', w=1672, h=941,
          alt='The prompt haunted diner on Saturn becoming a playable pinball table on a phone',
          fit='cover', pos='58% 50%',
-         story=dict(w=768, h=1376, portrait=True, frames=[
-             ('pinverse-v-01', 'Pinverse Arcade on a phone: Create your pinball world, with the prompt A volcano island typed in and a Generate World button.', 'Type a world.'),
-             ('pinverse-v-02', 'The generated volcano island pinball table: lava ramps, a stone idol, an erupting volcano and glowing score targets.', 'The table builds itself.'),
-             ('pinverse-v-03', 'The same volcano table in play, a steel ball blazing off the lava bumper in a burst of fire.', 'Play it.'),
+         story=dict(w=768, h=1365, portrait=True, fit_m='contain', nocap=True,
+                    seq=dict(dir='images/pinverse-seq/', count=184, fps=12, w=450, h=800, beats=[0.4, 4.4, 5.8, 8.0, 11.0, 14.0, 15.3]),
+                    frames=[
+             ('pinverse-m-01', 'Pinverse Arcade on a phone: Type anything. Build your world. The prompt A volcano island made of lava is being typed.', 'Type anything.'),
+             ('pinverse-m-02', 'AI builds it into pinball: a progress screen reading the idea, painting the playfield and placing ramps and bumpers.', 'AI builds it into pinball.'),
+             ('pinverse-m-03', 'Ready in minutes: the finished volcano table with a Play now button.', 'Ready in minutes.'),
+             ('pinverse-m-04', 'Then you play it: a steel ball in play on the volcano table, lava ramps glowing.', 'Then you play it.'),
+             ('pinverse-m-05', 'The volcano erupts on the table as the ball hits the eruption target.', 'Eruption.'),
+             ('pinverse-m-06', 'End card: Pinverse Arcade. Your first world is free. pinversearcade.com.', 'Your first world is free.'),
          ]),
          status='Live', link=('https://pinversearcade.com', 'pinversearcade.com')),
     dict(slug='harmony', eyebrow='04 · Wearable music', name='HARMONY HAT',
@@ -613,7 +618,7 @@ def lab_entry(p, i):
         st_ = p['story']
         n_ = len(story_items(st_, p["slug"]))
         per, per_m = 80, 70   # scroll per stage (vh): roughly most of a screen for each image
-        return (f'<article class="lab-item lab-story" id="{p["slug"]}" data-sq style="--sq-steps:{n_};--sq-per:{per}vh;--sq-per-m:{per_m}vh">'
+        return (f'<article class="lab-item lab-story{" sq-nocap" if st_.get("nocap") else ""}" id="{p["slug"]}" data-sq style="--sq-steps:{n_};--sq-per:{per}vh;--sq-per-m:{per_m}vh">'
                 f'<div class="sq-track"><div class="sq-sticky">'
                 f'<div class="lab-media sq-media">{story_frames(st_, p["slug"], story_readout(st_, p["slug"]), i == 0)}</div>'
                 f'<div class="lab-text"><p class="eyebrow">{p["eyebrow"]}</p><h2 class="display">{p["name"]}</h2>'

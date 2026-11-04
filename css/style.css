@@ -832,7 +832,7 @@ main:has(.g) .wrap.trailer,main:has(.g) .wrap.moments{margin-left:calc((100% - m
 .sq-canvas{display:none}
 .sq-on .sq-canvas{display:block;position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;z-index:2;pointer-events:none}
 .sq-seq-on .sq-f:not(.sq-card){visibility:hidden}
-@media (max-width:820px){.sq-on .sq-canvas{top:50%;height:auto;aspect-ratio:3/4;transform:translateY(-50%)}}
+@media (max-width:820px){.sq-on .sq-canvas{top:50%;height:auto;aspect-ratio:var(--sq-ar);transform:translateY(-50%)}}
 
 /* ---------- Homepage: positioning, work grid, Lab preview, About ---------- */
 .intro{padding:clamp(56px,9vw,104px) 0 clamp(40px,6vw,64px)}
@@ -878,3 +878,8 @@ h1.intro-title{font-size:clamp(25px,7.5vw,72px);line-height:1.06;margin-top:14px
 .cs-dark + .credits,.sc-culmination + section .credits{margin-top:56px}
 @media (min-width:360px){.intro-title .nw{white-space:nowrap}}
 @media (max-width:480px){h1.intro-title{font-size:min(7.4vw,34px)}}
+/* Stories whose footage carries its own titles: keep only the counter */
+.sq-nocap .sq-readout:not(.is-card){background:none}
+.sq-nocap .sq-readout:not(.is-card) .sq-cap{visibility:hidden}
+.sq-on.sq-nocap .sq-frame>.sq-readout:not(.is-card){top:0;bottom:auto;padding:14px 16px;justify-content:flex-end}
+.sq-on.sq-nocap .sq-frame>.sq-readout:not(.is-card) .sq-step{background:rgba(0,0,0,.45);padding:4px 8px;border-radius:999px}
