@@ -80,7 +80,8 @@ def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra
 </div>
 </footer>
 <script src="js/gallery.js?v={_v('js/gallery.js')}"></script>
-<script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>{LASTCALL_TAG if fname == 'uber.html' else ''}{MOMENTS_TAG if fname == 'brown-co.html' else ''}{DETECTOR_TAG if fname == 'synth-city.html' else ''}{scripts_extra}
+<script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>
+<script src="js/nav.js?v={_v('js/nav.js')}" defer></script>{LASTCALL_TAG if fname == 'uber.html' else ''}{MOMENTS_TAG if fname == 'brown-co.html' else ''}{DETECTOR_TAG if fname == 'synth-city.html' else ''}{scripts_extra}
 </body>
 </html>
 '''

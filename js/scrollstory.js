@@ -45,7 +45,7 @@
       mobile = window.matchMedia('(max-width: 820px)').matches;
       if (window.innerHeight < 520) { root.classList.remove('sq-on'); return false; }
       root.classList.add('sq-on');
-      stickTop = mobile ? 0 : (header ? header.getBoundingClientRect().height : 0) + 24;   // phones: full screen, header steps aside
+      stickTop = mobile ? 0 : 24;   // the header steps aside while a story is pinned
       root.style.setProperty('--sq-top', stickTop + 'px');
       natural = mobile && text ? text.getBoundingClientRect().height + parseFloat(getComputedStyle(track).rowGap || 0) : 0;
       return true;
@@ -68,7 +68,7 @@
       var r = track.getBoundingClientRect();
       var range = track.offsetHeight - natural - el.offsetHeight;
       var p = range > 0 ? (stickTop - (r.top + natural)) / range : 0;
-      if (mobile) setPinned(root, p > -0.02 && p < 1);
+      setPinned(root, p > -0.02 && p < 1);
       p = Math.max(0, Math.min(1, p));
       var current = 0;
       for (var k = 1; k < n; k++) {
@@ -102,7 +102,7 @@
     io.observe(root);
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', function () { measure(); if (!mobile) setPinned(root, false); onScroll(); }, { passive: true });
+    window.addEventListener('resize', function () { measure(); onScroll(); }, { passive: true });
     if (mq && mq.addEventListener) mq.addEventListener('change', function () { location.reload(); });
     render();
   });
