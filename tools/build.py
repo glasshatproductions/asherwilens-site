@@ -894,8 +894,8 @@ case('fage.html', 'Fage', ['Spec','Integrated campaign','Concept · Creative Dir
 
       section('03','The people behind it','If the yogurt has nothing to hide, neither do the people who make it. Real roles, real standards, named on the poster.',
               rows([('fage-helen','Poster: Produced in a facility with Helen. She&#39;s tasted every batch since 2012 and sent back 412.','Helen.'),
-                    ('fage-dave','Poster: Strained until Dave says stop. Dave has never said stop early.','Dave.'),
-                    ('fage-mike','Poster: Keep refrigerated. Keep Mike happy. He&#39;s rejected 96 batches for being a little thin.','Mike.')])),
+                    ('fage-dave-v2','Poster: Strained until Dave says stop. Dave has never said stop early.','Dave.'),
+                    ('fage-mike-v2','Poster: Keep refrigerated. Keep Mike happy. He&#39;s rejected 96 batches for being a little thin.','Mike.')])),
 
       section('04','Corp-Cam','Live cameras inside the factory, the lab and the break room at fagelivecam.com. Nine feeds, around the clock. Subway posters show what the cameras catch.',
               rows([('fage-corpcam','The Corp-Cam page on a desktop monitor: nine live feeds from milk reception to the loading dock, beside the line Watch us make it. Nothing to hide.','The site.'),
