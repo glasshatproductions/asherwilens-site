@@ -19,10 +19,9 @@ DETECTOR_TAG = ''
 # Small rotating lines under the wordmark. Edit, add or remove freely.
 TAGLINES = [
     'Creative by Nature. Artificially Enhanced.',
-    'I Put the Art in Artificial.',
+    'The Idea Comes First. The Medium Follows.',
     'Always On. Except Shabbos.',
     'AI Can Do a Lot. I Still Have Opinions.',
-    'Creative Director. Allegedly.',
 ]
 TAGLINES_HTML = ('<p class="taglines" aria-label="' + ' / '.join(TAGLINES) + '">'
                  + ''.join(f'<span class="tl{" on" if i == 0 else ""}" aria-hidden="true">{t}</span>' for i, t in enumerate(TAGLINES)) + '</p>')
@@ -42,10 +41,21 @@ def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{desc}">
+<link rel="canonical" href="{SITE_URL}{'' if fname == 'index.html' else fname}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Asher Wilens">
+<meta property="og:url" content="{SITE_URL}{'' if fname == 'index.html' else fname}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="{SITE_URL}images/{og}.jpg">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{title}">
+<meta name="twitter:description" content="{desc}">
+<meta name="twitter:image" content="{SITE_URL}images/{og}.jpg">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="author" content="Asher Wilens">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;500;600&display=swap">
@@ -59,7 +69,8 @@ def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra
 <nav class="site-nav" aria-label="Main">
 {nav("index.html#work","Work","work")}
 {nav("lab.html","Lab","lab")}
-{nav("resume.pdf","Résumé","resume")}
+{nav("index.html#about","About","about")}
+<a href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
 <a href="mailto:{EMAIL}">Contact</a>
 </nav>
 </div>
@@ -76,7 +87,7 @@ def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra
 <footer class="site-footer">
 <div class="wrap">
 <span>© 2026 Asher Wilens. <em class="mom">My mom says I&#39;m creative.</em></span>
-<span><a href="index.html#work">Work</a> · <a href="lab.html">Lab</a> · <a href="resume.pdf">Résumé</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span>
+<span><a href="index.html#work">Work</a> · <a href="lab.html">Lab</a> · <a href="index.html#about">About</a> · <a href="resume.pdf" target="_blank" rel="noopener">Résumé</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span>
 </div>
 </footer>
 <script src="js/gallery.js?v={_v('js/gallery.js')}"></script>
@@ -265,7 +276,45 @@ HERO_FOLLOW = {
     'fage-blank': ('fage-closeup', 'Close-up of the billboard&#39;s small label: Ingredients: milk, live active cultures. Honestly crafted. Nothing to hide. FAGE.', 'Read the fine print.'),
 }
 
+# Credits, classification and sharing details for each case study.
+# Classification is stated plainly; nothing here claims results or launches
+# that aren't documented.
+CREDITS = {
+    'synth-city.html': ('Commissioned', 'Premier Gem, where I&#39;m Creative Director. Soft-launched in 2026; the full rollout is in development.',
+                        'Concept, creative direction, art direction'),
+    'desert-diamonds.html': ('Commissioned', 'Premier Gem. The Rare Sightings microsite is live at premiergem.com; the field reporter program is rolling out.',
+                             'Concept, art direction, design'),
+    'brown-co.html': ('Pitch', 'Proposed to Brown &amp; Co. Jewelers. The Moments Lamp and the billboard program are proposals. Visuals AI-assisted.',
+                      'Concept, creative direction, art direction'),
+    'fage.html': ('Spec', 'Self-initiated. Not commissioned by FAGE. Visuals AI-assisted.', 'Concept, creative direction, art direction'),
+    'uber.html': ('Spec', 'Self-initiated. Not commissioned by Uber. Visuals AI-assisted; the payphone samples are AI voice.', 'Concept, creative direction, art direction'),
+    'turbochef.html': ('Spec', 'Self-initiated. Not commissioned by TurboChef. Visuals AI-assisted.', 'Concept, creative direction, art direction'),
+}
+CASE_META = {   # page title, social preview image
+    'synth-city.html': ('Synth City: The Future Ran Out of Rarity | Asher Wilens', 'thumb-synth-city'),
+    'desert-diamonds.html': ('Desert Diamonds: A Natural Diamond Is a Rare Sighting | Asher Wilens', 'thumb-desert-diamonds-v2'),
+    'brown-co.html': ('Brown &amp; Co.: Love Looks Different in Every Light | Asher Wilens', 'thumb-brown-co-v2'),
+    'fage.html': ('FAGE: Nothing to Hide | Asher Wilens', 'thumb-fage'),
+    'uber.html': ('Uber: When It&#39;s Time to Go | Asher Wilens', 'thumb-uber'),
+    'turbochef.html': ('TurboChef: Compliments to the Chef | Asher Wilens', 'thumb-turbochef'),
+}
+NEXT = {
+    'synth-city.html': ('uber.html', 'Uber'), 'uber.html': ('fage.html', 'Fage'), 'fage.html': ('desert-diamonds.html', 'Desert Diamonds'),
+    'desert-diamonds.html': ('brown-co.html', 'Brown &amp; Co.'), 'brown-co.html': ('turbochef.html', 'TurboChef'), 'turbochef.html': ('synth-city.html', 'Synth City'),
+}
+
+def credits_html(fname):
+    c = CREDITS.get(fname)
+    if not c:
+        return ''
+    kind, note, role = c
+    return (f'<section class="credits wrap" aria-label="Credits"><dl>'
+            f'<div><dt>Work</dt><dd><b>{kind}.</b> {note}</dd></div>'
+            f'<div><dt>Role</dt><dd>{role}</dd></div></dl>'
+            f'<p class="credits-links"><a class="text-link" href="index.html#work">All work</a><a class="text-link" href="resume.pdf" target="_blank" rel="noopener">Résumé</a><a class="text-link" href="mailto:{EMAIL}">{EMAIL}</a></p></section>')
+
 def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name, desc):
+    nxt, nxt_name = NEXT.get(fname, (nxt, nxt_name))
     split = ''
     phone_open = ''
     if hero == 'moments:':
@@ -278,7 +327,7 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
                      f'<source src="{src}" type="video/mp4">'
                      f'<a href="{src}">Watch the Synth City trailer (MP4)</a></video>'
                      '<button type="button" class="trailer-play" aria-label="Play the Synth City trailer with sound"><span aria-hidden="true"></span></button>'
-                     '<p class="trailer-soon" role="status">Trailer coming soon.</p></div>'
+                     '<p class="trailer-soon" role="status">The trailer didn&#39;t load here. Use the link below.</p></div>'
                      f'<p class="trailer-fallback">Trouble playing it? <a class="text-link" href="{src}" target="_blank" rel="noopener">Open the trailer video →</a></p></div>')
     elif hero.startswith('phone:'):
         src, himg, hcap = hero[6:].split('|')
@@ -316,45 +365,66 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
 </div></header>
 {hero_html}
 {''.join(sections)}
+{credits_html(fname)}
 <nav class="next wrap" aria-label="Next project"><a href="{nxt}"><span class="eyebrow">Next project</span><span class="display">{nxt_name.upper()} →</span></a></nav>'''
-    page(fname, f'{name} | A. Wilens', desc, body, 'work')
+    title, og = CASE_META.get(fname, (f'{name} | Asher Wilens', 'thumb-synth-city'))
+    page(fname, title, desc, body, 'work', og=og)
 
 # ---------- HOME ----------
+# Advertising work, in display order. (page, thumbnail, name, campaign line, classification)
+FEATURED = ('synth-city.html', 'synth-hero', 'Synth City', 'The future ran out of rarity.', 'Integrated campaign · Premier Gem · Soft launch 2026',
+            'Six films, a state-run news network and a working detector, set in a future where everything can be manufactured. Except rarity.')
 work = [
-    ('synth-city.html','thumb-synth-city','Synth City','Premier Gem','Transmedia brand series: six films, a live site and a working AI tool.'),
-    ('desert-diamonds.html','thumb-desert-diamonds-v2','Desert Diamonds','Premier Gem','A natural diamond is a rare sighting. A campaign that grew into a UGC microsite.'),
-    ('brown-co.html','thumb-brown-co-v2','Brown &amp; Co.','Pitch','Love looks different in every light: a lamp that shows a diamond in the moments it will live in.'),
-    ('fage.html','thumb-fage','Fage','Spec','Nothing to hide: the ingredient list becomes the ad.'),
-    ('uber.html','thumb-uber','Uber','Spec','The things you say before it\'s time to go.'),
-    ('turbochef.html','thumb-turbochef','Turbochef','Spec','Compliments to the chef: the house becomes the restaurant.'),
+    ('uber.html', 'thumb-uber', 'Uber', 'When it&#39;s time to go.', 'Integrated campaign · Spec'),
+    ('fage.html', 'thumb-fage', 'Fage', 'Nothing to hide.', 'Brand platform · Spec'),
+    ('desert-diamonds.html', 'thumb-desert-diamonds-v2', 'Desert Diamonds', 'A natural diamond is a rare sighting.', 'Campaign · Films · Microsite · Premier Gem'),
+    ('brown-co.html', 'thumb-brown-co-v2', 'Brown &amp; Co.', 'Love looks different in every light.', 'Retail experience · Pitch'),
+    ('turbochef.html', 'thumb-turbochef', 'TurboChef', 'Compliments to the chef.', 'Integrated campaign · Spec'),
 ]
-cards = ''.join(f'''<a class="card" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n} campaign" loading="lazy"></div>
-<div class="card-title"><h3>{n}</h3><span class="tag">{t}</span></div><p>{d}</p></a>''' for h, im, n, t, d in work + [('lab.html','thumb-lab','The Lab','Inventions','Ideas that didn&#39;t fit in a brief: AI pinball, projected AR, an AI creative studio.')] if h != 'synth-city.html')
+cards = ''.join(f'''<a class="card{" card-lg" if k < 2 else ""}" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n}: {line}" loading="lazy"></div>
+<div class="card-title"><h3>{n}</h3></div><p class="card-line">{line}</p><p class="card-tag">{tag}</p></a>''' for k, (h, im, n, line, tag) in enumerate(work))
+
+LAB_PREVIEW = [
+    ('lab.html#orion', 'orion-m-06', 'Project Orion', 'Patented projection that turns any room into the screen.'),
+    ('lab.html#draiped', 'draiped-v-02', 'Draiped', 'One jewelry product shot becomes a whole launch.'),
+    ('lab.html#pinverse', 'pinverse-v-03', 'Pinverse Arcade', 'Type a world. Play it as pinball.'),
+]
+lab_cards = ''.join(f'''<a class="lab-pv" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n}" loading="lazy"></div><h3>{n}</h3><p>{d}</p></a>''' for h, im, n, d in LAB_PREVIEW)
+
+about = f'''<section class="section about-sec" id="about"><div class="wrap about-grid">
+<div><p class="eyebrow">About</p><h2 class="display">The idea comes first. The medium follows.</h2></div>
+<div class="about-copy">
+<p>I&#39;m an art director and creative director who believes the best ideas don&#39;t stay inside the ad. They become experiences, products and, occasionally, things that need patents.</p>
+<p>Since 2017 I&#39;ve led creative at Premier Gem, a multi-generation natural-diamond house: campaigns, brand identity, trade and retail presentation, social and the digital tools around them. The work has earned multiple Best Design Awards at the Centurion Jewelry Show. Since 2024 I&#39;ve also been a partner and creative director at Superborn Group, building campaign platforms and products for startups and established brands. Along the way I&#39;ve freelanced as an art director for Brown &amp; Co., Lumije and The Woo Agency.</p>
+<p>I find a simple human truth, then figure out the most interesting way to bring it into the world: a headline, a print ad, an integrated campaign or something nobody has built yet. I trained in advertising at SVA, and I invent on the side, including a patented AR projection method.</p>
+<p class="about-links"><a class="btn" href="resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a><a class="text-link" href="mailto:{EMAIL}">{EMAIL}</a></p>
+</div></div></section>'''
+
+fh, fim, fn, fline, ftag, fdesc = FEATURED
 home = f'''<section class="intro"><div class="wrap">
-<p class="eyebrow">Asher Wilens · Creative Director</p>
-<p class="lede">The best ads don&#39;t feel like ads.</p>
+<p class="eyebrow">Asher Wilens</p>
+<h1 class="display intro-title"><span class="nw">Senior Art Director <span class="slash">/</span></span> <span class="nw">Creative Director</span></h1>
+<p class="intro-copy">I develop campaigns, experiences and products that bring brands into people&#39;s lives in unexpected ways. Part traditional advertising. Part emerging technology. Always idea-first.</p>
+<p class="intro-line">Concepts. Campaigns. Experiences. Inventions.</p>
 </div></section>
-<div class="wrap">
-<a class="feature" href="synth-city.html">
-<div class="frame"><img src="images/synth-hero.jpg" alt="Synth City: a crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor"></div>
-<div class="feature-meta"><div><p class="eyebrow">Featured · Premier Gem</p><h2>SYNTH CITY</h2></div>
-<p>The future made everything available, except rarity. A six-film dystopian series, a live broadcast site and a working AI detector that make the case for natural diamonds.</p></div>
+<div class="wrap" id="work">
+<a class="feature" href="{fh}">
+<div class="frame"><img src="images/{fim}.jpg" alt="Synth City: a crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor"></div>
+<div class="feature-meta"><div><p class="eyebrow">{ftag}</p><h2>SYNTH CITY</h2><p class="feature-line">{fline}</p></div>
+<p>{fdesc}</p></div>
 </a>
 </div>
-<section class="section" id="work"><div class="wrap">
-<div class="section-head"><h2 class="display">Work</h2><p class="eyebrow">Spec = self-initiated concept</p></div>
-<div class="grid g3">{cards}</div>
+<section class="section"><div class="wrap">
+<div class="section-head"><h2 class="display">Work</h2><p class="eyebrow">Spec = self-initiated, not commissioned</p></div>
+<div class="g-work">{cards}</div>
 </div></section>
 <section class="section lab-teaser"><div class="wrap">
-<div class="section-head"><div><p class="eyebrow">Lab</p><h2 class="display">Ideas that didn't fit in a brief.</h2></div><a class="btn" href="lab.html">Visit the Lab</a></div>
-<ul class="lab-list">
-<li><h3>Draiped</h3><p>An AI creative studio that turns one jewelry product shot into a full launch.</p></li>
-<li><h3>Project Orion</h3><p>Projected AR with no headset and no phone. The room becomes the medium.</p></li>
-<li><h3>Pinverse Arcade</h3><p>Type a world, play it as pinball. AI-generated tables in seconds.</p></li>
-</ul>
-</div></section>'''
-page('index.html', 'A. Wilens | Creative Director',
-     'Asher Wilens, Creative Director. The best ads don&#39;t feel like ads.', home)
+<div class="section-head"><div><p class="eyebrow">Lab</p><h2 class="display">Beyond the brief.</h2><p class="lab-teaser-line">Some ideas become campaigns. Others become platforms, products and patents.</p></div><a class="btn" href="lab.html">Visit the Lab</a></div>
+<div class="lab-pvs">{lab_cards}</div>
+</div></section>
+{about}'''
+page('index.html', 'Asher Wilens | Senior Art Director &amp; Creative Director',
+     'Portfolio of Asher Wilens, an advertising creative director and senior art director creating integrated campaigns, brand experiences and inventive creative technology.', home, 'work')
 
 # ---------- LAB ----------
 # Each invention is one dict. Media is framed 3:2 everywhere; per image:
@@ -558,12 +628,12 @@ def lab_entry(p, i):
 
 lab = f'''<div class="wrap">
 <section class="lab-hero">
-<div><p class="eyebrow">Inventions, products &amp; platforms</p><h1 class="display">LAB</h1><p class="lede">Ideas that didn't fit in a brief.</p></div>
+<div><p class="eyebrow">Beyond the brief · Inventions, products &amp; platforms</p><h1 class="display">LAB</h1><p class="lede">Ideas that didn't fit in a brief.</p></div>
 <p>Some ideas become campaigns. Others become products, platforms, and the occasional patent. This is where I follow the idea wherever it goes.</p>
 </section>
 <div class="lab-list-full">{''.join(lab_entry(p, i) for i, p in enumerate(LAB))}</div>
 </div>'''
-page('lab.html', 'Lab | A. Wilens', 'Inventions, products and platforms by Asher Wilens: projected AR, an AI studio for jewelers, AI pinball, a playable hat and a planning app.', lab, 'lab', og='thumb-lab',
+page('lab.html', 'Lab: Beyond the Brief | Asher Wilens', 'The Lab: inventions, products and platforms by Asher Wilens, including Project Orion, a patented projection method that turns any room into the screen.', lab, 'lab', og='thumb-lab',
      head_extra='\n<link rel="preload" as="image" href="images/orion-m-01.webp" type="image/webp">', scripts_extra=STORY_TAG)
 
 # ---------- ABOUT ----------
@@ -886,7 +956,7 @@ case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Dir
      'A spec campaign built around the things people say when a good night has gone on a little too long. From bar receipts and coasters to an AI-powered last-call hotline, Uber helps turn the moment into a way home. <span class="fine">Spec work. Visuals AI-assisted.</span>',
      'ub-receipt', 'An itemized bar receipt from the Tipsy Oak: two Old Fashioneds, fries, four OK one more, I&#39;m not even tired, we should start a business, I love you guys. Total: time to go. Close your tab. Open your app. Signed off with the Uber logo.',
      [s_ for s_ in [
-      section('01','The insight','', insight_box('Everyone knows the night is over before they admit it. You can hear it.', 'The things you say before it&#39;s time to go.')),
+      section('01','The insight','', insight_box('Everyone knows the night is over before they admit it. You can hear it.', 'Turn the ridiculous things people say at last call into Uber&#39;s invitation to head home.')),
 
       section('02','On-premise: the coasters','A coaster series built from the lines everyone has heard at last call. Each one ends the same way.',
               rows(UB_COASTERS[:2], UB_COASTERS[2:])),
@@ -910,7 +980,7 @@ case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Dir
 
 tc_insight = insight_box('TurboChef builds the ovens restaurants run on. Now there&#39;s one for the home.', 'Compliments to the chef.')
 
-case('turbochef.html', 'Turbochef', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],
+case('turbochef.html', 'TurboChef', ['Spec','Integrated campaign','Concept · Creative Direction · Art Direction'],
      'Compliments to the chef.',
      'A spec campaign for TurboChef&#39;s home ovens: restaurant-grade, home-cooked. Restaurant-grade speed and searing turn ordinary houses into the best restaurants on the block, from rooftop neon to a lawn sign that ships in the box. Visuals AI-assisted.',
      'video:https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/turbochef-homecoorked1.mp4|tc-poster', 'The TurboChef :30 spot: Compliments to the chef',
@@ -961,7 +1031,7 @@ pm_body = f'''<div class="pm" id="pm" data-state="WELCOME">
 <section class="pm-stage" aria-labelledby="pmTitle">
 <div class="pm-bg" aria-hidden="true"></div>
 <div class="wrap pm-top">
-<a class="text-link pm-back" href="synth-city.html#proposalmatic">← Synth City</a>
+<a class="text-link pm-back" href="synth-city.html">← Synth City</a>
 <p class="pm-fiction">Fictional interactive campaign · Synth City, 2187 · Nothing is sold</p>
 </div>
 <h1 id="pmTitle" class="pm-sr">PROPOSALMATIC™: an interactive Synth City campaign experience</h1>
@@ -1080,7 +1150,7 @@ pm_body = f'''<div class="pm" id="pm" data-state="WELCOME">
 <noscript><p class="wrap pm-noscript">PROPOSALMATIC™ needs JavaScript to run. <a href="synth-city.html">Back to Synth City</a>.</p></noscript>
 </div>'''
 
-page('proposalmatic.html', 'PROPOSALMATIC™ | Synth City | A. Wilens',
+page('proposalmatic.html', 'PROPOSALMATIC™ | Synth City | Asher Wilens',
      'True love. Now in seconds. An interactive Synth City activation for Premier Gem: a 2187 engagement-ring vending machine that dispenses a ring identical to millions of others, then prints the receipt.',
      pm_body, 'work', og='pm-card',
      head_extra=('' if PM_LISTED else '\n<meta name="robots" content="noindex">') + f'\n<link rel="stylesheet" href="css/proposalmatic.css?v={_v("css/proposalmatic.css")}">',
