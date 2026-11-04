@@ -78,6 +78,57 @@
         if (o >= 0.5) current = k;
       }
       if (current !== shown) { shown = current; label(current); }
+      if (seq) drawSeq(p);
+    }
+
+    // ---- Optional image sequence: scroll scrubs through real footage. ----
+    // <canvas class="sq-canvas" data-seq="dir/" data-count data-fps data-beats>
+    // beats = the footage time (s) at each still, plus the end time; each
+    // caption's scroll segment plays the footage from its beat to the next.
+    var canvas = root.querySelector('.sq-canvas'), seq = null;
+    if (canvas && canvas.getContext) {
+      seq = { ctx: canvas.getContext('2d'), dir: canvas.getAttribute('data-seq'),
+              count: +canvas.getAttribute('data-count'), fps: +canvas.getAttribute('data-fps'),
+              beats: canvas.getAttribute('data-beats').split(',').map(Number), imgs: [], drawn: -1, started: false };
+    }
+    function seqSrc(i) { return seq.dir + ('00' + (i + 1)).slice(-3) + '.webp'; }
+    function loadSeq() {
+      if (!seq || seq.started) return; seq.started = true;
+      var order = [], seen = {};
+      seq.beats.forEach(function (b) { var i = Math.min(seq.count - 1, Math.round(b * seq.fps)); if (!seen[i]) { seen[i] = 1; order.push(i); } });
+      for (var i = 0; i < seq.count; i++) if (!seen[i]) order.push(i);
+      var next = 0;
+      function pump() {
+        if (next >= order.length) return;
+        var i = order[next++], im = new Image();
+        im.decoding = 'async';
+        im.onload = function () { seq.imgs[i] = im; if (i === 0) root.classList.add('sq-seq-on'); onScroll(); pump(); };
+        im.onerror = pump;
+        im.src = seqSrc(i);
+      }
+      for (var c = 0; c < 6; c++) pump();       // a few parallel requests
+    }
+    function drawSeq(p) {
+      // Footage plays during each dissolve, from one still's moment to the
+      // next, and rests on the still while its caption holds. After the last
+      // still it plays through to the end of the clip.
+      var b = seq.beats, last = n - 1, t = b[0];
+      for (var k = 2; k <= last; k++) {
+        var z0 = k * hold + (k - 1) * FADE, u = (p - z0) / FADE;
+        if (u >= 1) t = b[k - 1];
+        else if (u > 0) { t = b[k - 2] + (b[k - 1] - b[k - 2]) * u; break; }
+        else break;
+      }
+      var tail = last * hold + (last - 1) * FADE + FADE;
+      if (p > tail) t = b[last - 1] + (b[last] - b[last - 1]) * Math.min(1, (p - tail) / Math.max(1e-6, 1 - tail));
+      canvas.style.opacity = frames[1] ? frames[1].style.opacity : 1;
+      var want = Math.max(0, Math.min(seq.count - 1, Math.round(t * seq.fps))), i = want;
+      for (var d = 0; d < seq.count && !seq.imgs[i]; d++) {   // nearest loaded frame
+        i = want - d >= 0 && seq.imgs[want - d] ? want - d : (want + d < seq.count && seq.imgs[want + d] ? want + d : i);
+      }
+      if (!seq.imgs[i] || i === seq.drawn) return;
+      seq.drawn = i;
+      seq.ctx.drawImage(seq.imgs[i], 0, 0, canvas.width, canvas.height);
     }
 
     function onScroll() { if (active && !ticking) { ticking = true; requestAnimationFrame(render); } }
@@ -91,6 +142,7 @@
         active = e.isIntersecting;
         if (!active) setPinned(root, false);
         if (active) {
+          loadSeq();
           frames.forEach(function (f) {
             var img = f.querySelector('img');
             if (img && img.loading === 'lazy') { img.loading = 'eager'; if (img.decode) img.decode().catch(function () {}); }

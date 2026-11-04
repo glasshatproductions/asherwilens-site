@@ -374,7 +374,9 @@ LAB = [
          alt='The Project Orion projector, a small rounded device with three lenses, on a coffee table in a living room',
          fit='cover', pos='50% 50%',
          status='Patented',
-         story=dict(w=1080, h=1440, portrait=True, fit_m='contain', frames=[
+         story=dict(w=1080, h=1440, portrait=True, fit_m='contain',
+                    seq=dict(dir='images/orion-seq/', count=171, fps=15, w=630, h=840, beats=[0, 0.5, 0.8, 1.9, 3.0, 4.9, 7.1, 11.33]),
+                    frames=[
              ('orion-m-01', 'An ordinary living room at night: two sofas, a floor lamp, a couple looking at their phones and the white Orion projector on a round coffee table.', 'An ordinary room.'),
              ('orion-m-02', 'Orion begins to scan, casting a circle of cyan grid onto the far wall and sofa.', 'Orion starts to scan.'),
              ('orion-m-03', 'The cyan grid now covers the walls, ceiling and sofa cushions, mapping the room.', 'Every surface mapped.'),
@@ -508,6 +510,10 @@ def story_frames(st, slug, overlay='', first=True):
     m = st.get('mobile')
     mar = f';--sq-ar-m:{m["w"]}/{m["h"]};--sq-r-m:{m["w"]/m["h"]:.4f}' if m else ''
     cls = ' sq-portrait' if st.get('portrait') else ''
+    sq = st.get('seq')
+    canvas = (f'<canvas class="sq-canvas" width="{sq["w"]}" height="{sq["h"]}" aria-hidden="true" data-seq="{sq["dir"]}" data-count="{sq["count"]}" '
+              f'data-fps="{sq["fps"]}" data-beats="{",".join(str(b) for b in sq["beats"])}"></canvas>') if sq else ''
+    overlay = canvas + overlay
     pm = (f';--sq-pos-m:{st["pos_m"]}' if st.get('pos_m') else '') + (f';--sq-fit-m:{st["fit_m"]}' if st.get('fit_m') else '')
     return (f'<div class="sq-frame{cls}" style="--sq-ar:{st["w"]}/{st["h"]};--sq-r:{st["w"]/st["h"]:.4f}{mar}{pm}">' + ''.join(out) + overlay + '</div>')
 
