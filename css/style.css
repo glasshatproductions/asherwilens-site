@@ -825,3 +825,6 @@ main:has(.g) .wrap.trailer,main:has(.g) .wrap.moments{margin-left:calc((100% - m
 .site-header{transition:transform .35s ease,box-shadow .35s ease}
 .nav-hidden .site-header,.sq-full .site-header{transform:translateY(-100%);box-shadow:none}
 @media (prefers-reduced-motion:reduce){.site-header{transition:none}}
+@media (max-width:820px){.sq-on .sq-f img{object-position:var(--sq-pos-m,50% 50%)}}
+/* A story whose frames aren't phone-shaped shows each whole frame, centred on black */
+@media (max-width:820px){.sq-on .sq-f img{object-fit:var(--sq-fit-m,cover)}.sq-on .sq-f{background:#000}}

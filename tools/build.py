@@ -374,14 +374,14 @@ LAB = [
          alt='The Project Orion projector, a small rounded device with three lenses, on a coffee table in a living room',
          fit='cover', pos='50% 50%',
          status='Patented',
-         story=dict(w=752, h=1392, portrait=True, frames=[
-             ('orion-v-01', 'An ordinary living room at night: a grey sofa, a floor lamp, two people looking at their phones, and the white spherical Orion projector on a round coffee table.', 'An ordinary room.'),
-             ('orion-v-02', 'The same room as a cyan projected grid maps the walls and ceiling.', 'The room is recognized.'),
-             ('orion-v-03', 'The projected grid now wraps the sofa and its cushions, mapping the furniture.', 'Every surface understood.'),
-             ('orion-v-04', 'The projector casts a glowing blue portal on the wall and spiders that crawl across the wall and sofa, turning the room into a game.', 'The room is the screen.'),
-             ('orion-v-05', 'The projected spiders spread across the wall and sofa as one emerges from the glowing portal.', 'The game wakes up.'),
-             ('orion-v-06', 'More spiders crawl out of the portal on the wall, the sofa still covered in the projected grid.', 'More keep coming.'),
-             ('orion-v-08', 'A burst of blue light explodes on the sofa cushion where the spider was hit.', 'Direct hit.'),
+         story=dict(w=1080, h=1440, portrait=True, fit_m='contain', frames=[
+             ('orion-m-01', 'An ordinary living room at night: two sofas, a floor lamp, a couple looking at their phones and the white Orion projector on a round coffee table.', 'An ordinary room.'),
+             ('orion-m-02', 'Orion begins to scan, casting a circle of cyan grid onto the far wall and sofa.', 'Orion starts to scan.'),
+             ('orion-m-03', 'The cyan grid now covers the walls, ceiling and sofa cushions, mapping the room.', 'Every surface mapped.'),
+             ('orion-m-04', 'A projected menu on the gridded wall reads Select projection mode: Gaming entertainment.', 'Choose a world.'),
+             ('orion-m-05', 'A swirling cyan portal opens on the wall, spiders massing inside it.', 'The wall opens.'),
+             ('orion-m-06', 'Projected spiders pour out of the portal across the wall and sofa as the couple aim their phones.', 'The horde breaks through.'),
+             ('orion-m-07', 'Spiders swarm the sofa beneath the glowing portal while the players fight them off with their phones.', 'The room is the screen.'),
          ]),
          patent=('U.S. Patent No. 11,127,212', 'Method of projecting virtual reality imagery for augmenting real world objects and surfaces', 'https://patents.google.com/patent/US11127212B1/en')),
     dict(slug='draiped', eyebrow='02 · AI creative studio', name='DRAIPED',
@@ -508,7 +508,8 @@ def story_frames(st, slug, overlay='', first=True):
     m = st.get('mobile')
     mar = f';--sq-ar-m:{m["w"]}/{m["h"]};--sq-r-m:{m["w"]/m["h"]:.4f}' if m else ''
     cls = ' sq-portrait' if st.get('portrait') else ''
-    return (f'<div class="sq-frame{cls}" style="--sq-ar:{st["w"]}/{st["h"]};--sq-r:{st["w"]/st["h"]:.4f}{mar}">' + ''.join(out) + overlay + '</div>')
+    pm = (f';--sq-pos-m:{st["pos_m"]}' if st.get('pos_m') else '') + (f';--sq-fit-m:{st["fit_m"]}' if st.get('fit_m') else '')
+    return (f'<div class="sq-frame{cls}" style="--sq-ar:{st["w"]}/{st["h"]};--sq-r:{st["w"]/st["h"]:.4f}{mar}{pm}">' + ''.join(out) + overlay + '</div>')
 
 def story_readout(st, slug=''):
     items = story_items(st, slug)
@@ -557,7 +558,7 @@ lab = f'''<div class="wrap">
 <div class="lab-list-full">{''.join(lab_entry(p, i) for i, p in enumerate(LAB))}</div>
 </div>'''
 page('lab.html', 'Lab | A. Wilens', 'Inventions, products and platforms by Asher Wilens: projected AR, an AI studio for jewelers, AI pinball, a playable hat and a planning app.', lab, 'lab', og='thumb-lab',
-     head_extra='\n<link rel="preload" as="image" href="images/orion-v-01.webp" type="image/webp">', scripts_extra=STORY_TAG)
+     head_extra='\n<link rel="preload" as="image" href="images/orion-m-01.webp" type="image/webp">', scripts_extra=STORY_TAG)
 
 # ---------- ABOUT ----------
 about = f'''<div class="wrap about">
