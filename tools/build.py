@@ -462,10 +462,12 @@ LAB = [
          src='images/lab-draiped.jpg', w=1672, h=941,
          alt='A plain uploaded ring photo beside the Draiped on-model result of the same ring',
          fit='cover', pos='50% 50%', compare=None,
-         story=dict(w=768, h=1376, portrait=True, frames=[
-             ('draiped-v-01', 'The uploaded product shot: an emerald-cut diamond solitaire on a plain cream background.', 'One product shot.'),
-             ('draiped-v-02', 'Draiped&#39;s on-model image of the same ring on a hand resting on a camel wool coat, a gold chain bracelet at the wrist and a brass candlestick behind.', 'On model, in minutes.'),
-             ('draiped-v-03', 'The full launch generated from that one photo: Aurora web banners, an Instagram post, a story and a product listing with Add to Bag, in warm camel, cream and brass.', 'A whole launch.'),
+         story=dict(w=928, h=1152, portrait=True, fit_m='contain', frames=[
+             ('draiped-n-01', 'A loose round brilliant diamond on cream paper beside tweezers and a jeweler&#39;s loupe.', 'One stone.'),
+             ('draiped-n-02', 'A pencil sketch of a yellow gold solitaire pendant whose prongs splash up around the diamond, annotated prongs, basket, solitaire, chain.', 'A sketch.'),
+             ('draiped-n-03', 'The finished pendant rendered in yellow gold on warm sandstone.', 'A product.'),
+             ('draiped-n-04', 'The pendant on a model in a navy silk slip dress, golden evening light.', 'On model.'),
+             ('draiped-n-05', 'Campaign still life: the pendant on dark slate beside a crystal glass and a cream envelope.', 'A whole launch.'),
          ]),
          status='Live', link=('https://draiped.com', 'draiped.com')),
     dict(slug='pinverse', eyebrow='03 · AI game platform', name='PINVERSE ARCADE',
