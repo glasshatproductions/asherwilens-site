@@ -886,3 +886,12 @@ h1.intro-title{font-size:clamp(25px,7.5vw,72px);line-height:1.06;margin-top:14px
 /* Stills that play over scrubbed footage */
 .sq-seq-on .sq-f.sq-still{visibility:visible;z-index:3}
 .sq-on .sq-frame>.sq-readout{z-index:4}
+/* Work grid: two even rows of three */
+.g-work .card,.g-work .card-lg{grid-column:span 2}
+@media (max-width:820px){.g-work .card{grid-column:auto}}
+/* Desert Diamonds: work fills the full content width on desktop */
+@media (min-width:821px){
+  .pg-desert-diamonds{--media-w:100%}
+  .pg-desert-diamonds .cs-hero img{max-height:none}
+  .pg-desert-diamonds .g-row.small{max-width:66%}
+}

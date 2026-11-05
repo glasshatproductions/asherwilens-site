@@ -61,7 +61,7 @@ def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/style.css?v={_v('css/style.css')}">{head_extra}
 </head>
-<body>
+<body class="pg-{fname[:-5]}">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
 <div class="wrap">
@@ -380,9 +380,12 @@ work = [
     ('desert-diamonds.html', 'thumb-desert-diamonds-v2', 'Desert Diamonds', 'A natural diamond is a rare sighting.', 'Campaign · Films · Microsite · Premier Gem'),
     ('brown-co.html', 'thumb-brown-co-v2', 'Brown &amp; Co.', 'Love looks different in every light.', 'Retail experience · Pitch'),
     ('turbochef.html', 'thumb-turbochef', 'TurboChef', 'Compliments to the chef.', 'Integrated campaign · Spec'),
+    ('synth-city.html', 'thumb-synth-city', 'Synth City', 'The future ran out of rarity.', 'Integrated campaign · Premier Gem'),
 ]
-cards = ''.join(f'''<a class="card{" card-lg" if k < 2 else ""}" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n}: {line}" loading="lazy"></div>
-<div class="card-title"><h3>{n}</h3></div><p class="card-line">{line}</p><p class="card-tag">{tag}</p></a>''' for k, (h, im, n, line, tag) in enumerate(work))
+SHOW_FEATURE = False   # True puts Synth City back as the large featured piece above the grid
+cards = ''.join(f'''<a class="card" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n}: {line}" loading="lazy"></div>
+<div class="card-title"><h3>{n}</h3></div><p class="card-line">{line}</p><p class="card-tag">{tag}</p></a>''' for k, (h, im, n, line, tag) in enumerate(work)
+    if not (SHOW_FEATURE and h == FEATURED[0]))
 
 LAB_PREVIEW = [
     ('lab.html#orion', 'orion-m-06', 'Project Orion', 'Patented projection that turns any room into the screen.'),
@@ -401,20 +404,21 @@ about = f'''<section class="section about-sec" id="about"><div class="wrap about
 </div></div></section>'''
 
 fh, fim, fn, fline, ftag, fdesc = FEATURED
+feature_html = (f'''<div class="wrap">
+<a class="feature" href="{fh}">
+<div class="frame"><img src="images/{fim}.jpg" alt="Synth City: a crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor"></div>
+<div class="feature-meta"><div><p class="eyebrow">{ftag}</p><h2>SYNTH CITY</h2><p class="feature-line">{fline}</p></div>
+<p>{fdesc}</p></div>
+</a>
+</div>''' if SHOW_FEATURE else '')
 home = f'''<section class="intro"><div class="wrap">
 <p class="eyebrow">Asher Wilens</p>
 <h1 class="display intro-title"><span class="nw">Senior Art Director <span class="slash">/</span></span> <span class="nw">Creative Director</span></h1>
 <p class="intro-copy">I develop campaigns, experiences and products that bring brands into people&#39;s lives in unexpected ways. Part traditional advertising. Part emerging technology. Always idea-first.</p>
 <p class="intro-line">Concepts. Campaigns. Experiences. Inventions.</p>
 </div></section>
-<div class="wrap" id="work">
-<a class="feature" href="{fh}">
-<div class="frame"><img src="images/{fim}.jpg" alt="Synth City: a crowd presses around a single rough natural diamond in a vitrine while workers sweep piles of synthetic diamonds off the floor"></div>
-<div class="feature-meta"><div><p class="eyebrow">{ftag}</p><h2>SYNTH CITY</h2><p class="feature-line">{fline}</p></div>
-<p>{fdesc}</p></div>
-</a>
-</div>
-<section class="section"><div class="wrap">
+{feature_html}
+<section class="section" id="work"><div class="wrap">
 <div class="section-head"><h2 class="display">Work</h2><p class="eyebrow">Spec = self-initiated, not commissioned</p></div>
 <div class="g-work">{cards}</div>
 </div></section>
