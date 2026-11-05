@@ -975,7 +975,7 @@ case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Dir
 
       (section('03','Experiential: The Last Call Department','An old payphone appears in neighborhood bars, offering a second opinion on those brilliant ideas that only seem brilliant after midnight. Pick up the receiver and a deadpan AI operator answers. Every conversation is different. Every case has one thing in common: knowing when it&#39;s time to go.',
               '<div class="g"><div class="g-row lc-row">'
-              + (gfig('ub-payphone','A vintage payphone on a dark wood bar wall under a brass plaque: The Last Call Department. For great ideas after midnight. Pick up. Share your brilliant idea. We&#39;ll decide if it&#39;s time to go. Uber.','The installation.') if has_img('ub-payphone') else '')
+              + (gfig('ub-payphone-v2','A vintage black payphone with its receiver hanging, mounted on a dark wood bar wall under a lit brass plaque: The Last Call Department. For great ideas after midnight. Pick up. Share your brilliant idea. We&#39;ll decide if it&#39;s time to go. Uber.','The installation.') if has_img('ub-payphone') else '')
               + f'<figure class="gf" style="--r:{_ratio("ub-payphone-closeup-v2"):.4f}">' + lastcall_panel() + '<figcaption>Pick up the phone. Tap the glowing key.</figcaption></figure>'
               + '</div></div>') if UB_LASTCALL else ''),
 
