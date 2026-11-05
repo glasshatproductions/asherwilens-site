@@ -70,15 +70,22 @@
       var p = range > 0 ? (stickTop - (r.top + natural)) / range : 0;
       setPinned(root, p > -0.02 && p < 1);
       p = Math.max(0, Math.min(1, p));
-      var current = 0;
+      var current = 0, raw = [1];
       for (var k = 1; k < n; k++) {
         var start = k * hold + (k - 1) * FADE;
         var o = ease(Math.max(0, Math.min(1, (p - start) / FADE)));
         frames[k].style.opacity = o.toFixed(3);
+        raw[k] = o;
         if (o >= 0.5) current = k;
       }
+      // Stills that sit over the footage hand over to it as the next stage arrives.
+      if (seq) for (var q = 1; q < n; q++) {
+        if (!frames[q].classList.contains('sq-still')) continue;
+        var nx = q + 1 < n ? raw[q + 1] : 0;
+        frames[q].style.opacity = (raw[q] * (1 - nx)).toFixed(3);
+      }
       if (current !== shown) { shown = current; label(current); }
-      if (seq) drawSeq(p);
+      if (seq) drawSeq(p, raw);
     }
 
     // ---- Optional image sequence: scroll scrubs through real footage. ----
@@ -108,7 +115,7 @@
       }
       for (var c = 0; c < 6; c++) pump();       // a few parallel requests
     }
-    function drawSeq(p) {
+    function drawSeq(p, raw) {
       // Footage plays during each dissolve, from one still's moment to the
       // next, and rests on the still while its caption holds. After the last
       // still it plays through to the end of the clip.
@@ -121,7 +128,7 @@
       }
       var tail = last * hold + (last - 1) * FADE + FADE;
       if (p > tail) t = b[last - 1] + (b[last] - b[last - 1]) * Math.min(1, (p - tail) / Math.max(1e-6, 1 - tail));
-      canvas.style.opacity = frames[1] ? frames[1].style.opacity : 1;
+      canvas.style.opacity = raw[1] != null ? raw[1].toFixed(3) : 1;
       var want = Math.max(0, Math.min(seq.count - 1, Math.round(t * seq.fps))), i = want;
       for (var d = 0; d < seq.count && !seq.imgs[i]; d++) {   // nearest loaded frame
         i = want - d >= 0 && seq.imgs[want - d] ? want - d : (want + d < seq.count && seq.imgs[want + d] ? want + d : i);

@@ -477,12 +477,12 @@ LAB = [
          story=dict(w=768, h=1365, portrait=True, fit_m='contain', nocap=True,
                     seq=dict(dir='images/pinverse-seq/', count=184, fps=12, w=450, h=800, beats=[0.4, 4.4, 5.8, 8.0, 11.0, 14.0, 15.3]),
                     frames=[
-             ('pinverse-m-01', 'Pinverse Arcade on a phone: Type anything. Build your world. The prompt A volcano island made of lava is being typed.', 'Type anything.'),
+             ('pinverse-v-01', 'Pinverse Arcade on a phone: Create your pinball world, with the prompt A volcano island typed in and a Generate World button.', 'Type a world.', 'still'),
              ('pinverse-m-02', 'AI builds it into pinball: a progress screen reading the idea, painting the playfield and placing ramps and bumpers.', 'AI builds it into pinball.'),
              ('pinverse-m-03', 'Ready in minutes: the finished volcano table with a Play now button.', 'Ready in minutes.'),
              ('pinverse-m-04', 'Then you play it: a steel ball in play on the volcano table, lava ramps glowing.', 'Then you play it.'),
              ('pinverse-m-05', 'The volcano erupts on the table as the ball hits the eruption target.', 'Eruption.'),
-             ('pinverse-m-06', 'End card: Pinverse Arcade. Your first world is free. pinversearcade.com.', 'Your first world is free.'),
+             ('pinverse-v-03', 'The volcano table in play, a steel ball blazing off the lava bumper in a burst of fire.', 'Play it.', 'still'),
          ]),
          status='Live', link=('https://pinversearcade.com', 'pinversearcade.com')),
     dict(slug='harmony', eyebrow='04 · Wearable music', name='HARMONY HAT',
@@ -555,7 +555,7 @@ def story_items(st, slug):
     card = TITLE_CARDS.get(slug)
     if card:
         items.append(('card', card, card['line']))
-    items += [('img', (img, alt), cap) for img, alt, cap in st['frames']]
+    items += [('img', (f[0], f[1], len(f) > 3 and f[3] == 'still'), f[2]) for f in st['frames']]
     return items
 
 def story_frames(st, slug, overlay='', first=True):
@@ -571,7 +571,7 @@ def story_frames(st, slug, overlay='', first=True):
                        f'<div class="sq-card-in">{mark}</div>'
                        f'<figcaption><span class="sq-n">{k + 1:02d} / {n:02d}</span> {cap}</figcaption></figure>')
             continue
-        img, alt = data
+        img, alt, still = data
         load = ' fetchpriority="high"' if (k == first_img and first) else ' loading="lazy"'
         mob = st.get('mobile')
         msrc = ''
@@ -579,7 +579,7 @@ def story_frames(st, slug, overlay='', first=True):
             mi = mob['prefix'] + img.split('-')[-1]
             msrc = (f'<source media="(max-width:820px)" srcset="images/{mi}.webp" type="image/webp" width="{mob["w"]}" height="{mob["h"]}">'
                     f'<source media="(max-width:820px)" srcset="images/{mi}.jpg" width="{mob["w"]}" height="{mob["h"]}">')
-        out.append(f'<figure class="sq-f" data-k="{k}"><picture>{msrc}<source srcset="images/{img}.webp" type="image/webp">'
+        out.append(f'<figure class="sq-f{" sq-still" if still else ""}" data-k="{k}"><picture>{msrc}<source srcset="images/{img}.webp" type="image/webp">'
                    f'<img src="images/{img}.jpg" alt="{alt}" width="{st["w"]}" height="{st["h"]}" decoding="async"{load}></picture>'
                    f'<figcaption><span class="sq-n">{k + 1:02d} / {n:02d}</span> {cap}</figcaption></figure>')
     m = st.get('mobile')

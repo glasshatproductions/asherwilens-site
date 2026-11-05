@@ -883,3 +883,6 @@ h1.intro-title{font-size:clamp(25px,7.5vw,72px);line-height:1.06;margin-top:14px
 .sq-nocap .sq-readout:not(.is-card) .sq-cap{visibility:hidden}
 .sq-on.sq-nocap .sq-frame>.sq-readout:not(.is-card){top:0;bottom:auto;padding:14px 16px;justify-content:flex-end}
 .sq-on.sq-nocap .sq-frame>.sq-readout:not(.is-card) .sq-step{background:rgba(0,0,0,.45);padding:4px 8px;border-radius:999px}
+/* Stills that play over scrubbed footage */
+.sq-seq-on .sq-f.sq-still{visibility:visible;z-index:3}
+.sq-on .sq-frame>.sq-readout{z-index:4}
