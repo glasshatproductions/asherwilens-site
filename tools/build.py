@@ -475,11 +475,9 @@ LAB = [
          alt='The prompt haunted diner on Saturn becoming a playable pinball table on a phone',
          fit='cover', pos='58% 50%',
          story=dict(w=768, h=1365, portrait=True, fit_m='contain', nocap=True,
-                    seq=dict(dir='images/pinverse-seq/', count=184, fps=12, w=450, h=800, beats=[0.4, 4.4, 5.8, 8.0, 11.0, 14.0, 15.3]),
+                    seq=dict(dir='images/pinverse-seq/', count=71, fps=12, w=450, h=800, beats=[0, 1.5, 4.5, 5.6, 5.85]),
                     frames=[
              ('pinverse-v-01', 'Pinverse Arcade on a phone: Create your pinball world, with the prompt A volcano island typed in and a Generate World button.', 'Type a world.', 'still'),
-             ('pinverse-m-02', 'AI builds it into pinball: a progress screen reading the idea, painting the playfield and placing ramps and bumpers.', 'AI builds it into pinball.'),
-             ('pinverse-m-03', 'Ready in minutes: the finished volcano table with a Play now button.', 'Ready in minutes.'),
              ('pinverse-m-04', 'Then you play it: a steel ball in play on the volcano table, lava ramps glowing.', 'Then you play it.'),
              ('pinverse-m-05', 'The volcano erupts on the table as the ball hits the eruption target.', 'Eruption.'),
              ('pinverse-v-03', 'The volcano table in play, a steel ball blazing off the lava bumper in a burst of fire.', 'Play it.', 'still'),

@@ -128,7 +128,8 @@
       }
       var tail = last * hold + (last - 1) * FADE + FADE;
       if (p > tail) t = b[last - 1] + (b[last] - b[last - 1]) * Math.min(1, (p - tail) / Math.max(1e-6, 1 - tail));
-      canvas.style.opacity = raw[1] != null ? raw[1].toFixed(3) : 1;
+      var fq = 1; while (fq < n - 1 && frames[fq].classList.contains('sq-still')) fq++;   // first footage stage
+      canvas.style.opacity = raw[fq] != null ? raw[fq].toFixed(3) : 1;
       var want = Math.max(0, Math.min(seq.count - 1, Math.round(t * seq.fps))), i = want;
       for (var d = 0; d < seq.count && !seq.imgs[i]; d++) {   // nearest loaded frame
         i = want - d >= 0 && seq.imgs[want - d] ? want - d : (want + d < seq.count && seq.imgs[want + d] ? want + d : i);
