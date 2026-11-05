@@ -16,6 +16,7 @@ PM_LISTED = False
 LASTCALL_TAG = ''
 MOMENTS_TAG = ''
 DETECTOR_TAG = ''
+BUZZ_TAG = ''
 # Small rotating lines under the wordmark. Edit, add or remove freely.
 TAGLINES = [
     'Creative by Nature. Artificially Enhanced.',
@@ -92,7 +93,7 @@ def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra
 </footer>
 <script src="js/gallery.js?v={_v('js/gallery.js')}"></script>
 <script src="js/livephone.js?v={_v('js/livephone.js')}" defer></script>
-<script src="js/nav.js?v={_v('js/nav.js')}" defer></script>{LASTCALL_TAG if fname == 'uber.html' else ''}{MOMENTS_TAG if fname == 'brown-co.html' else ''}{DETECTOR_TAG if fname == 'synth-city.html' else ''}{scripts_extra}
+<script src="js/nav.js?v={_v('js/nav.js')}" defer></script>{LASTCALL_TAG if fname == 'uber.html' else ''}{MOMENTS_TAG if fname == 'brown-co.html' else ''}{DETECTOR_TAG if fname == 'synth-city.html' else ''}{BUZZ_TAG if fname == 'fage.html' else ''}{scripts_extra}
 </body>
 </html>
 '''
@@ -243,6 +244,24 @@ def browser_fig(src, alt, cap='', url='synthcity.tv'):
             f'<div class="bw-bar" aria-hidden="true"><span class="bw-lights"><i></i><i></i><i></i></span>'
             f'<span class="bw-url">{lock}{url}</span><span class="bw-end"></span></div>'
             f'<img src="images/{src}.jpg" alt="{alt}" loading="lazy" decoding="async"></div>{c}</figure></div>')
+
+# FAGE "Buzz for the truth": tap a name on the photographed intercom to hear
+# that neighbor's confession. Hotspots are % boxes over each name plate.
+BUZZ = [   # (name, audio, left, top, width, height)
+    ('6F · Matt',  'audio/fage-buzz-matt.mp3',  48.3, 42.6, 22.8, 3.9),
+    ('3C · Helen', 'audio/fage-buzz-helen.mp3', 48.3, 52.6, 22.8, 3.9),
+    ('2A · Lisa',  'audio/fage-buzz-lisa.mp3',  48.3, 57.6, 22.8, 4.0),
+]
+BUZZ_TAG = f'\n<script src="js/buzz.js?v={_v("js/buzz.js")}" defer></script>'
+
+def buzz_panel():
+    hots = ''.join(f'<button type="button" class="bz-hot" data-src="{src}" data-name="{n}" aria-pressed="false" '
+                   f'style="left:{l}%;top:{t}%;width:{w}%;height:{h}%"><span class="sr">Buzz {n}</span></button>'
+                   for n, src, l, t, w, h in BUZZ)
+    return (f'<figure class="gf bz" style="--r:{_ratio("fage-buzz"):.4f}"><div class="bz-art">'
+            '<img src="images/fage-buzz.jpg" alt="A woman presses a buzzer on a brass intercom under a sign reading Buzz for the truth. Everyone here has a yogurt secret. Go on. Buzz someone." loading="lazy">'
+            f'{hots}</div><figcaption>Buzz for the truth. <span class="bz-note">Tap a name to hear their confession. Concept demo, sample recordings.</span>'
+            '<span class="bz-status" aria-live="polite"></span></figcaption></figure>')
 
 def gfig(src, alt, cap=''):
     r = _ratio(src)
@@ -922,8 +941,9 @@ case('fage.html', 'Fage', ['Spec','Integrated campaign','Concept · Creative Dir
                     ('fage-social','#NothingToHide on Instagram and Reels: eating it on the fire escape at 2am, not a diet, a lifestyle','#NothingToHide.')])),
 
       section('07','Experiential: buzz for the truth','A FAGE-branded intercom on a New York brownstone invites passersby to buzz a neighbor and hear their yogurt confession, live. Every conversation ends the same way: &quot;I&#39;ll send some down.&quot;',
-              rows([('fage-buzz','A woman presses a buzzer on a brass intercom under a sign reading Buzz for the truth. Everyone here has a yogurt secret. Go on. Buzz someone.','Buzz for the truth.'),
-                    ('fage-basket','A neighbor smiles from a brownstone window, lowering a basket of FAGE Total yogurt on a rope to the woman below','A little something from upstairs.')]))],
+              '<div class="g"><div class="g-row">' + buzz_panel()
+              + gfig('fage-basket','A neighbor smiles from a brownstone window, lowering a basket of FAGE Total yogurt on a rope to the woman below','A little something from upstairs.')
+              + '</div></div>')],
      'uber.html', 'Uber', 'Fage: Honestly crafted. Nothing to hide. A spec campaign that makes the ingredient list the ad.')
 
 
