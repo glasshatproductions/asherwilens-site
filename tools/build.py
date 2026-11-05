@@ -386,7 +386,7 @@ cards = ''.join(f'''<a class="card{" card-lg" if k < 2 else ""}" href="{h}"><div
 
 LAB_PREVIEW = [
     ('lab.html#orion', 'orion-m-06', 'Project Orion', 'Patented projection that turns any room into the screen.'),
-    ('lab.html#draiped', 'draiped-v-02', 'Draiped', 'One jewelry product shot becomes a whole launch.'),
+    ('lab.html#draiped', 'draiped-w-04', 'Draiped', 'One jewelry product shot becomes a whole launch.'),
     ('lab.html#pinverse', 'pinverse-v-03', 'Pinverse Arcade', 'Type a world. Play it as pinball.'),
 ]
 lab_cards = ''.join(f'''<a class="lab-pv" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n}" loading="lazy"></div><h3>{n}</h3><p>{d}</p></a>''' for h, im, n, d in LAB_PREVIEW)
