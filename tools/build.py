@@ -419,7 +419,7 @@ home = f'''<section class="intro"><div class="wrap">
 </div></section>
 {feature_html}
 <section class="section" id="work"><div class="wrap">
-<div class="section-head"><h2 class="display">Work</h2><p class="eyebrow">Spec = self-initiated, not commissioned</p></div>
+<div class="section-head"><h2 class="display">Work</h2></div>
 <div class="g-work">{cards}</div>
 </div></section>
 <section class="section lab-teaser"><div class="wrap">
