@@ -204,7 +204,7 @@ def lastcall_panel():
         return ''
     samples = [(src, label) for src, label in UB_SAMPLES if has_file(src)]
     interactive = bool(samples) or bool(UB_LIVE_ENDPOINT)
-    art = ('<img src="images/ub-payphone-closeup.jpg" alt="The Last Call Department payphone: chrome keypad, black receiver and a plate reading For great ideas after midnight. '
+    art = ('<img src="images/ub-payphone-closeup-v2.jpg" width="805" height="1581" alt="The Last Call Department payphone: worn chrome keypad, an empty receiver cradle and a plate reading For great ideas after midnight. '
            'Pick up. Share your brilliant idea. We&#39;ll decide if it&#39;s time to go. Pick up the phone. Uber." loading="lazy">')
     if not interactive:
         return f'<div class="lastcall-art">{art}</div>'
@@ -976,7 +976,7 @@ case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Dir
       (section('03','Experiential: The Last Call Department','An old payphone appears in neighborhood bars, offering a second opinion on those brilliant ideas that only seem brilliant after midnight. Pick up the receiver and a deadpan AI operator answers. Every conversation is different. Every case has one thing in common: knowing when it&#39;s time to go.',
               '<div class="g"><div class="g-row lc-row">'
               + (gfig('ub-payphone','A vintage payphone on a dark wood bar wall under a brass plaque: The Last Call Department. For great ideas after midnight. Pick up. Share your brilliant idea. We&#39;ll decide if it&#39;s time to go. Uber.','The installation.') if has_img('ub-payphone') else '')
-              + f'<figure class="gf" style="--r:{_ratio("ub-payphone-closeup"):.4f}">' + lastcall_panel() + '<figcaption>Pick up the phone. Tap the glowing key.</figcaption></figure>'
+              + f'<figure class="gf" style="--r:{_ratio("ub-payphone-closeup-v2"):.4f}">' + lastcall_panel() + '<figcaption>Pick up the phone. Tap the glowing key.</figcaption></figure>'
               + '</div></div>') if UB_LASTCALL else ''),
 
       section('04' if UB_LASTCALL else '03','Out-of-home: on the way out','The last word, placed between the bar door and the curb.',

@@ -895,3 +895,18 @@ h1.intro-title{font-size:clamp(23px,6.9vw,66.24px);line-height:1.06;margin-top:1
   .pg-desert-diamonds .cs-hero img{max-height:none}
   .pg-desert-diamonds .g-row.small{max-width:66%}
 }
+
+/* Payphone v2: the room dims and the PICK UP THE PHONE key brightens, in a slow
+   breath, until the visitor picks up. */
+.lc-hot{left:64.97%;top:49.34%;width:25.22%;height:12.33%;border-radius:5px;z-index:2;animation:none;box-shadow:none;overflow:visible}
+.lc-hot::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  box-shadow:0 0 0 300vmax rgba(8,6,4,0);animation:lcDim 2.4s ease-in-out infinite}
+.lc-hot::after{content:"";position:absolute;inset:-2px;border-radius:inherit;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(ellipse at 50% 45%,rgba(255,214,150,.75),rgba(255,170,70,.35) 55%,rgba(255,150,40,0) 80%);
+  box-shadow:0 0 0 2px rgba(255,190,100,.9),0 0 34px 10px rgba(255,170,70,.75);opacity:.25;animation:lcGlow 2.4s ease-in-out infinite}
+@keyframes lcDim{0%,100%{box-shadow:0 0 0 300vmax rgba(8,6,4,.08)}50%{box-shadow:0 0 0 300vmax rgba(8,6,4,.58)}}
+@keyframes lcGlow{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.035)}}
+.lc-overlay{z-index:3}
+.lc-hot:hover::before{animation-play-state:paused}
+.lastcall-art.off-hook .lc-hot::before,.lastcall-art.off-hook .lc-hot::after,.lc-hot.used::before,.lc-hot.used::after{animation:none;opacity:0;box-shadow:none}
+@media (prefers-reduced-motion:reduce){.lc-hot::before{animation:none;box-shadow:0 0 0 300vmax rgba(8,6,4,.35)}.lc-hot::after{animation:none;opacity:.9}}
