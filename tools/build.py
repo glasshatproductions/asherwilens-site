@@ -315,8 +315,8 @@ CASE_META = {   # page title, social preview image
     'turbochef.html': ('TurboChef: Compliments to the Chef | Asher Wilens', 'thumb-turbochef'),
 }
 NEXT = {
-    'synth-city.html': ('fage.html', 'Fage'), 'fage.html': ('uber.html', 'Uber'), 'uber.html': ('desert-diamonds.html', 'Desert Diamonds'),
-    'desert-diamonds.html': ('brown-co.html', 'Brown &amp; Co.'), 'brown-co.html': ('turbochef.html', 'TurboChef'), 'turbochef.html': ('synth-city.html', 'Synth City'),
+    'synth-city.html': ('brown-co.html', 'Brown &amp; Co.'), 'fage.html': ('uber.html', 'Uber'), 'uber.html': ('desert-diamonds.html', 'Desert Diamonds'),
+    'desert-diamonds.html': ('turbochef.html', 'TurboChef'), 'turbochef.html': ('synth-city.html', 'Synth City'), 'brown-co.html': ('fage.html', 'Fage'),
 }
 
 def credits_html(fname):
@@ -394,10 +394,10 @@ work = [
     ('fage.html', 'thumb-fage', 'Fage', 'Nothing to hide.', 'Brand platform · Spec'),
     ('uber.html', 'thumb-uber-v2', 'Uber', 'When it&#39;s time to go.', 'Integrated campaign · Spec'),
     ('desert-diamonds.html', 'thumb-desert-diamonds-v2', 'Desert Diamonds', 'A natural diamond is a rare sighting.', 'Campaign · Films · Microsite · Premier Gem'),
-    ('brown-co.html', 'thumb-brown-co-v2', 'Brown &amp; Co.', 'Love looks different in every light.', 'Retail experience · Pitch'),
     ('turbochef.html', 'thumb-turbochef', 'TurboChef', 'Compliments to the chef.', 'Integrated campaign · Spec'),
     ('synth-city.html', 'thumb-synth-city', 'Synth City', 'The future ran out of rarity.', 'Integrated campaign · Premier Gem'),
-]
+
+    ('brown-co.html', 'thumb-brown-co-v2', 'Brown &amp; Co.', 'Love looks different in every light.', 'Retail experience · Pitch'),]
 SHOW_FEATURE = False   # True puts Synth City back as the large featured piece above the grid
 cards = ''.join(f'''<a class="card" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n}: {line}" loading="lazy"></div>
 <div class="card-title"><h3>{n}</h3></div><p class="card-line">{line}</p><p class="card-tag">{tag}</p></a>''' for k, (h, im, n, line, tag) in enumerate(work)
