@@ -115,7 +115,7 @@ def section(num, label, intro, content):
 VIDEO_BASE = 'https://superborn-dev.s3.us-east-1.amazonaws.com/Rare-Sightings/'
 def film(file, title, poster):
     p = f' poster="images/{poster}.jpg"' if poster else ''
-    src = VIDEO_BASE + file + ('' if poster else '#t=0.1')
+    src = (file if '/' in file else VIDEO_BASE + file) + ('' if poster else '#t=0.1')   # 'video/x.mp4' = hosted with the site
     return f'<figure class="film"><video controls playsinline preload="metadata"{p}><source src="{src}" type="video/mp4">Your browser does not support video.</video><figcaption>{title}</figcaption></figure>'
 
 
@@ -1004,7 +1004,7 @@ case('desert-diamonds.html', 'Desert Diamonds', ['Premier Gem','Campaign · Film
 
       section('03','Caught on camera','Field footage. The stakeout, played completely straight.',
               '<div class="film-lead">' + film('ThePool_DesertRing.mp4','The Pool','dd-film-pool') + '</div>'
-              + '<div class="films two">' + film('TheBinoculars.mp4','The Binoculars','dd-film-binoculars') + film('TheSubmarine_DesertPendant.mp4','The Submarine','dd-film-submarine' if has_img('dd-film-submarine') else '') + '</div>'),
+              + '<div class="films three">' + film('video/TheCactus.mp4','The Cactus','dd-film-cactus') + film('TheBinoculars.mp4','The Binoculars','dd-film-binoculars') + film('TheSubmarine_DesertPendant.mp4','The Submarine','dd-film-submarine' if has_img('dd-film-submarine') else '') + '</div>'),
 
       section('04','The expedition','<strong>The rarest sightings weren&#39;t ours to capture.</strong> They were yours.',
               '<p class="body-copy section-more">Rare Sightings, the campaign&#39;s microsite, hands the binoculars to everyone else. Natural diamond owners upload a photo of their own ring, name it and log where it was spotted. Each submission earns an official field report, and the best sightings will be featured in the archive and on Instagram.</p>'

@@ -926,3 +926,7 @@ h1.intro-title{font-size:clamp(23px,6.9vw,66.24px);line-height:1.06;margin-top:1
 .bz-status{display:block;min-height:1.3em;margin-top:2px;font-size:13px;color:var(--ink)}
 @media (prefers-reduced-motion:reduce){.bz-art:not(.used) .bz-hot::after{animation:none;box-shadow:0 0 0 2px rgba(255,214,140,.6)}}
 .bz-hot::before{content:"";position:absolute;inset:-5px -8px}
+.films.three{grid-template-columns:repeat(3,minmax(0,1fr));max-width:var(--media-w);margin-top:24px}
+.films.three .film figcaption{margin-top:10px;font-size:14px;color:#6b6b6b}
+@media (max-width:640px){.films.three{grid-template-columns:minmax(0,1fr)}}
+.films.three video{aspect-ratio:16/9;object-fit:cover;width:100%;height:auto;background:#000}
