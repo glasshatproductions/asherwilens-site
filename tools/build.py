@@ -69,7 +69,7 @@ def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra
 <div class="brandline"><a class="wordmark" href="index.html">A. WILENS</a>{TAGLINES_HTML}</div>
 <nav class="site-nav" aria-label="Main">
 {nav("index.html#work","Work","work")}
-{nav("lab.html","Lab","lab")}
+{nav("lab.html","Inventions","lab")}
 {nav("index.html#about","About","about")}
 <a href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
 <a href="mailto:{EMAIL}">Contact</a>
@@ -88,7 +88,7 @@ def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra
 <footer class="site-footer">
 <div class="wrap">
 <span>© 2026 Asher Wilens. <em class="mom">My mom says I&#39;m creative.</em></span>
-<span><a href="index.html#work">Work</a> · <a href="lab.html">Lab</a> · <a href="index.html#about">About</a> · <a href="resume.pdf" target="_blank" rel="noopener">Résumé</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span>
+<span><a href="index.html#work">Work</a> · <a href="lab.html">Inventions</a> · <a href="index.html#about">About</a> · <a href="resume.pdf" target="_blank" rel="noopener">Résumé</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span>
 </div>
 </footer>
 <script src="js/gallery.js?v={_v('js/gallery.js')}"></script>
@@ -442,7 +442,7 @@ home = f'''<section class="intro"><div class="wrap">
 <div class="g-work">{cards}</div>
 </div></section>
 <section class="section lab-teaser"><div class="wrap">
-<div class="section-head"><div><p class="eyebrow">Lab</p><h2 class="display">Beyond the brief.</h2><p class="lab-teaser-line">Some ideas become campaigns. Others become platforms, products and patents.</p></div><a class="btn" href="lab.html">Visit the Lab</a></div>
+<div class="section-head"><div><p class="eyebrow">Inventions</p><h2 class="display">Beyond the brief.</h2><p class="lab-teaser-line">Some ideas become campaigns. Others become platforms, products and patents.</p></div><a class="btn" href="lab.html">See the inventions</a></div>
 <div class="lab-pvs">{lab_cards}</div>
 </div></section>
 {about}'''
@@ -523,7 +523,20 @@ LAB = [
              ('harmony-v-06', 'The same commuter takes the hat off and plays the brim keys with both hands, the cap resting on his knee.', 'Or take it off and really play.'),
          ]),
          status='On Kickstarter', link=('https://www.kickstarter.com/projects/harmonyhat/435543195', 'View the campaign')),
-    dict(slug='slickster', eyebrow='05 · Product design', name='SLICKSTER',
+    dict(slug='riff', eyebrow='05 · Musician gear', name='THE RIFF',
+         head='The gig bag that stands up for itself.',
+         copy='Every gigging guitarist hauls two things to the show: the bag and the stand. The Riff is one. A padded gig bag with a fold-out frame that turns the bag itself into a guitar stand. I invented it after one too many nights carrying both across the city.',
+         src='images/riff-03.jpg', w=1100, h=1100,
+         alt='A guitar resting on the Riff gig bag, its stand folded out, on a small stage',
+         fit='cover', pos='50% 50%',
+         story=dict(w=1100, h=1100, portrait=True, fit_m='contain', frames=[
+             ('riff-01', 'A musician carries the grey Riff gig bag by its handles across a wooden stage.', 'Carry it to the gig.'),
+             ('riff-02', 'Product shot on green: the chrome frame folds out from the back of the bag. Lightweight and protective padded body.', 'Flip out the frame.'),
+             ('riff-03', 'An acoustic guitar rests against the Riff, held by its fold-out stand, while the guitarist sets up his mic.', 'The bag becomes the stand.'),
+             ('riff-04', 'The guitarist plays on stage with the Riff standing beside him, ready to take the guitar between songs.', 'One less thing to carry.'),
+         ]),
+         status='Quirky community winner · Prototyped'),
+    dict(slug='slickster', eyebrow='06 · Product design', name='SLICKSTER',
          head='Less planning. More living.',
          copy='An automated planning app that turns the chaos of scheduling into a single tap. Product design, UX and brand by A. Wilens.',
          src='https://superborn-dev.s3.us-east-1.amazonaws.com/Portfolio/slickster_promoneon.png', w=1672, h=941,
@@ -572,6 +585,7 @@ TITLE_CARDS = {
     'draiped':   dict(bg='#f0ece6', fg='#24211d', name='DRAIPED',         line='Creative intelligence'),
     'pinverse':  dict(bg='#12101c', fg='#b79cf3', name='PINVERSE ARCADE', line='Play and creation'),
     'harmony':   dict(bg='#232323', fg='#f1f1f1', name='HARMONY HAT',     line='Wearable music'),
+    'riff':      dict(bg='#1f2a1c', fg='#7fd36b', name='THE RIFF',        line='Musician gear'),
     'slickster': dict(bg='#10172a', fg='#5fe0d2', name='SLICKSTER',       line='Experience planning'),
 }
 
@@ -659,12 +673,12 @@ def lab_entry(p, i):
 
 lab = f'''<div class="wrap">
 <section class="lab-hero">
-<div><p class="eyebrow">Beyond the brief · Inventions, products &amp; platforms</p><h1 class="display">LAB</h1><p class="lede">Ideas that didn't fit in a brief.</p></div>
+<div><p class="eyebrow">Beyond the brief · Products, platforms &amp; a patent</p><h1 class="display">INVENTIONS</h1><p class="lede">Ideas that didn't fit in a brief.</p></div>
 <p>Some ideas become campaigns. Others become products, platforms, and the occasional patent. This is where I follow the idea wherever it goes.</p>
 </section>
 <div class="lab-list-full">{''.join(lab_entry(p, i) for i, p in enumerate(LAB))}</div>
 </div>'''
-page('lab.html', 'Lab: Beyond the Brief | Asher Wilens', 'The Lab: inventions, products and platforms by Asher Wilens, including Project Orion, a patented projection method that turns any room into the screen.', lab, 'lab', og='thumb-lab',
+page('lab.html', 'Inventions: Beyond the Brief | Asher Wilens', 'Inventions, products and platforms by Asher Wilens, including Project Orion, a patented projection method that turns any room into the screen.', lab, 'lab', og='thumb-lab',
      head_extra='\n<link rel="preload" as="image" href="images/orion-m-01.webp" type="image/webp">', scripts_extra=STORY_TAG)
 
 # ---------- ABOUT ----------
