@@ -318,7 +318,7 @@ CASE_META = {   # page title, social preview image
     'turbochef.html': ('TurboChef: Compliments to the Chef | Asher Wilens', 'thumb-turbochef'),
 }
 NEXT = {
-    'synth-city.html': ('uber.html', 'Uber'), 'uber.html': ('fage.html', 'Fage'), 'fage.html': ('desert-diamonds.html', 'Desert Diamonds'),
+    'synth-city.html': ('fage.html', 'Fage'), 'fage.html': ('uber.html', 'Uber'), 'uber.html': ('desert-diamonds.html', 'Desert Diamonds'),
     'desert-diamonds.html': ('brown-co.html', 'Brown &amp; Co.'), 'brown-co.html': ('turbochef.html', 'TurboChef'), 'turbochef.html': ('synth-city.html', 'Synth City'),
 }
 
@@ -394,8 +394,8 @@ def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name
 FEATURED = ('synth-city.html', 'synth-hero', 'Synth City', 'The future ran out of rarity.', 'Integrated campaign · Premier Gem · Soft launch 2026',
             'Six films, a state-run news network and a working detector, set in a future where everything can be manufactured. Except rarity.')
 work = [
-    ('uber.html', 'thumb-uber', 'Uber', 'When it&#39;s time to go.', 'Integrated campaign · Spec'),
     ('fage.html', 'thumb-fage', 'Fage', 'Nothing to hide.', 'Brand platform · Spec'),
+    ('uber.html', 'thumb-uber', 'Uber', 'When it&#39;s time to go.', 'Integrated campaign · Spec'),
     ('desert-diamonds.html', 'thumb-desert-diamonds-v2', 'Desert Diamonds', 'A natural diamond is a rare sighting.', 'Campaign · Films · Microsite · Premier Gem'),
     ('brown-co.html', 'thumb-brown-co-v2', 'Brown &amp; Co.', 'Love looks different in every light.', 'Retail experience · Pitch'),
     ('turbochef.html', 'thumb-turbochef', 'TurboChef', 'Compliments to the chef.', 'Integrated campaign · Spec'),
