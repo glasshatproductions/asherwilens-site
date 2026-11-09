@@ -1062,7 +1062,14 @@ case('turbochef.html', 'TurboChef', ['Spec','Integrated campaign','Concept · Cr
 
       section('04','In the box: the sign comes with the oven','Every oven ships with a welcome card and a &quot;Now Serving&quot; lawn sign. Buyers put it in the yard, neighbors stop and ask, and the campaign spreads street by street.',
               rows([('tc-unbox','A woman unboxes a TurboChef oven and lifts out an orange Now Serving, reservations recommended lawn sign from the lid; a card reads Congratulations on your new restaurant','Congratulations on your new restaurant.'),
-                    ('tc-sign','A Now Serving, reservations recommended lawn sign in front of a home at dusk as a woman walking her dog stops to look','In the yard.')]))],
+                    ('tc-sign','A Now Serving, reservations recommended lawn sign in front of a home at dusk as a woman walking her dog stops to look','In the yard.')])),
+
+      section('05','Your menu: every restaurant needs one','<span class="proposed">Proposed extension</span> Owners build a menu for their home restaurant online, choosing a style from diner to fine dining and adding their own dishes. TurboChef prints it and sends it to the table. The house now has a menu. And the neighbors have questions.',
+              rows([('tc-menu-builder','A laptop on a kitchen counter shows the TurboChef Build your menu page: style choices Diner, Family, Fine dining and Bistro, the Hendersons&#39; dishes, and a live preview of their Sunday Roast menu, a TurboChef oven glowing behind','Build it online.'),
+                    ('tc-menu-hendersons','Top-down: a black hardcover menu on a family dining table reads The Hendersons, Sunday Roast tasting menu, Herb-Crusted Prime Rib, Sticky Toffee Pudding, three courses and one argument, beside a carved roast and a child&#39;s crayon drawing','The Hendersons. Three courses and one argument.')],
+                   [('tc-menu-dave','Top-down: a laminated retro diner menu on a gingham placemat reads Dave Kowalski&#39;s, Est. last Tuesday: The Usual, The Other Usual, and Whatever&#39;s in the Fridge at market price, next to a smash burger, a TV remote and car keys','Dave Kowalski&#39;s. Market price.'),
+                    ('tc-menu-garcia','Top-down: a placemat menu on red gingham reads Casa Garcia, Now seating: Abuela&#39;s Mole Poblano, recipe not available on request, and Dessert if you finish, around enchiladas, tortillas, salsa and a kid&#39;s sippy cup','Casa Garcia. Dessert if you finish.'),
+                    ('tc-menu-barry','Top-down: an open leather-bound menu on a wooden table reads Barry&#39;s Kitchen, Reservations recommended: Rigatoni alla Vodka, Cacio e Pepe as seen on YouTube, prix fixe whatever Barry&#39;s making, beside a pot of rigatoni, parmesan and red wine','Barry&#39;s Kitchen. Prix fixe.')]))],
      'synth-city.html', 'Synth City', 'TurboChef: Compliments to the chef. A spec campaign that turns homes into the best restaurants on the block.')
 
 # ---------- PROPOSALMATIC (interactive Synth City activation) ----------
