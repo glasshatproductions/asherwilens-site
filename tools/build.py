@@ -19,10 +19,7 @@ DETECTOR_TAG = ''
 BUZZ_TAG = ''
 # Small rotating lines under the wordmark. Edit, add or remove freely.
 TAGLINES = [
-    'Creative by Nature. Artificially Enhanced.',
-    'The Idea Comes First. The Medium Follows.',
-    'Always On. Except Shabbos.',
-    'AI Can Do a Lot. I Still Have Opinions.',
+    'Ideas, made.',
 ]
 TAGLINES_HTML = ('<p class="taglines" aria-label="' + ' / '.join(TAGLINES) + '">'
                  + ''.join(f'<span class="tl{" on" if i == 0 else ""}" aria-hidden="true">{t}</span>' for i, t in enumerate(TAGLINES)) + '</p>')
