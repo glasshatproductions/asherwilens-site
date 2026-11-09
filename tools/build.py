@@ -68,7 +68,7 @@ def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra
 {nav("index.html#work","Work","work")}
 {nav("lab.html","Inventions","lab")}
 {nav("index.html#about","About","about")}
-<a href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
+<a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
 <a href="mailto:{EMAIL}">Contact</a>
 </nav>
 </div>
@@ -85,7 +85,7 @@ def page(fname, title, desc, body, current='', og='thumb-synth-city', head_extra
 <footer class="site-footer">
 <div class="wrap">
 <span>© 2026 Asher Wilens. <em class="mom">My mom says I&#39;m creative.</em></span>
-<span><a href="index.html#work">Work</a> · <a href="lab.html">Inventions</a> · <a href="index.html#about">About</a> · <a href="resume.pdf" target="_blank" rel="noopener">Résumé</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span>
+<span><a href="index.html#work">Work</a> · <a href="lab.html">Inventions</a> · <a href="index.html#about">About</a> · <a href="resume.pdf" target="_blank" rel="noopener">Resume</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span>
 </div>
 </footer>
 <script src="js/gallery.js?v={_v('js/gallery.js')}"></script>
@@ -327,7 +327,7 @@ def credits_html(fname):
     return (f'<section class="credits wrap" aria-label="Credits"><dl>'
             f'<div><dt>Work</dt><dd><b>{kind}.</b> {note}</dd></div>'
             f'<div><dt>Role</dt><dd>{role}</dd></div></dl>'
-            f'<p class="credits-links"><a class="text-link" href="index.html#work">All work</a><a class="text-link" href="resume.pdf" target="_blank" rel="noopener">Résumé</a><a class="text-link" href="mailto:{EMAIL}">{EMAIL}</a></p></section>')
+            f'<p class="credits-links"><a class="text-link" href="index.html#work">All work</a><a class="text-link" href="resume.pdf" target="_blank" rel="noopener">Resume</a><a class="text-link" href="mailto:{EMAIL}">{EMAIL}</a></p></section>')
 
 def case(fname, name, tags, lede, intro, hero, hero_alt, sections, nxt, nxt_name, desc):
     nxt, nxt_name = NEXT.get(fname, (nxt, nxt_name))
@@ -417,7 +417,7 @@ about = f'''<section class="section about-sec" id="about"><div class="wrap about
 <p>I&#39;m an art director and creative director who believes the best ideas don&#39;t stay inside the ad. They become experiences, products and, occasionally, things that need patents.</p>
 <p>Since 2017 I&#39;ve led creative at Premier Gem, a multi-generation natural-diamond house: campaigns, brand identity, trade and retail presentation, social and the digital tools around them. The work has earned multiple Best Design Awards at the Centurion Jewelry Show. Since 2024 I&#39;ve also been a partner and creative director at Superborn Group, building campaign platforms and products for startups and established brands. Along the way I&#39;ve freelanced as an art director for Brown &amp; Co., Lumije and The Woo Agency.</p>
 <p>I find a simple human truth, then figure out the most interesting way to bring it into the world: a headline, a print ad, an integrated campaign or something nobody has built yet. I trained in advertising at SVA, and I invent on the side, including a patented AR projection method.</p>
-<p class="about-links"><a class="btn" href="resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a><a class="text-link" href="mailto:{EMAIL}">{EMAIL}</a></p>
+<p class="about-links"><a class="btn" href="resume.pdf" download="Asher-Wilens-Resume.pdf">Download resume</a><a class="text-link" href="resume.pdf" target="_blank" rel="noopener">View resume</a><a class="text-link" href="mailto:{EMAIL}">{EMAIL}</a></p>
 </div></div></section>'''
 
 fh, fim, fn, fline, ftag, fdesc = FEATURED
@@ -718,7 +718,7 @@ about = f'''<div class="wrap about">
 <li>Brand worlds, film and digital experiences</li>
 </ul>
 <h2 id="contact">Contact</h2>
-<p class="body-copy"><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="https://www.linkedin.com/">LinkedIn</a> · <a href="resume.pdf">Résumé (PDF)</a></p>
+<p class="body-copy"><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="https://www.linkedin.com/">LinkedIn</a> · <a href="resume.pdf">Resume (PDF)</a></p>
 </div>
 </div>'''
 pass  # About page hidden
