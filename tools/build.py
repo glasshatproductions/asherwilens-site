@@ -311,7 +311,7 @@ CASE_META = {   # page title, social preview image
     'desert-diamonds.html': ('Desert Diamonds: A Natural Diamond Is a Rare Sighting | Asher Wilens', 'thumb-desert-diamonds-v2'),
     'brown-co.html': ('Brown &amp; Co.: Love Looks Different in Every Light | Asher Wilens', 'thumb-brown-co-v2'),
     'fage.html': ('FAGE: Nothing to Hide | Asher Wilens', 'thumb-fage'),
-    'uber.html': ('Uber: When It&#39;s Time to Go | Asher Wilens', 'thumb-uber'),
+    'uber.html': ('Uber: When It&#39;s Time to Go | Asher Wilens', 'thumb-uber-v2'),
     'turbochef.html': ('TurboChef: Compliments to the Chef | Asher Wilens', 'thumb-turbochef'),
 }
 NEXT = {
@@ -392,7 +392,7 @@ FEATURED = ('synth-city.html', 'synth-hero', 'Synth City', 'The future ran out o
             'Six films, a state-run news network and a working detector, set in a future where everything can be manufactured. Except rarity.')
 work = [
     ('fage.html', 'thumb-fage', 'Fage', 'Nothing to hide.', 'Brand platform · Spec'),
-    ('uber.html', 'thumb-uber', 'Uber', 'When it&#39;s time to go.', 'Integrated campaign · Spec'),
+    ('uber.html', 'thumb-uber-v2', 'Uber', 'When it&#39;s time to go.', 'Integrated campaign · Spec'),
     ('desert-diamonds.html', 'thumb-desert-diamonds-v2', 'Desert Diamonds', 'A natural diamond is a rare sighting.', 'Campaign · Films · Microsite · Premier Gem'),
     ('brown-co.html', 'thumb-brown-co-v2', 'Brown &amp; Co.', 'Love looks different in every light.', 'Retail experience · Pitch'),
     ('turbochef.html', 'thumb-turbochef', 'TurboChef', 'Compliments to the chef.', 'Integrated campaign · Spec'),
