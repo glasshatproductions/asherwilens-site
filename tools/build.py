@@ -479,6 +479,21 @@ LAB = [
              ('orion-m-07', 'Spiders swarm the sofa beneath the glowing portal while the players fight them off with their phones.', 'The room is the screen.'),
          ]),
          patent=('U.S. Patent No. 11,127,212', 'Method of projecting virtual reality imagery for augmenting real world objects and surfaces', 'https://patents.google.com/patent/US11127212B1/en')),
+    dict(slug='incomparables', eyebrow='02 · Fine jewelry', name='INCOMPARABLES',
+         head='Nothing was cut out to make these. They were what got cut off.',
+         copy='Every diamond cut leaves pieces behind. At Premier Gem those offcuts sat in a box collecting dust, so I proposed setting them, rough and one of a kind, in gold. They became the Incomparables: rings, pendants and earrings, sold wholesale to Premier Gem&#39;s retail partners and direct online, and still selling today.',
+         src='images/incomp-03.jpg', w=1100, h=1100,
+         alt='An Incomparables pendant: a rough diamond offcut bezel-set in yellow gold',
+         fit='cover', pos='50% 50%',
+         story=dict(w=1100, h=1100, portrait=True, fit_m='contain', frames=[
+             ('incomp-01', 'A single rough diamond offcut alone on black rock.', 'What got left behind.'),
+             ('incomp-02', 'A rough diamond offcut bezel-set as a diamond-shaped yellow gold ring on black.', 'Set in gold.'),
+             ('incomp-03', 'An Incomparables pendant, an irregular rough diamond in a yellow gold bezel, in warm light.', 'No two the same shape.'),
+             ('incomp-04', 'The collection on blue: rings and pendants in rose, white and yellow gold, each stone a different shape.', 'A whole collection.'),
+             ('incomp-05', 'A model wearing Incomparables drop earrings, two rough diamonds set in gold.', 'Worn, not forgotten.'),
+         ]),
+         status='Launched · Premier Gem · Sold wholesale and online',
+         links=[('https://premiergem.com/diamond-rough', 'premiergem.com'), ('https://incomparables.etsy.com', 'Etsy')]),
     dict(slug='draiped', eyebrow='02 · AI creative studio', name='DRAIPED',
          head='One product shot. A whole launch.',
          copy='An AI studio for jewelers. Upload a single photo and get on-model images, Instagram carousels with copy, web banners and marketplace listings in minutes. Built by someone who spent years art-directing fine jewelry the slow way.',
@@ -582,6 +597,7 @@ STORY_TAG = f'\n<script src="js/scrollstory.js?v={_v("js/scrollstory.js")}" defe
 # (or .svg); until then the brand name is set in type.
 TITLE_CARDS = {
     'orion':     dict(bg='#121a21', fg='#7fd0f4', name='PROJECT ORION',   line='Spatial technology'),
+    'incomparables': dict(bg='#0d0d0d', fg='#e6dfd2', name='INCOMPARABLES', line='Fine jewelry'),
     'draiped':   dict(bg='#f0ece6', fg='#24211d', name='DRAIPED',         line='Creative intelligence'),
     'pinverse':  dict(bg='#12101c', fg='#b79cf3', name='PINVERSE ARCADE', line='Play and creation'),
     'harmony':   dict(bg='#232323', fg='#f1f1f1', name='HARMONY HAT',     line='Wearable music'),
@@ -644,9 +660,11 @@ def story_readout(st, slug=''):
             f'<span class="sq-cap">{first}</span></p>')
 
 def lab_entry(p, i):
+    import re as _re
+    p = dict(p, eyebrow=_re.sub(r'^\d+ · ', f'{i + 1:02d} · ', p['eyebrow']))   # numbers follow the list order
     st = f'<span class="lab-state">{p["status"]}</span>'
-    if p.get('link'):
-        st += f'<a class="lab-link" href="{p["link"][0]}" target="_blank" rel="noopener">{p["link"][1]} <span aria-hidden="true">→</span></a>'
+    for href, label in ([p['link']] if p.get('link') else []) + p.get('links', []):
+        st += f'<a class="lab-link" href="{href}" target="_blank" rel="noopener">{label} <span aria-hidden="true">→</span></a>'
     patent = ''
     if p.get('patent'):
         num, title, url = p['patent']
