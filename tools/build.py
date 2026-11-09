@@ -405,10 +405,11 @@ cards = ''.join(f'''<a class="card" href="{h}"><div class="frame"><img src="imag
 
 LAB_PREVIEW = [
     ('lab.html#orion', 'orion-m-06', 'Project Orion', 'Patented projection that turns any room into the screen.'),
-    ('lab.html#draiped', 'draiped-w-04', 'Draiped', 'One jewelry product shot becomes a whole launch.'),
-    ('lab.html#pinverse', 'pinverse-v-03', 'Pinverse Arcade', 'Type a world. Play it as pinball.'),
+    ('lab.html#incomparables', 'incomp-03', 'Incomparables', 'Diamond offcuts, set in gold. Launched, and still selling.'),
+    ('lab.html#riff', 'riff-03', 'The Riff', 'A gig bag that doubles as a guitar stand. A Quirky winner.'),
 ]
-lab_cards = ''.join(f'''<a class="lab-pv" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n}" loading="lazy"></div><h3>{n}</h3><p>{d}</p></a>''' for h, im, n, d in LAB_PREVIEW)
+LAB_PV_POS = {'riff-03': '78% 50%'}   # crop focus per thumbnail
+lab_cards = ''.join(f'''<a class="lab-pv" href="{h}"><div class="frame"><img src="images/{im}.jpg" alt="{n}" loading="lazy" style="object-position:{LAB_PV_POS.get(im, '50% 50%')}"></div><h3>{n}</h3><p>{d}</p></a>''' for h, im, n, d in LAB_PREVIEW)
 
 about = f'''<section class="section about-sec" id="about"><div class="wrap about-grid">
 <div><p class="eyebrow">About</p><h2 class="display">The idea comes first. The medium follows.</h2></div>
