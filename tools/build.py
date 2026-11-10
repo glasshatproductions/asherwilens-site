@@ -1037,7 +1037,7 @@ case('uber.html', 'Uber', ['Spec','Integrated campaign','Concept · Creative Dir
                     ('ub-shelter-goodbye','Bus shelter at night on a wet city street. The poster reads: You&#39;ve been saying goodbye for 45 minutes. When it&#39;s time to go. Uber.','Bus shelter.')])
               + billboard_html()),
 
-      (section('05','The morning after','<span class="proposed">Proposed extension</span> Some brilliant ideas sound different in daylight. Callers who opt in could hear their late-night pitch again the next morning. The Last Call Department keeps the receipts.',
+      (section('05','The morning after','Some brilliant ideas sound different in daylight. Callers who opt in could hear their late-night pitch again the next morning. The Last Call Department keeps the receipts.',
               (rows([('ub-morning','Morning light on a nightstand: a glass of water, keys and a phone on the lock screen showing an Uber notification: Your brilliant idea from last night is ready for review.','The next morning.')]) if has_img('ub-morning') else '')
               + (sample_audio('audio/ub-morning-after.mp3','Sample: a morning-after follow-up') if has_file('audio/ub-morning-after.mp3') else '')) if UB_LASTCALL else ''),
       ] if s_],
@@ -1064,7 +1064,7 @@ case('turbochef.html', 'TurboChef', ['Spec','Integrated campaign','Concept · Cr
               rows([('tc-unbox','A woman unboxes a TurboChef oven and lifts out an orange Now Serving, reservations recommended lawn sign from the lid; a card reads Congratulations on your new restaurant','Congratulations on your new restaurant.'),
                     ('tc-sign','A Now Serving, reservations recommended lawn sign in front of a home at dusk as a woman walking her dog stops to look','In the yard.')])),
 
-      section('05','Your menu: every restaurant needs one','<span class="proposed">Proposed extension</span> Owners build a menu for their home restaurant online, choosing a style from diner to fine dining and adding their own dishes. TurboChef prints it and sends it to the table. The house now has a menu. And the neighbors have questions.',
+      section('05','Your menu: every restaurant needs one','Owners build a menu for their home restaurant online, choosing a style from diner to fine dining and adding their own dishes. TurboChef prints it and sends it to the table. The house now has a menu. And the neighbors have questions.',
               rows([('tc-menu-builder-v2','A laptop shows the TurboChef Build your menu page: style choices Diner, Family, Fine dining and Bistro, the Hendersons&#39; dishes, and a live preview of their Sunday Roast tasting menu in a dark green frame','Build it online.'),
                     ('tc-menu-hendersons-v2','Dark green menu covers stamped in gold, The Hendersons, Sunday Roast tasting menu, beside an open menu: Roasted Tomato Soup, Herb-Crusted Prime Rib, Sticky Toffee Pudding, three courses and one argument, served with TurboChef','The Hendersons. Three courses and one argument.')],
                    [('tc-menu-dave-v2','Red retro diner menu covers, Dave Kowalski&#39;s Diner, Est. last Tuesday, beside an open menu: The Usual, The Other Usual, and Whatever&#39;s in the Fridge at market price, served with TurboChef','Dave Kowalski&#39;s. Market price.'),
